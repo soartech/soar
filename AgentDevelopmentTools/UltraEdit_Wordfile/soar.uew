@@ -1,0 +1,64 @@
+/L12"Soar" Line Comment = #  String Chars = |"' File Extensions = SOAR
+/Delimiters = ~!@%^&()+=|\/{}[]:;"' ,	?.<>
+/Colors = 0,8421376,8421376,8421504,255,
+/Function String 1 = "%sp*"
+/Function String 2 = "%gp*"
+/Indent Strings = "{("
+/Unindent Strings = "})"
+/Ignore Strings SOL = "#"
+/Open Brace Strings = "{" "(" "|"
+/Close Brace Strings = "}" ")" "|"
+/Open Fold Strings = "{"
+/Close Fold Strings = "}"
+
+/C1
+:
+abs add adds add-filter alias atan2 attribute
+backtracing backup balance boltzman both
+cache-size capitalize-symbol choices chunk chunkschunk-name-format close cmd command commit concat conflict constraint-failure cos crlf cue-size cycle
+database decisions default default-wme-depth discount-rate div dont-learn
+echo elaboration elaborations eligibility-trace-decay-rate eligibility-trace-tolerance epmem epsilon-greedyexec excise exclusions explain-backtraces 
+failure firing-counts float force force-learn fullprint fullwmes
+gds gds-print get gp-max graph-match graph-match-ordering
+halt help hrl-discount
+i-support impasse indifferent-selection init-soar input-link int internal-symbols interrupt io item item-count
+justification justifications 
+lazy-commit learn learning learning-policy learning-rate level list-filter
+make-constant-symbol mapping match-cardinality match-score matches max-chunks max-dc-time max-elaborations max-memory-usagememories max-nil-output-cycles memory-id mod multiple multi-attributes 
+name neg-query no-change no-support noprint none normalized-match-score nowmes
+o-support o-support-mode operator optimization output-link
+page-size path phase phases popd predict pref preferences prefs present-id print production-find productions pushd pwatch
+query quiescence quit
+removes remove-filter reset-filter result retrieved reward reward-link rl run
+safety save-backtraces select set set-stop-phase sin smem softmax sort source sqrt state stats stop-soar store success superoperator superstate system
+tcl template temporal-extension thresh tie timers timestamp timetags track trigger type
+user
+verbose viz
+waitsnc warnings watch watch-wmes wma wme wmes write
+/C2
+gp
+sp
+/C3
+-->
+/C4
+!
+%
+&
+*
++
+-
+// /
+<
+=
+>
+^
+|
+~
+(
+)
+@
+^
+{
+}
+.
+    
