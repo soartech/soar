@@ -2322,26 +2322,6 @@ public class RuleEditor extends CustomInternalFrame
 				MainFrame.getMainFrame().reportResult(result) ;
             }
             
-            // Get the STI
-            /*
-            SoarToolJavaInterface soarToolInterface=MainFrame.getMainFrame().GetSoarToolJavaInterface();
-            if (soarToolInterface == null)
-            {
-                JOptionPane.showMessageDialog(RuleEditor.this,
-                                              "Soar Tool Interface is not initialized.",
-                                              "Error",
-                                              JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Send the production through the STI
-            String sProductionName=GetProductionNameUnderCaret();
-            if (sProductionName != null)
-            {
-                soarToolInterface.SendProduction(sProductionName,
-                                                 sProductionString);
-            }
-            */
         }//actionPerformed
     }//class SendProductionToSoarAction
 
@@ -2495,21 +2475,6 @@ public class RuleEditor extends CustomInternalFrame
             	String result = agent.ExecuteCommandLine("excise " + sProductionName, true) ;
 				MainFrame.getMainFrame().reportResult(result) ;
             }
-        	/*
-            SoarToolJavaInterface soarToolInterface=MainFrame.getMainFrame().GetSoarToolJavaInterface();
-            if (soarToolInterface == null)
-            {
-                JOptionPane.showMessageDialog(RuleEditor.this,"Soar Tool Interface is not initialized.","Error",JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Call excise in Soar through STI
-            String sProductionName=GetProductionNameUnderCaret();
-            if (sProductionName != null)
-            {
-                soarToolInterface.SendExciseProduction(sProductionName);
-            }
-            */
         }
     }//SendExciseProductionToSoarAction
 
