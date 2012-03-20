@@ -304,7 +304,7 @@ For Q-Learning, the eligibility trace implementation is \emph{Watkin's Q($\lambd
 The \soarb{indifferent-selection} command (page \pageref{indifferent-selection}) determines how operators are selected based on their numeric indifferent preferences.
 Although all the indifferent selection settings are valid regardless of how the numeric indifferent preferences were arrived at, the \soarb{epsilon-greedy} and \soarb{boltzmann} settings are specifically designed for use with RL and correspond to the two most common exploration strategies.
 In an effort to maintain backwards compatibility, the default exploration policy is \soarb{softmax}.
-But this is automatically changed to \soarb{epsilon-greedy} when the reinforcement learning mechanism is enabled.
+As a result, one should change to \soarb{epsilon-greedy} or \soarb{boltzmann} when the reinforcement learning mechanism is enabled.
 
 \section{Automatic Generation of RL Rules}
 
