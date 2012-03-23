@@ -1,5 +1,0 @@
-general.game = "eaters";
-general.map = "config/maps/eaters/random-walls.txt";
-#players.active_players = [ "eater" ];
-#players.eater.productions = "soar2d/agents/eaters/tutorial/advanced-move.soar";
-terminals.food_remaining = true;
