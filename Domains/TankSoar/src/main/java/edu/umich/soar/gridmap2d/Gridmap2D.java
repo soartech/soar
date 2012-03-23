@@ -71,7 +71,7 @@ public class Gridmap2D {
 	public Gridmap2D(String[] args) {
 		boolean installed = false;
 		for (String s : resources) {
-			install(s);
+			//install(s);
 			installed = true;
 		}
 		if (installed) {
