@@ -1,4 +1,4 @@
-Soar 9.3.1 Release Notes, June 2011
+Soar 9.3.2 Release Notes, April 2012
 ===================================
 
 This release of Soar continues the 9.3 line which includes modules for

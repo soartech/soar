@@ -1,6 +1,6 @@
 #!/bin/bash
 export SOAR_HOME="$(dirname "$0")"
-export LD_LIBRARY_PATH="$SOAR_HOME/lib"
+export LD_LIBRARY_PATH="$SOAR_HOME/bin"
 cd $SOAR_HOME
-java -jar "$SOAR_HOME/share/java/soar-soar2d-9.3.1.jar" soar2d/config/eaters.cnf
+java -jar "$SOAR_HOME/Eaters_TankSoar.jar" ../config/eaters.cnf
 
