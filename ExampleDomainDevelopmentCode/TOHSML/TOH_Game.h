@@ -17,11 +17,7 @@
 class TOH_Tower;
 class Stats_Tracker;
 
-#ifdef WIN32
-#define TOH_AGENT_PRODUCTIONS "share\\soar\\Demos\\towers-of-hanoi-SML.soar"
-#else
-#define TOH_AGENT_PRODUCTIONS "share/soar/Demos/towers-of-hanoi-SML.soar"
-#endif
+#define TOH_AGENT_PRODUCTIONS "test_agents/test-towers-of-hanoi-SML.soar"
 
 /* The TOH_Game object is a complete instance of Towers of Hanoi.
  * It is responsible for creating the Kernel, Agent, Towers, Disks, ...

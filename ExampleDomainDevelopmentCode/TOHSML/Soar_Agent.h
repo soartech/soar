@@ -94,9 +94,13 @@ Soar_Agent::~Soar_Agent() {
 
 void Soar_Agent::LoadProductions(const std::string &productions) {
   // Load the TOH productions
-  if(!m_agent_ptr->LoadProductions(productions.c_str()) ||
-    m_agent_ptr->HadError()) {
-    std::cerr << m_agent_ptr->GetLastErrorDescription() << std::endl;
+  if(!m_agent_ptr->LoadProductions(productions.c_str())) {
+    std::cerr << "Soar_Agent::LoadProductions(" << productions << ")->Failed" << std::endl;
+    abort();
+  }
+  if(m_agent_ptr->HadError()) {
+    std::cerr << "Soar_Agent::LoadProductions->HadError" << std::endl
+              << m_agent_ptr->GetLastErrorDescription() << std::endl;
     abort();
   }
 }
