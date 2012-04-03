@@ -1,1 +1,0 @@
-The SoarSuite download no longer contains the tutorial, sample agents or domains.  If you area first time user, please visit the Soar Getting Started page at http://sitemaker.umich.edu/soar/getting_started to download the tutorial materials.  

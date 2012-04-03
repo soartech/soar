@@ -1,6 +1,6 @@
 <project name="soar-soar2d" default="build" basedir=".">
 
-	<property name="manifest.classpath" value="java\stopwatch-0.4-with-deps.jar java\commons-logging-1.1.1.jar java\log4j-1.2.15.jar java\soar-smljava-9.3.1.jar java\soar-debugger-9.3.1.jar java\swt.jar java\sml.jar" />
+	<property name="manifest.classpath" value="java/stopwatch-0.4-with-deps.jar java/commons-logging-1.1.1.jar java/log4j-1.2.15.jar java/soar-smljava.jar java/soar-debugger.jar java/swt.jar java/sml.jar" />
 	<property name="jar.main.class" value="edu.umich.soar.gridmap2d.Gridmap2D" />
       
 	<condition property="is_windows">

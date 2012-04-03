@@ -20,7 +20,7 @@
 	<property name="java.source.level" value="1.5"/>
 	<property name="java.target.level" value="1.5"/>
 	
-	<property name="jar.name" value="${ant.project.name}-${version}.jar"/>
+	<property name="jar.name" value="VisualSoar.jar"/>
 
 	<property name="manifest.classpath" value=""/>
 
@@ -55,7 +55,7 @@
 
 	<target name="jar" depends="compile">
 		<tstamp />
-		<jar destfile="java/${jar.name}">
+		<jar destfile="${jar.name}">
 			<fileset dir="${target.classes}"/>
 			<manifest>
 				<attribute name="Title" value="${ant.project.name} ${version}" />
@@ -93,16 +93,7 @@
 		</javadoc>
 	</target>
 
-	<target name="alias-jar" depends="jar">
-		<jar destfile="VisualSoar.jar">
-			<manifest>
-				<attribute name="Main-Class" value="${jar.main.class}" />
-				<attribute name="Class-Path" value="java/${jar.name}" />
-			</manifest>
-		</jar>
-	</target>
-
-	<target name="build" depends="alias-jar" />
+	<target name="build" depends="jar" />
 
 </project>
 
