@@ -138,6 +138,8 @@ int main(int argc, char ** argv) {
 #endif
 #endif
 
+  set_working_directory_to_executable_path();
+
   // Defaults
   bool remote = false;
   std::string ip_address;
