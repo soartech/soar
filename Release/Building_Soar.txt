@@ -1,6 +1,6 @@
-=============================
-SoarSuite readme.txt Overview
-=============================
+=====================================
+SoarSuite Build Instructions Overview
+=====================================
 (1) Windows Build Instructions
 (2) Linux Build Instructions
 (3) Mac OSX Build Instructions

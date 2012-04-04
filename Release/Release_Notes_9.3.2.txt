@@ -1,0 +1,194 @@
+====================================
+Soar 9.3.2 Release Notes, April 2012
+====================================
+
+This release of Soar continues the 9.3 line which includes modules for
+reinforcement learning (RL), episodic memory (EpMem), and semantic
+memory (SMem), as well as everything from previous versions of Soar. It
+includes several bug fixes, a new distribution structure, and a simplification
+of how libraries are built in Soar.  All learning mechanisms are disabled
+by default.
+
+Soar can be downloaded from the Soar home page at:
+
+        http://sitemaker.umich.edu/soar
+
+Soar releases include source code, demo programs, and a number of
+applications that serve as examples of how to interface Soar to an
+external environment.  There is support for integrating Soar with C++,
+Java, and Python applications.  Many tools that aid in development of
+Soar programs are also available.  The newly expanded download section
+of the wiki allows you to browse and download all of the different
+distributions, tools and agents.
+
+[Help and Contact information]
+
+Please do not hesitate to contact the Soar group by sending mail to:
+
+        For general Soar-related discussion and announcements:
+                soar-group@lists.sourceforge.net
+        
+        For more technical developer discussion:
+                soar-sml-list@lists.sourceforge.net
+
+Please do not hesitate to file bugs on our issue tracker (search for
+duplicates first):
+
+        http://code.google.com/p/soar/issues/list       
+
+===========================
+Important Changes for 9.3.2
+===========================
+
+Soar's build process has undergone significant modifications, and as a result
+several things have changed in the binary release:
+
+1. Instead of separate libraries for ClientSML, ConnectionSML, ElementXML,
+KernelSML, and the Soar Kernel, there is now only a single Soar library. On
+Windows this is Soar.dll, on Linux libSoar.so, and on OSX libSoar.dylib. This
+means that when you are building SML clients, you only need to link to that
+single library. The SML header files have not changed: you still need to include
+sml_Client.h.
+
+2. Due to the library merge, SML clients no longer have to locate the KernelSML
+library at run time. Therefore, all references to the location and name of that
+library, such as DefaultLibraryLocation, have been removed from the SML API.
+Specifically:
+  - The set-library-location CLI command has been removed
+
+  - The following functions have been removed:
+      sml::Kernel::GetDefaultLibraryName
+      sml::Kernel::GetLibraryLocation
+      
+  - The library location argument has been removed from the signatures of the
+following functions:
+      sml::Agent::SpawnDebugger (see below)
+      sml::Kernel::CreateKernelInCurrentThread
+      sml::Kernel::CreateKernelInNewThread
+      sml::Kernel::CreateEmbeddedConnection
+
+3. The sml::Agent::SpawnDebugger function no longer uses the KernelSML library
+location to find SoarJavaDebugger.jar. Instead,
+     1. If the path of the jar (not of the containing directory) is provided as
+an explicit argument, it is used.
+     2. Otherwise, if SoarJavaDebugger.jar is in the current working directory,
+then that jar is used.
+     2. Otherwise, if the environment variable SOAR_HOME is defined and points
+to the directory that contains SoarJavaDebugger.jar, then that jar is used.
+     3. Otherwise the search fails and the function returns false.
+     
+4. Due to the reduction in the number of files, we have merged the lib directory
+into the bin directory. The Soar library and the SWIG wrapper libraries now
+reside in the same directory as the executables. This makes life easier for
+Windows users running programs such as TestCLI or the Java debugger, because
+Windows searches the current directory for library dependencies by default.
+
+5. Linux and OSX users no longer need to set LD_LIBRARY_PATH and
+DYLD_LIBRARY_PATH to point to the bin directory when running the native
+executables in the distribution, such as TestCLI or TestSoarPerformance. The
+relative location of the library has been hard-coded into those executables
+using the rpath and install_name mechanisms in Linux and OSX, respectively.
+However, those environment variables must still be set for running the java
+debugger, as required by the JVM.
+
+6. SoarSuite is now extremely streamlined.  It is intended for users
+who want to either (1) just run Soar or (2) plug-in the latest version
+of Soar into their current work.  It only contains the Soar kernel, the
+Soar Java Debugger, Visual Soar, the Soar Manual, the default rules,
+unit test programs and the Soar header files.
+
+7. The Soar Tutorial now has its own download.  It contains the Soar kernel,
+the Java Debugger, Eaters, TankSoar, the Soar Manual, the Soar Tutorial,
+VisualSoar, and all the introductory agents.
+
+8. Nearly everything we provide now has stand-alone versions, including TankSoar
+and Eaters.  All agents, tools and environments now have their own wiki pages
+with thorough descriptions and individual downloads.  We highly encourage
+people to make their own work available on the Soar wiki.
+
+9. The Soar SVN repository has went through major restructuring and clean up
+to support these changes.
+
+A more comprehensive list of changes is below.
+
+===================
+DETAILED CHANGELIST
+===================
+
+The scons build process now works in Windows and is the preferred way to build
+Soar on all three supported platforms.
+
+The old Visual Studio project and solution files have been removed from the
+distribution. Scons can generate those files to make it easier for Windows users
+to debug the kernel. Scons is now also included in all source distributions to
+simplify building Soar. 
+
+Ant is no longer needed to build the Java debugger.
+
+Soar-specific environment variables are no longer needed to compile Soar on
+Linux and OSX.
+
+Improved documentation and completely restructured Soar web page and wiki.
+A lot of outdated information has been updated or removed.
+
+Demo agents have been removed from the Java debugger and SoarSuite. They are now
+simply packaged in the Agents directory of the SoarTutorial.  They are also
+available for individual download.
+
+New chapters have been added to the tutorial for episodic and semantic memory.
+
+VisualSoar has been removed from Soar core but can still be downloaded from its
+own wiki page.
+
+SoarSuite now only includes the Soar kernel, the Soar Java Debugger, Visual
+Soar, the Soar Manual, the default rules, unit test programs and the Soar
+header files.
+
+Added a new download specifically for the SoarTutorial.  It includes the
+Soar kernel, the Java Debugger, Eaters, TankSoar, the Soar Manual, the
+Soar Tutorial documents, VisualSoar, and all the introductory agents.
+
+There are now stand-alone versions of TankSoar and Eaters.  They include
+self-contained copies of the Soar kernel and the debugger and can be run from
+any directory.
+
+A large variety of agents are now available for individual download.  They
+each have their own wiki page with a complete description.
+
+Default rules updated for Soar 9.
+
+Soar now works with the OpenJava JDK, which is what is installed by default on
+Ubuntu linux.
+
+All releases for the various platforms now have identical naming and directory
+structures.  This should make things much more consistent and less brittle.
+
+Issue 78: The selection probabilities outputted by the "pref" command now
+make sense for all exploration strategies, not just softmax.
+
+Issue 92: Removed the "run forever" command. "run" without any arguments will
+achieve teh same thing.
+
+Issue 93: Alias command now adheres to the documentation.  First argument is
+once again the alias name.
+
+Issue 95: Certain types of comments on the RHS of productions no longer
+produces an error in the parser.
+
+Issue 98: Soar will no longer automatically change the indifference-selection
+policy to episilon-greedy when turning reinforcement learning on.  This may
+break the expected behavior of some agents, so users should make sure to set
+the policy the want explicitly.  All of the agents in our repository have been
+updated to explicitly set it to epsilon-greedy after they turn RL on.
+
+Issue 98: To increase performance, Soar will no longer discount updates over
+subgoals as though they were gaps, i.e. HRL-Discount is now off by default.
+
+Issue 98: By default, Soar will no longer create a chunk that only differs
+from another rule in the value of the numeric indifferent preference, i.e.
+Chunk-Stop is now on by default.
+
+Issue 102: CLI now strips out comments at the end of the line properly.
+
+Issue 103: Watch-wmes command now works again.  You can now set up arbitrary
+filters on which wmes are printed out.
