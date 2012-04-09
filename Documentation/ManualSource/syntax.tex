@@ -2214,6 +2214,17 @@ this
         contains the number of values listed under the item augmentation above.\vspace{-8pt}
         \index{item-count (attribute)}
 
+\item [\soar{\carat non-numeric}] For tie impasses, this contains all operators that
+        do not have numeric indifferent preferences associated with them. If the
+        set of items that tie or conflict changes during the impasse, the
+        architecture removes or adds the appropriate item augmentations without
+        terminating the existing impasse. \vspace{-8pt}
+        \index{item (attribute)}
+
+\item [\soar{\carat non-numeric-count}] For tie impasses, this contains the
+        number of operators listed under the non-numeric augmentation above.\vspace{-8pt}
+        \index{item-count (attribute)}
+
 \item [\soar{\carat quiescence}] States are the only objects with 
 \soar{quiescence
         t}, which is an explicit statement that quiescence (exhaustion of the
@@ -2225,6 +2236,7 @@ this
         details. This attribute can be ignored when learning is turned off.
         \index{quiescence t (augmentation)}
         \index{exhaustion}
+
 \end{description} 
 
 Knowing the names of these architecturally defined attributes and their
