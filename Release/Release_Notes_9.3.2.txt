@@ -5,9 +5,9 @@ Soar 9.3.2 Release Notes, April 2012
 This release of Soar continues the 9.3 line which includes modules for
 reinforcement learning (RL), episodic memory (EpMem), and semantic
 memory (SMem), as well as everything from previous versions of Soar. It
-includes several bug fixes, a new distribution structure, and a simplification
-of how libraries are built in Soar.  All learning mechanisms are disabled
-by default.
+includes a new "forgetting" mechanism, several bug fixes, a new distribution
+structure, and a simplification of how libraries are built in Soar.  All
+learning mechanisms are disabled by default.
 
 Soar can be downloaded from the Soar home page at:
 
@@ -109,6 +109,25 @@ people to make their own work available on the Soar wiki.
 9. The Soar SVN repository has went through major restructuring and clean up
 to support these changes.
 
+10. When a tie impasse occurs, the substate is augmented with two new WME
+classes, which document operators that do not have numeric-indifferent
+preferences associated with them. These augmentations are
+"non-numeric" and "non-numeric-count" and operate analogously to the
+existing "item" and "item-count" augmentations.
+
+11. We have added a new forgetting mechanism to Soar to automatically
+excise chunks via the base-level decay model. It is controlled via the
+"rl" command using the "apoptosis" parameters. This functionality
+helps develop learning agents that can persist for long periods of
+time, accumulating a large amount of procedural knowledge while
+bounding memory consumption. Version 9.3.1 of Soar included forgetting
+of WMEs via the "wma" command, which served to bound procedural
+matching and episodic reconstruction. WME forgetting worked well with
+automatic semantic encoding via the "mirroring" parameter of the
+"smem" command. Together, these forgetting policies facilitate the
+development of long-living, learning agents that remain reactive in
+real-time environments.
+
 A more comprehensive list of changes is below.
 
 ===================
@@ -159,6 +178,9 @@ Default rules updated for Soar 9.
 
 Soar now works with the OpenJava JDK, which is what is installed by default on
 Ubuntu linux.
+
+The debugger no longer has a Demos menu and has had several demo-related buttons
+removed.
 
 All releases for the various platforms now have identical naming and directory
 structures.  This should make things much more consistent and less brittle.
