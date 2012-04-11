@@ -1,0 +1,7 @@
+struct waypoint_list_t
+{
+	int64_t utime;
+
+	int32_t nwaypoints;
+	waypoint_t waypoints[nwaypoints];
+}

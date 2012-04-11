@@ -1,0 +1,95 @@
+sp {go-to-next-area*propose*go-to*gate-way-area
+  #interrupt
+   (state <s> ^name go-to-next-area
+              ^superstate.operator.next-waypoint <nw>
+              ^top-state.current-location <ca>)
+   (<nw> ^gateway.to <id>)
+   (<ca> ^type room
+         ^gateway <gw>)
+   (<gw> ^to <id>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name go-to
+         ^destination <gw>
+         ^gateway-area-id <id>)
+}
+
+sp {go-to-next-area*propose*go-to*gate-way-area*incomplete
+ #interrupt
+   (state <s> ^name go-to-next-area
+              ^superstate.operator.next-waypoint <nw>
+              ^top-state.current-location <ca>)
+   (<nw> ^neighbor-area.id <id>)
+   (<ca> ^type room
+         ^gateway <gw>)
+   (<gw> ^to <id>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name go-to
+         ^destination <gw>
+         ^gateway-area-id <id>)
+}
+
+
+sp {go-to-next-area*propose*go-to*wall
+ #interrupt
+   (state <s> ^name go-to-next-area
+              ^superstate.operator.next-waypoint <nw>
+              ^top-state.current-location <ca>)
+   (<nw> ^id <id>)
+   (<ca> ^type room
+         ^wall <gw>)
+   (<gw> ^to <id>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name go-to
+         ^destination <gw>
+         ^gateway-area-id <id>
+         ^cross-doorway no)  #JEL changed from yes because some rooms need to go through middle of wall.
+}
+
+
+sp {apply*go-to*next-area-gate-way
+ #interrupt
+   (state <s> ^name << goto-not-clean-area go-to-next-area goto-storage-area go-to-seen-block >>
+              ^top-state.current-location <ca>
+              ^operator <op>)
+   (<op> ^name go-to
+         ^destination <gw>)
+   (<ca> ^neighbor-area <na>)
+   (<gw> ^to <id>)
+   (<na> ^id <id>)
+-->
+   (<na> ^previous-area <ca>)
+}
+
+sp {apply*go-to*next-area-gate-way*remove
+   (state <s> ^name  << goto-not-clean-area  go-to-next-area goto-storage-area go-to-seen-block  >>
+              ^top-state.current-location <ca>
+              ^operator <op>)
+   (<op> ^name go-to
+         ^destination <gw>)
+   (<ca> ^neighbor-area <na>)
+   (<gw> ^to <id>)
+   (<na> ^id <id>
+         ^previous-area { <> <ca> <pa> })
+-->
+   (<na> ^previous-area <pa> -)
+}
+
+
+sp {apply*record-previous-area
+  # :interrupt
+   (state <s> ^name  << goto-not-clean-area  go-to-next-area goto-storage-area go-to-seen-block  >>
+              ^smem.command <cmd>
+              ^top-state.current-location <ca>
+              ^operator <op>)
+   (<op> ^name go-to
+         ^destination <gw>)
+   (<ca> ^neighbor-area <na>)
+   (<gw> ^to <id>)
+   (<na> ^id <id>)
+-->
+   (<cmd> ^store <na>)
+}
+

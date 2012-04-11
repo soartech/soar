@@ -1,0 +1,168 @@
+###
+
+sp {apply*go-to-next-area*internal
+   (state <s> ^name evaluate-operator
+              ^operator <op>
+              ^top-state <ts>)
+   (<ts> ^current-location <c-wp>)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+-->
+   #(dont-learn <s>)
+###(write (crlf) |Try area: | <next-wp>)
+   (<ts> ^current-location <c-wp> -
+                           <next-wp>)
+}
+
+#sp {apply*go-to-next-area*internal*monitor
+#   (state <s> ^name evaluate-operator
+#              ^operator <op>
+#              ^top-state <ts>)
+#   (<ts> ^current-location <c-wp>)
+#   (<op> ^name go-to-next-area
+#         ^next-waypoint <next-wp>)
+#   (<next-wp> ^id <id>)
+#-->
+####(write (crlf) |Move to room: | <id> )
+#}
+
+sp {apply*go-to-next-area*internalXXX ## JEL Detect if ever update location on state but not on evaluation
+   :interrupt
+   (state <s> ^name evaluate-operator
+              ^operator <op>
+              ^top-state <ts>)
+   (<ts> ^current-location <cloc>)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <nloc>)
+  -{ (<cloc> ^id <cid> ^x <cx> ^y <cy>)
+     (<nloc> ^id <nid> ^x <nx> ^y <ny>)}
+-->
+   #(dont-learn <s>)
+   (write (crlf) |Move from area: | <cloc> | to | <nloc> | missing x y.|)
+   (<ts> ^current-location <c-wp> -
+                           <next-wp>)
+}
+
+#################Update robot-position
+
+sp {apply*go-to-next-area*internal*door
+   (state <s> ^name evaluate-operator
+              ^operator <op>
+              ^top-state <ts>)
+   (<ts> ^robot-position <rp>
+         ^current-location <cl>)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+   (<next-wp> ^neighbor-area <na>
+              ^gateway <gw>)
+   (<gw> ^to <door-id>
+         ^x <x>
+         ^y <y>)
+   (<na> ^type door
+         ^id <door-id>
+         ^neighbor-area <cl>)
+-->
+   (write (crlf) |Update robot position (door): | <x> |, | <y>)
+   (<ts> ^robot-position <rp> -
+                         <np>)
+   (<np> ^x <x>
+         ^y <y>)
+}
+
+sp {apply*go-to-next-area*internal*wall
+   (state <s> ^name evaluate-operator
+              ^operator <op>
+              ^top-state <ts>)
+   (<ts> ^robot-position <rp>
+         ^current-location <cl>)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+   (<cl> ^wall <wall>)
+   (<wall> ^to <id>
+           ^x <x>
+           ^y <y>)
+   (<next-wp> ^id <id>)
+-->
+   (write (crlf) |Update robot position (wall): | <x> |, | <y>)
+   (<ts> ^robot-position <rp> -
+                         <np>)
+   (<np> ^x <x>
+         ^y <y>)
+}
+
+
+
+############ Mods to selection-astar because use robot position not current location
+
+sp {evaluate-apply*task-operator2*through-door
+ #interrupt
+   :default
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.evaluation <e>
+              ^operator <op>
+              ^top-state <ts>)
+   (<e> ^path-cost <pc>
+        ^robot-position <rp>
+        ^current-location <cloc>)
+   (<ts> ^current-location <cloc>)
+   (<op> ^next-waypoint <nloc>)
+   (<rp> ^x <cx> ^y <cy>)
+   (<nloc> ^neighbor-area <na>
+           ^gateway <gw>)
+   (<gw> ^to <door-id>
+         ^x <nx>
+         ^y <ny>)
+   (<na> ^type door
+         ^id <door-id>
+         ^neighbor-area <cloc>)
+   (<cloc> ^id <cid>)
+   (<nloc> ^id <nid>)
+-->
+   (write (crlf) |Current waypoint: | <cid> | | <cx> | | <cy>)
+   (write (crlf) |Through door: | <door-id>)
+   (write (crlf) |Next waypoint:    | <nid> | | <nx> | | <ny>)
+   (write (crlf) |Range:         | (compute-range <cx> <cy> <nx> <ny>))
+   (write (crlf) |New Path cost: | (+ <pc> (compute-range <cx> <cy> <nx> <ny>)))
+   (<e> ^path-cost (+ <pc> (compute-range <cx> <cy> <nx> <ny>))
+                   <pc> -
+        ^current-location <cloc> - <nloc>
+        ^robot-position <rp> -
+                        <np>)
+   (<np> ^x <nx>
+         ^y <ny>)
+}
+
+sp {evaluate-apply*task-operator2*through-wall
+ #interrupt
+   :default
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.evaluation <e>
+              ^operator <op>
+              ^top-state <ts>)
+   (<e> ^path-cost <pc>
+        ^robot-position <rp>
+        ^current-location <cloc>)
+   (<ts> ^current-location <cloc>)
+   (<op> ^next-waypoint <nloc>)
+   (<rp> ^x <cx> ^y <cy>)
+   (<cloc> ^wall <wall>)
+   (<wall> ^to <nid>
+           ^x <x>
+           ^y <y>)
+   (<cloc> ^id <cid>)
+   (<nloc> ^id <nid>)
+-->
+   (write (crlf) |Current waypoint: | <cid> | | <cx> | | <cy>)
+   (write (crlf) |Through Wall:     | <wall>)
+   (write (crlf) |Next waypoint:    | <nid> | | <nx> | | <ny>)
+   (write (crlf) |Range:         | (compute-range <cx> <cy> <nx> <ny>))
+   (write (crlf) |New Path cost: | (+ <pc>  (compute-range <cx> <cy> <nx> <ny>)))
+   (<e> ^path-cost (+ <pc> (compute-range <cx> <cy> <nx> <ny>))
+                   <pc> -
+        ^current-location <cloc> - <nloc>
+        ^robot-position <rp> -
+                        <np>)
+   (<np> ^x <nx>
+         ^y <ny>)
+}
+

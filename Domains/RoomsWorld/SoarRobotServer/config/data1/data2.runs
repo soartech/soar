@@ -1,0 +1,25 @@
+multiple-runs
+{
+	configs = [ 
+		"config/data1/run0.txt", 
+		"config/data1/run1.txt", 
+		"config/data1/run2.txt", 
+		"config/data1/run3.txt", 
+		
+		"config/data1/run4.txt", 
+		"config/data1/run5.txt", 
+		"config/data1/run6.txt", 
+		"config/data1/run7.txt", 
+		
+		"config/data1/run8.txt", 
+		"config/data1/run9.txt", 
+		"config/data1/run10.txt", 
+		"config/data1/run11.txt", 
+
+		"config/data1/run12.txt", 
+		"config/data1/run13.txt", 
+		"config/data1/run14.txt", 
+	];
+	cycles = -1;
+	seconds = 10;
+}

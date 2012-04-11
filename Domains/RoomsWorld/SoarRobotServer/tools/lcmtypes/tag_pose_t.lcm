@@ -1,0 +1,8 @@
+struct tag_pose_t
+{
+    int64_t utime;
+    int32_t ntags;
+    int32_t id[ntags];              // ids of the detected tags
+
+    double poses[ntags][4][4]; 
+}

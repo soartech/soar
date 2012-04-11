@@ -1,0 +1,18 @@
+/square {
+newpath
+moveto
+0 1 rlineto
+1 0 rlineto
+0 -1 rlineto
+-1 0 rlineto
+closepath
+0 0 0 setrgbcolor
+fill
+} def
+
+36 36 scale
+
+/nrows 11 def
+/ncols 8 def
+
+1 2 ncols 2 mul { dup 1 2 nrows 2 mul { square dup } for } for pop

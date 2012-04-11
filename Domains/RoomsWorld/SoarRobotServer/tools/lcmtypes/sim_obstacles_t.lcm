@@ -1,0 +1,17 @@
+struct sim_obstacles_t
+{
+	// any time there's a change to the data, the generation should be updates.
+	// otherwise, a receiver can ignore the data in this message, instead using
+	// the last known configuration. This is useful since clients may build
+	// fancier data structures to reflect the obstacles.
+	int32_t generation;
+	
+	int32_t nrects;
+    // cx, cy, xsize, ysize, theta
+    // xsize,ysize correspond to size *prior* to rotation by theta.
+    double  rects[nrects][5];
+
+    int32_t ncircles;
+    // cx, cy, radius
+    double  circles[ncircles][3];
+}

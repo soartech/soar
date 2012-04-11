@@ -1,0 +1,5 @@
+jinput is licensed with the BSD license: 
+http://www.opensource.org/licenses/bsd-license.php
+
+https://jinput.dev.java.net/
+

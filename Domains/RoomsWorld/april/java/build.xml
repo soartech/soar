@@ -1,0 +1,105 @@
+<?xml version="1.0" ?>
+
+<project name="april" default="build" basedir=".">
+
+  <!-- Build everything -->
+  <target name="build" depends="generate-lcmtypes,make-src,build-java,build-jar,build-jni"/>
+
+  <!-- Clean everything -->
+  <target name="clean" depends="clean-lcmtypes,clean-src,clean-java,clean-jni"/>
+
+  <!-- Dist Clean everyting -->
+  <target name="distclean" depends="clean">
+    <delete dir="build"/>
+    <delete dir="docs"/>
+    <delete file="april.jar"/>
+    <delete dir="depcache"/>
+  </target>
+
+  <!-- Build docs -->
+  <target name="docs">
+    <javadoc sourcepath="src/"
+             packagenames="*"
+             defaultexcludes="yes"
+             destdir="docs/api"
+             Public="yes"
+             source="1.6"
+	     />
+  </target>
+
+  <target name="clean-lcmtypes">
+    <exec executable="make" dir="${basedir}">
+      <arg line="-f Makefile.lcmgen clean" />
+    </exec>
+  </target>
+
+  <target name="generate-lcmtypes">
+    <exec executable="make" dir="${basedir}">
+      <arg line="-f Makefile.lcmgen" />
+    </exec>
+  </target>
+
+  <target name="clean-src">
+    <exec executable="make" dir="${basedir}">
+      <arg line="-C ../src/ clean" />
+    </exec>
+  </target>
+
+  <target name="make-src">
+    <exec executable="make" dir="${basedir}">
+      <arg line="-C ../src/" />
+    </exec>
+  </target>
+
+  <!-- Build Jar -->
+  <target name="build-jar">
+    <jar destfile="april.jar" compress="false">
+
+      <fileset dir="build">
+	<include name="**/*.class" />
+	<include name="*.class" />
+      </fileset>
+
+      <manifest>
+	<attribute name="Main-Class" value="april.April" />
+      </manifest>
+    </jar>
+    <copy file="april.jar" todir="." />
+  </target>
+
+  <target name="build-java">
+    <javac
+       srcdir="src"
+       includes="**/*.java"
+       debug="on"
+       optimize="off"
+       destdir="build"
+       compiler="extJavac"
+       deprecation="yes"
+       source="1.5"
+       target="1.5"
+       >
+    </javac>
+  </target>
+
+  <target name="clean-jni">
+    <exec executable="make" dir="${basedir}/jni">
+      <arg line="-f Makefile clean" />
+    </exec>
+  </target>
+
+  <target name="build-jni">
+    <exec executable="make" dir="${basedir}/jni">
+      <arg line="-f Makefile" />
+    </exec>
+  </target>
+
+  <target name="clean-java" >
+    <delete>
+      <fileset dir="build" includes="**/*.class"/>
+      <fileset dir="." includes="**/*~" defaultexcludes="no"/>
+      <fileset dir="." includes="april.jar"/>
+    </delete>
+  </target>
+
+</project>

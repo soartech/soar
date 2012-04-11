@@ -1,0 +1,156 @@
+Jan 23 2010
+Edwin Olson
+--
+
+1.0. Overview
+--------
+
+The config classes (art.config) are a general purpose configuration
+system that are used by several components of the April Robotics
+Toolkit.
+
+2.0. Configs
+-------
+A configuration is a set of key/value pairs. Keys are hierarchically
+scoped in a manner similar to the java packaging system. For example:
+
+laser.range_noise = 0.1;
+
+Let us establish some nomenclature: "laser" is the namespace and
+"range_noise" is the property. The combination, "laser.range_noise" is
+the key.
+
+Values can have several different types, as illustrated by the
+examples below:
+
+front_laser.roll_pitch_yaw = [ 5, 90, -3 ];
+front_laser.channel_name = "LIDAR_FRONT";
+contacts.friends = [ "Aaron", "Beth", "Charlie" ];
+
+The configuration system itself places no meaning on keys or values;
+the use of these keys is completely up to the application.
+
+A "Config" can be created in a variety of ways: it can be constructed
+programmatically (i.e., as a hashtable), or read from a disk. Either
+way, a "Config" simply provides a mapping from keys to values.
+
+In addition, a "Config" object can be initialized with a prefix. This
+prefix is simply prepended to all key queries. For example, a Config
+initialized with a prefix of "lidar", when queried for the key
+"range_noise", would return the value for the key "lidar.range_noise".
+
+3.0. ConfigFile
+----------
+
+Configuration files are the most common method of specifying
+configuration data. The configuration file format specified by
+art.config.ConfigFile supports a number of syntactic conveniences
+intended to make it easier to specify large numbers of key/value
+pairs. It is important to remember that this extra syntax is not part
+of a Config--- it is simply designed to specify key/value pairs more
+easily.
+
+3.1. Syntactic Sugar
+---------------
+
+A configuration file could be specified with each key/value pair as
+above, but since many pairs will have hierarchically related key
+names, a scoping mechanism is available. For example, the config file
+below is exactly equivalent to the examples above:
+
+front_laser {
+      range_noise = 0.1;
+      roll_pitch_yaw = [ 5, 0, -3 ];
+      channel_name = "LIDAR_FRONT";
+}
+
+contacts.friends = [ "Aaron", "Beth", "Charlie" ];
+
+Key names can be scoped many levels deep. It is important to remember
+that this is just syntatic sugar. For example, the declarations below
+are equivalent to the ones in the example above; the fact that there
+are duplicate blocks with the same name is irrelevant:
+
+front_laser {
+      range_noise = 0.1;
+}
+
+front_laser {
+      roll_pitch_yaw = [ 5, 0, -3 ];
+      channel_name = "LIDAR_FRONT";
+}
+
+contacts.friends = [ "Aaron", "Beth", "Charlie" ];
+
+In particular, when a config file is parsed, the names of all the
+enclosing blocks are prepended to the keys.
+
+XXX TO DOCUMENT: A scoping block beginning with a colon can be used to
+prevent the key iterator from returning it.  Basically, abstract
+classes should begin with a colon. This allows iteration over all the
+keys without iterating over the abstract base class. E.g.:
+
+:animal { fur = true; }
+
+cat : animal { meows = true; }
+lizard : animal { fur = false; }
+
+
+
+Inheritence
+-----------
+
+In many cases, specification of the same parameters over and over can
+be tedious. The laser scanners of a robot, for example, might all
+share the same "range_noise" parameter. It is convenient to be able to
+specify the range_noise only once.
+
+Suppose we have multiple laser sensors, each of the same model
+pls210. We can do this:
+
+pls210 {
+   range_noise = 0.1;
+};
+
+front_laser : pls210 {
+      channel_name = "LIDAR_FRONT";
+      roll_pitch_yaw = [ 5, 0, -3 ];
+}
+
+back_laser : pls210 {
+      channel_name = "LIDAR_BACK";
+      roll_pitch_yaw = [ 5, 0, 180 ];
+}
+
+Is equivalent to:
+
+front_laser.range_noise = 0.1;
+front_laser.channel_name = "LIDAR_FRONT";
+front_laser.roll_pitch_yaw = [ 5, 0, -3 ];
+
+back_laser.range_noise = 0.1;
+back_laser.channel_name = "LIDAR_BACK";
+back_laser.roll_pitch_yaw = [ 5, 0, 180 ];
+
+The inheritence literally means "copy all key/value pairs that begin
+with pls210 into the new namespace". If pls210.intensity was defined
+previously, it would also be inherited. Likewise, if pls210.foo.bar=5,
+front_laser.foo.bar would also be created.
+
+This is the preferred means of inheritence because it allows tight
+control over which values are inherited. However, a more casual
+variant is also available. By beginning a block with a "+{" instead of
+a "{", all of the key/value pairs from the previous scope are copied
+into the new scope.
+
+Unique Instantiation
+--------------------
+
+Some applications process all of the subkeys of a particular prefix,
+and the actual key names isn't important. An example of this is
+"procman", where lists of command lines are specified by the
+user. This could be done using a 1D array of strings, but an
+alternative method is available: unique instantation.
+
+A key that ends in a pound sign will have a number appended to it so
+that the key is unique. For example:

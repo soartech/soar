@@ -1,0 +1,11 @@
+sp {robot*elaborate*state*position
+   (state <s> ^name robot
+              ^superstate nil
+              ^robot-position <rp>
+              ^io.input-link.self.pose <pose>)
+   (<pose> ^x <x>
+           ^y <y>)
+-->
+   (<rp> ^x <x> 
+         ^y <y>)
+}

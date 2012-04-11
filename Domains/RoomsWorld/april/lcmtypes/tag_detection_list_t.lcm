@@ -1,0 +1,10 @@
+struct tag_detection_list_t
+{
+	int64_t utime;
+
+	int32_t width;    // dimensions of the input image
+	int32_t height;
+
+	int32_t ndetections;
+	tag_detection_t detections[ndetections];
+}

@@ -1,0 +1,6 @@
+struct sync_debug_t
+{
+	int64_t rx_utime;
+	int64_t sensor_time;
+	int64_t estimated_utime;
+}

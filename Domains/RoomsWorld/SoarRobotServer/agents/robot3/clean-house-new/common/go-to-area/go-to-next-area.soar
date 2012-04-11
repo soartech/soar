@@ -1,0 +1,46 @@
+sp {go-to-area*propose*go-to-next-area*planning
+   (state <s> ^type go-to-area
+              ^top-state.parameters.look-ahead-planning yes
+              ^top-state.current-location.next <next-wp>)
+  -(<next-wp> ^avoid true)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+}
+
+sp {go-to-area*propose*go-to-next-area*no-planning
+   (state <s> ^type go-to-area
+              ^top-state.parameters.look-ahead-planning no
+              ^top-state.current-location.next <next-wp>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+}
+#
+sp {go-to-area*propose*go-to-waypoint*room*destination
+   #:interrupt
+   (state <s> ^type go-to-area
+              ^name evaluate-operator  # Removed JEL 12/19/2010
+              ^destination-area.id <daid>
+              ^current-location <ca>)
+   (<ca> ^neighbor-area <na>)# ^type door
+   (<na> ^id <daid>)
+-->
+   (<s> ^operator <op> +, =, >)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <na>)}
+
+sp {go-to-area*propose*go-to-next-area*planning*prefer-next
+   (state <s> ^type go-to-area
+              ^desired.location.id <id>
+              ^top-state.parameters.look-ahead-planning yes
+              ^operator <op> +
+              ^top-state.current-location.next <next-wp>)
+   (<next-wp> ^id <id>)
+   (<op> ^name go-to-next-area
+         ^next-waypoint <next-wp>)
+-->
+   (<s> ^operator <op> >)
+}

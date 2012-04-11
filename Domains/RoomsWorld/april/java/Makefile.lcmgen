@@ -1,0 +1,18 @@
+LCM = lcm-gen
+
+LCMTYPES_NAMES := $(shell cd ../lcmtypes && ls *.lcm)
+
+# Construct the pathnames to the java types.
+LCMTYPES_JAVA := $(LCMTYPES_NAMES:%.lcm=%.java)
+LCMTYPES_JAVA := $(addprefix src/april/lcmtypes/,$(LCMTYPES_JAVA))
+
+SUFFIXES += .java .lcm
+
+all:    $(LCMTYPES_JAVA)
+
+
+src/april/lcmtypes/%.java: ../lcmtypes/%.lcm
+	$(LCM) -j  --jpath=src --jdefaultpkg=april.lcmtypes $<
+
+clean:
+	rm -rf *~ src/april/lcmtypes/*

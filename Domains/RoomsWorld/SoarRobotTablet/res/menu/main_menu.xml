@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:checkable="false" android:enabled="true" android:id="@+id/showChatMenuItem" android:visible="true" android:checked="false" android:title="Chat Log" android:titleCondensed="Chat Log"></item>
+    <item android:id="@+id/DrawOptions" android:title="Draw Options" android:titleCondensed="Draw Options" android:visible="true" android:checked="false" android:enabled="true" android:checkable="false"></item>
+</menu>

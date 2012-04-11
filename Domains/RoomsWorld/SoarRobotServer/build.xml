@@ -1,0 +1,164 @@
+<!-- Based on http://ant.apache.org/manual/tutorial-HelloWorldWithAnt.html -->
+
+<project name="SoarRobotServer" basedir="." default="clean-build-release">
+
+    <property environment="env" />
+    <property name="src.dir" value="src" />
+    <property name="resources.dir" value="${src.dir}/main/resources" />
+    <property name="build.dir" value="build" />
+    <property name="classes.dir" value="${build.dir}/classes" />
+    <property name="jar.dir" value="${build.dir}/jar" />
+    <property name="lib.dir" value="lib" />
+    <property name="robot_lib.dir" value="../robot_lib" />
+    <property name="junit_lib.dir" value="../junit_lib" />
+    <property name="release.dir" value="../release" />
+
+    <!-- Conditionally set native lib path -->
+    <condition property="platform_osx">
+        <os family="mac" />
+    </condition>
+    <condition property="platform_win_32">
+        <os family="windows" arch="i386" />
+    </condition>
+    <condition property="platform_win_64">
+        <and>
+            <os family="windows" />
+            <not>
+                <os arch="i386" />
+            </not>
+        </and>
+    </condition>
+    <condition property="platform_linux_32">
+        <and>
+            <os family="unix" arch="i386" />
+            <not>
+                <os family="mac" />
+            </not>
+        </and>
+    </condition>
+    <condition property="platform_linux_64">
+        <and>
+            <os family="unix" />
+            <not>
+                <or>
+                    <os arch="i386" />
+                    <os family="mac" />
+                </or>
+            </not>
+        </and>
+    </condition>
+
+    <condition property="platform_name.dir" value="osx">
+        <isset property="platform_osx" />
+    </condition>
+    <condition property="platform_name.dir" value="win_32">
+        <isset property="platform_win_32" />
+    </condition>
+    <condition property="platform_name.dir" value="win_64">
+        <isset property="platform_win_64" />
+    </condition>
+    <condition property="platform_name.dir" value="linux_32">
+        <isset property="platform_linux_32" />
+    </condition>
+    <condition property="platform_name.dir" value="linux_64">
+        <isset property="platform_linux_64" />
+    </condition>
+
+    <property name="platform_native_lib.dir" value="../native/${platform_name.dir}" />
+    <property name="platform_release.dir" value="${release.dir}/soar_robot_server_${platform_name.dir}" />
+    <property name="platform_release_zip.file" value="${release.dir}/soar_robot_server_${platform_name.dir}.zip" />
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar" />
+        <fileset dir="${robot_lib.dir}" includes="**/*.jar" />
+        <fileset dir="${junit_lib.dir}" includes="**/*.jar" />
+        <fileset dir="${platform_native_lib.dir}" includes="**/*.jar" />
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false" debug="true" />
+    </target>
+
+    <target name="move_native_osx" if="platform_osx">
+        <copy todir="${jar.dir}">
+        </copy>
+    </target>
+
+    <target name="move_native_win_32" if="platform_win_32">
+        <copy todir="${jar.dir}">
+        </copy>
+    </target>
+
+    <target name="move_native_win_64" if="platform_win_64">
+        <copy todir="${jar.dir}">
+        </copy>
+    </target>
+    <target name="move_native_linux_32" if="platform_linux_32">
+        <!-- TODO implement -->
+    </target>
+    <target name="move_native_linux_64" if="platform_linux_64">
+        <!-- TODO implement -->
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jar.dir}" />
+
+        <!-- Package together with dependant jars -->
+        <!-- Also package resources and config files -->
+        <!-- See http://stackoverflow.com/questions/1274879/ant-exclude-files-from-merged-jar-file -->
+        <jar destfile="${jar.dir}/libs.jar">
+            <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+            <zipgroupfileset dir="${robot_lib.dir}" includes="**/*.jar" />
+            <zipgroupfileset dir="${junit_lib.dir}" includes="**/*.jar" />
+            <zipgroupfileset dir="${platform_native_lib.dir}" includes="**/*.jar" />
+        </jar>
+        <jar destfile="${jar.dir}/resources.jar" basedir="${resources.dir}" />
+        <sleep seconds="1" />
+
+        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+            <zipfileset src="${jar.dir}/libs.jar" excludes="META-INF/**/*" />
+            <zipfileset src="${jar.dir}/resources.jar" />
+            <manifest>
+                <attribute name="Main-Class" value="edu.umich.robot.Application" />
+            </manifest>
+        </jar>
+
+        <copy todir="${jar.dir}">
+            <fileset dir="${platform_native_lib.dir}" includes="**/*.jnilib" />
+            <fileset dir="${platform_native_lib.dir}" includes="**/*.dylib" />
+            <fileset dir="${platform_native_lib.dir}" includes="**/*.dll" />
+            <fileset dir="${platform_native_lib.dir}" includes="**/*.so" />
+            <fileset dir="${platform_native_lib.dir}" includes="**/*.sh" />
+        </copy>
+
+        <!-- Clean up, delete libs.jar -->
+        <delete file="${jar.dir}/libs.jar" />
+        <delete file="${jar.dir}/resources.jar" />
+
+    </target>
+
+    <target name="release" depends="jar">
+        <!-- Copy folders into release directory -->
+        <delete dir="${platform_release.dir}" />
+        <mkdir dir="${platform_release.dir}" />
+        <copy todir="${platform_release.dir}">
+            <fileset dir="${jar.dir}" includes="**/*" />
+        </copy>
+        <copy todir="${platform_release.dir}/config">
+            <fileset dir="config" />
+        </copy>
+        <copy todir="${platform_release.dir}/agents">
+            <fileset dir="agents" />
+        </copy>
+        <zip destfile="${platform_release_zip.file}" basedir="${platform_release.dir}" />
+    </target>
+
+    <target name="clean-build" depends="clean,jar"/>
+    <target name="clean-build-release" depends="clean,release,clean"/>
+
+</project>

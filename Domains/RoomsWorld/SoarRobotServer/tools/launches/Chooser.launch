@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/SoarRobotServer/src/main/java/edu/umich/robot/Application.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<mapAttribute key="org.eclipse.debug.core.environmentVariables">
+<mapEntry key="CLASSPATH" value="/Users/miller/.local/share/java/jogl.jar:/Users/miller/.local/share/java/gluegen-rt.jar:/Users/miller/.local/share/java/lcm.jar:${soar_home}/bin/SoarJavaDebugger.jar"/>
+<mapEntry key="DYLD_LIBRARY_PATH" value="${soar_home}/lib"/>
+<mapEntry key="SOAR_HOME" value="${soar_home}"/>
+</mapAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.umich.robot.Application"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SoarRobotServer"/>
+</launchConfiguration>

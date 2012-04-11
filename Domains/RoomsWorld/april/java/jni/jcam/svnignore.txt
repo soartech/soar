@@ -1,0 +1,4 @@
+april_jcam_ImageSourceNative.h
+*.o
+*.so
+istest

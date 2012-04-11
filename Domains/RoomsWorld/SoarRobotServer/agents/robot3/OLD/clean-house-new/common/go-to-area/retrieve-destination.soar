@@ -1,0 +1,41 @@
+sp {go-to-area*propose*retrieve-destination*smem
+   (state <s> ^type go-to-area
+              ^top-state.parameters.areas-held-in smem
+              ^destination-area <pa>)
+   (<pa> -^id <id>)
+-->
+   (<s> ^operator <op> +, =, >)
+   (<op> ^name retrieve-destination)}
+
+sp {apply*retrieve-destination
+   (state <s> ^operator <op>
+              ^destination-area <area>
+              ^smem.command <cmd>)
+   (<op> ^name retrieve-destination)
+-->
+###(write (crlf) |Retrieve destination-area | <area> | :| (cmd stats -d ))
+   (<cmd> ^retrieve <area>)
+}
+
+sp {apply*retrieve-destination*top-state
+ #interrupt
+   (state <s> ^operator <op>
+              ^top-state <ts>
+              ^destination-area <area>)
+   (<ts> ^superstate nil)
+   (<op> ^name retrieve-destination)
+-->
+   (<ts> ^destination-area <area>)
+}
+
+sp {apply*retrieve-destination*top-state*remove
+ #interrupt
+   (state <s> ^operator <op>
+              ^top-state <ts>
+              ^destination-area <area>)
+   (<ts> ^superstate nil)
+   (<op> ^name retrieve-destination)
+   (<ts> ^destination-area { <> <area> <oarea> })
+-->
+   (<ts> ^destination-area <oarea> -)
+}

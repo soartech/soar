@@ -1,0 +1,141 @@
+Tag Detector
+------------
+(C) 2009 by Edwin Olson (ebolson@umich.edu)
+
+This code is distributed under the terms of the GPL v3 or later
+license. Other licenses can be obtained by contacting the author.
+
+OVERVIEW
+--------
+
+The april.tag library implements a robust visual fiducial detection
+system using 2D "bar codes". These barcodes, each encoding a unique
+ID, can be detected under extreme projection distortion and lighting
+variation. The orientation of the barcodes is also reported.
+
+This library is motivated by ARTAG (which in turn was motivated by the
+ARToolkit). The ARTAG system offers several compelling advantages over
+the ARToolkit, particularly in terms of the encoding scheme used
+within each tag. The problem with ARTAG is two-fold: the source code
+does not appear to be available any longer, and even when it was, it
+was encumbered with significant licensing restrictions. The second
+problem is that the detection algorithm used by ARTAG is not described
+in significant depth even in the academic conferences in which it was
+promulgated.
+
+The april.tag library seeks to address these deficiencies by creating
+an open implementation and documenting it in sufficient detail to
+enable other researchers to extend and enhance it. (It is hoped that
+improvements would be contributed back to the APRIL laboratory!) There
+are several notable differences between ARTAG and april.tag:
+
+* april.tag supports a number of tag designs, allowing the user to
+  make their own choices regarding tag size, the number of
+  recognizable ids, and the aggressiveness of the error recovery
+  mechanism.
+
+* The codes for each tag id are computed using a different method that
+  guarantees greater minimum hamming distances between each tag.
+
+* The actual encoding algorithm is completely new; our only knowledge
+  of ARTAG comes from the 2005 CVPR paper. We have had no access to
+  ARTAG source code and have not made use of the binary. 
+
+GETTING STARTED
+---------------
+
+Dependencies and Compiling 
+---
+
+The April Robotics Toolkit (ART) has dependencies on jmat, vis, and
+jcam. These are all available from the APRIL website
+(april.eecs.umich.edu). ART is also dependent on the JOGL OpenGL
+library. Please ensure that the jar files for each of these
+dependencies are in the CLASSPATH environment variable. The APRIL lab
+tracks the most recent version of Ubuntu, but other recent Linux
+flavors should also work well. We do not support MacOS or Windows.
+
+Once the dependencies have been installed, you should be able to
+compile ART by simply typing 'ant'. 
+
+
+Selecting a tag family
+---
+To use april.tag, a TagFamily must first be selected. TagFamilies vary
+in terms of the number of bits that they encode (from 9 bits to 36
+bits) and the minimum hamming distance between any two codes. The
+25h11 family, for example, uses a 5x5 grid of pixels, and each pair of
+valid codes are at least a hamming distance of 11 apart.  Subject to
+these constraints, there are 13 distinct codes available.
+
+While the 25h11 family allows for the detection of up to (11-1)/2=5
+bits, such aggressive error recovery would result in a very high false
+positive rate. Users can specify the maximum number of bits to
+correct, which essentially allows the user to select their desired
+position on the ROC curve. Correcting up to two bits allows a
+theoretical false positive rate of under 0.015%.
+
+If more distinct codes are required, the user can move to a family
+that uses more bits (e.g. Tag36h11, which has 769 codes) or to a
+family with a smaller hamming distance between valid codes
+(e.g. Tag25h7, which has 364 codes). 
+
+Families with more bits have lower false positive rates, but since
+more bits must be encoded in the tag, the tag must be physically
+larger or the maximum detection range will suffer. The Tag16hX family,
+for example, requires only about 8 pixels across the tag, whereas the
+Tag32hX family requires 10 pixels. For many applications, the modest
+marginal cost of larger tags may be unimportant; however, april.tag
+allows the user to make their own choices.
+
+Users can generate their own tags using the TagFamilyGenerator
+application, which is included with april.tag. (This application was
+used to compute the tags that are distributed with april.tag.) 
+
+Printing out tags
+---
+
+Each subclass of TagFamily has two methods such as "writeAllImages"
+and "writeAllImagesMosaic" (see the javadoc for more
+information). These methods will generate all of the tags as separate
+png files and as one large mosaic, respectively.
+
+You can also generate the tags using a command like this:
+
+% java art.tag.TagFamily art.tag.Tag25h11 /tmp/tag25h11
+
+Note that the individual tags are generated with the required black
+and white borders. You should print these as large as possible, given
+your application. Good results can be obtained from laser printers,
+though the use of a more matte ink would be preferable.
+
+Trying it out
+---
+
+If you have a jcam-compatible camera (a USB camera using the UVC
+protocol, or a dc1394 camera), you can test the tag detector by
+running:
+
+% java art.tag.TagTest 
+
+Note that this application defaults to the Tag25h11 family.
+
+Note also that you will need to specify the location of the native
+image acquisition library used by jcam. There are two ways to do this:
+
+
+1)At runtime, you can pass java an additional flag
+     -Djava.library.path=$(BASE_DIR)/jcam/jni
+
+2)Or, you can permanently specify the jcam library path in the
+  LD_LIBRARY_PATH in your .bashrc file:
+    export LD_LIBRARY_PATH=$(BASE_DIR)/jcam/jni:$LD_LIBRARY_PATH
+
+In both cases, the bash variable BASE_DIR refers to the directory
+containing the jcam source.
+
+References
+----------
+Fiala, Mark. ARTag, a Fiducial Marker System Using Digital
+Techniques. Proceedings of the 2005 IEEE Computer Society Conference
+on Computer Vision and Pattern Recognition (CVPR'05).

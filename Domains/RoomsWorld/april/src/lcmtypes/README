@@ -1,0 +1,14 @@
+MIT DARPA Urban Challenge Team:
+
+Library Name: liblcmtypes
+
+Description:
+
+All code in this library is automatically generated using the LCM code
+generation tool with its C backend.  This library contains code for
+marshalling and unmarshalling LCM messages, as well as code for publishing and
+receiving them via LC.
+
+Maintainer: Albert Huang <albert@csail.mit.edu>
+            David Moore <dcm@mit.edu>
+            Edwin Olson <eolson@mit.edu>

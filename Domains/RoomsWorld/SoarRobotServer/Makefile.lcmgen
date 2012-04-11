@@ -1,0 +1,19 @@
+LCM = lcm-gen
+
+LCMTYPES_NAMES := $(shell cd tools/lcmtypes && ls *.lcm)
+
+# Construct the pathnames to the java types.
+LCMTYPES_JAVA := $(LCMTYPES_NAMES:%.lcm=%.java)
+LCMTYPES_JAVA := $(addprefix src/main/java/edu/umich/robot/lcmtypes/,$(LCMTYPES_JAVA))
+
+SUFFIXES += .java .lcm
+
+all:    $(LCMTYPES_JAVA)
+
+
+src/main/java/edu/umich/robot/lcmtypes/%.java: tools/lcmtypes/%.lcm
+	$(LCM) -j --jpath=src/main/java --jdefaultpkg=edu.umich.robot.lcmtypes $<
+
+clean:
+	rm -rf *~ src/main/java/edu/umich/robot/lcmtypes/*
+

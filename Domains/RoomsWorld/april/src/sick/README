@@ -1,0 +1,150 @@
+  Comments:
+
+  Here's yet another Sick laser scan driver. This one has some nice properties:
+
+  - It's runtime agnostic. It handles all of the Sick I/O and spews
+  laser scan readings via a TCP port in an easy-to-decode
+  manner. (via main.cpp; this driver is even simpler yet.)
+
+  - It correctly implements the Sick protocol. This is a bit trickier
+  than you might imagine (see below.)
+
+  - It is written with synchronization in mind- it uses a mode of the
+  Sick which outputs timing information so that timestamps can be
+  more accurate.
+
+  It is tested on LMS200, and might work on PLS systems (perhaps with
+  minor modifications.)
+
+  Implementation notes:
+
+  Communication with the Sick is via packets (which have a length
+  field and a checksum.) Each packet begins with an STX byte
+  (0x02). 
+
+  When the Sick receives a packet, the Sick:
+
+  1. Stops sending any packet currently being sent 
+
+  2. Sends an ACK (0x06) if the packet is received correctly,
+  followed by a reply to the packet. If there was a problem
+  decoding the packet, a NAK is sent (it is doubtful that NAKs can
+  be reliably used for failure detection-- timeouts must ultimately
+  be used.)
+
+  When the Sick is not in continuous mode (it is not constantly
+  sending data), interfacing with the Sick is fairly straightforward
+  as long as requests are serialized (thus ensuring that the Sick is
+  never responding to one packet when it receives new data.) 
+
+  However, when the Sick is in continuous mode (constantly sending
+  scan data), sending any command will generally cause a packet to be
+  aborted. The CRC on this packet-in-process will fail, but provided
+  there are no other interruptions, the response to the request will
+  be sent in its entirety. Thus, when decoding a packet fails, we must
+  attempt to resynchronize (look for new packets in the discarded data.)
+
+  In continuous mode, ACKs and NAKs are useless since we cannot tell
+  the difference between an aborted packet whose last transmitted byte
+  was an ACK or NAK versus an aborted packet followed by an ACK or
+  NAK.
+
+  Our strategy: Packets are continuously decoded from the Sick by a
+  reader thread. Writes may occur from any thread.
+
+  Only one transaction is allowed to be in progress at once (guarded
+  by s->writelock). Once the lock is obtained, the request packet is
+  sent. (We might be able to receive more packets correctly if we
+  tried to send requests *between* receipt of packets from the Sick,
+  but we could never guarantee this.) We then block on a condition
+  variable, awaiting a reply.
+
+  When the reply arrives on the reader thread, the reader thread
+  signals the cond variable. This wakes up the writer. (Each packet
+  from the Sick contains a transaction id which allows us to
+  differentiate continuously-sent data from other types of responses.)
+
+  Resynchronization algorithm:
+
+  We attempt to estimate, relative to the local CPU clock, the time of
+  scans. The Sick rotates at 75 Hz (with an unknown variance), and can
+  be configured to tag each scan with the mirror rotation number. This
+  gives us a ~75Hz clock which we need to synchronize to the local CPU
+  clock. Our main problem is that we do not know how long it took for
+  the driver to receive any particular message from the Sick:
+  operating system latency can be highly variable and unpredictable.
+
+  Assume for a moment that the Sick scans at exactly 75Hz. All we need
+  to do is determine the time at which scan #0 occurred. Latency can
+  never be negative, so we estimate the time skew as:
+
+  t_0 = min ( t_i - i * 1/75 )
+
+  (minimum over all scans (indexed by i), where t_i is the local cpu
+  time when we received scan i.)
+
+  Our lowest latency measurement will thus give us t_0, and thus the
+  relationship between scan #s and local time. 
+
+  However, the mirror does not rotate at exactly 75Hz. Since it is a
+  mechanical system (probably driven by a control system), it probably
+  varies both above and below 75Hz, averaging some value relatively
+  close to 75Hz. 
+
+  Suppose that the Sick's rotational rate varies between
+  70-80Hz. (LMS400, which spins at the lower speed of 8Hz, specs a 10%
+  tolerance on its rotational rate, so this is probably about right.)
+  If we underestimate the period of rotation, the Sick time will lag
+  behind true time, diverging endlessly. We cannot easily
+  differentiate communication latency from an understimated rotational
+  period -- this is a situation to avoid! Conversely, if we
+  overestimate the period of rotation, the Sick time will grow faster
+  than local time-- but this can easily be corrected since the Sick
+  cannot scan in the future.
+
+  Our algorithm is thus to over-estimate the period of rotation by
+  enough to compensate for non-idealities in the 75Hz rotation
+  rate. This will ensure that, over time, we do not drift back in
+  time. Whenever the sick time is "in the future", we simply drop it
+  back to "now".
+
+  Error analysis:
+
+  Consider two scans i and j. (j-i needn't be 1; commonly they are not
+  because the Sick cannot send 75 full scans per second at most baud
+  rates.) Suppose local cpu time when the scans were received was t_i
+  and t_j, respectively. We wish to estimate the times e_i that the
+  scans actually occured. Naturally, we do not know err_i = (e_i - t_i).
+
+  The algorithm:
+
+  e_j = e_i + (j-i)*p       // estimate t_j assuming rotational period p
+  if (e_j > t_j)            // t_j can't be in the future.
+  e_j = t_j
+
+  We also know that: e_i < t_i, thus:
+
+  err_j = (e_j - t_j) = err_i + (j-i)p - (t_j - t_i)
+
+  Suppose the actual rotational period of the laser is q. By
+  assumption, (t_j-t_i)=(j-i)q. We can then write:
+
+  err_j = (e_j - t_j) = err_i + (j-i)(p-q)
+
+  Suppose that every N seconds we get at least one measurement with a
+  latency less than L. The worst-case latency is then L +
+  N(p-q). Plugging in some (perhaps worst-case?) numbers, let N=30s
+  seconds and L=10ms. Our worst case error is then 40ms. More
+  realistically, N=5s, L=5ms, which yields a worst-case error of 10ms,
+  less than one rotational period.
+
+  Again, for this analysis to hold, we require p MUST be greater than
+  q. This ensures that when the low-latency measurement occurs that
+  we'll reset e_j = t_j, bounding the error of that measurement to L.
+
+  Another useful upper bound: our error is no worse than setting e_i =
+  t_i. We note that e_i <= t_i for all scans, but we never
+  underestimate e_i since our clock runs "too fast".  Thus our error
+  is bounded between 0 and t_i.
+
+

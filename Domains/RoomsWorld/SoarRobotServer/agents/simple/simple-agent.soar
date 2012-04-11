@@ -1,0 +1,267 @@
+
+## Initialization rules
+
+sp {elaborate*task*robot
+    (state <s> ^superstate nil)
+    -->
+    (<s> ^name robot +)
+}
+
+### Initialize parameters
+
+sp {robot*elaborate*state
+    (state <s> ^name robot ^superstate nil)
+    -->
+    (<s> ^parameters <p> +)
+    (<p> ^collision-range 1 + ^low-linear-velocity 0.3 +
+           ^medium-linear-velocity 0.6 + ^high-linear-velocity 0.7 +
+           ^low-angular-velocity 5 + ^medium-angular-velocity 40 +
+           ^high-angular-velocity 60 + ^waypoint-tolerance 0.3 +
+           ^rotation-tolerance 8 + ^range-tolerance 1 +
+           ^max-angular-distance 3 + ^min-angular-distance -3 +
+           ^increased-angular-tolerance-range 0.5 +
+           ^increased-angular-tolerance-multiplier 10 +)
+}
+
+## Copy io link to substates so they can access it directly
+
+sp {elaborate*state*io
+    (state <s> ^superstate <s*1>)
+    (<s*1> ^io <io>)
+    -->
+    (<s> ^io <io> +)
+}
+
+## Copy the name of an operator to its substate so it can be easily 
+## tested
+
+sp {elaborate*state*name
+    (state <s> ^superstate <s*1>)
+    (<s*1> ^operator <o*1>)
+    (<o*1> ^name <name>)
+    -->
+    (<s> ^name <name> +)
+}
+
+
+## Copy actions to the output link
+
+sp {apply*operator*create-action-command
+    (state <s> ^io <i*1> ^operator <o>)
+    (<i*1> ^output-link <ol>)
+    (<o> ^actions <act>)
+    (<act> ^<att> <value>)
+    -->
+    (<ol> ^<att> <value> +)
+}
+
+## remove commands added to the output link
+
+sp {apply*operator*remove-command
+    (state <s> ^superstate nil ^io <i*1> ^operator <o>)
+    (<i*1> ^output-link <ol>)
+    (<ol> ^<att> <value>)
+    (<value> ^status { << interrupted complete error >> <s*1> })
+    -->
+    (<ol> ^<att> <value> -)
+}
+
+
+## The wait operator which gets selected when an action is executing 
+
+sp {top-state*propose*wait
+    (state <s> ^choices none ^attribute state)
+   -{ (<s> ^operator <o*1>)
+      (<o*1> ^name wait)}
+    -->
+    (<s> ^operator <q> +)
+    (<q> ^name wait +)
+}
+
+
+
+## Goto – the main operator. 
+## It is implemented in a substate by the operators below
+
+sp {monitor*go-to-waypoint
+    (state <s> ^operator <o>)
+    (<o> ^name go-to ^destination <d>)
+    (<d> ^y <y> ^x <x> ^id <id>)
+    -->
+    (write (crlf) |Going to | <id> | (| <x> |,| <y> |)|)
+}
+
+sp {go-to-area*propose*go-to-gateway
+    (state <s> ^name robot ^io <i*1>)
+    (<i*1> ^input-link <i*2>)
+    (<i*2> ^area-description <a*1>)
+    (<a*1> ^gateway <gw>)
+    -->
+    (<s> ^operator <op> + ^operator <op> =)
+    (<op> ^name go-to + ^destination <gw> +)
+}
+
+
+
+
+
+## Elaborations that compute structures for selecting set-waypoint, turn and move-
+## forward
+## Copy destination – make it easy to access
+sp {go-to*elaborate*state*destination-waypoint*normal
+    (state <s> ^name go-to ^superstate <s*1>)
+    (<s*1> ^operator <o*1>)
+    (<o*1> ^destination <des>)
+    -->
+    (<s> ^destination <des> +)
+}
+sp {go-to*elaborate*set-waypoint*false
+    (state <s> ^name go-to ^destination <d>)
+    (<d> ^id <id>)
+   -{ (<s> ^superstate <s*1>)
+      (<s*1> ^io <i*1>)
+      (<i*1> ^input-link <i*2>)
+      (<i*2> ^waypoints <w*1>)
+      (<w*1> ^waypoint <wp>)
+      (<wp> ^id <id>)}
+    -->
+    (<s> ^set-waypoint false +)
+}
+
+sp {go-to*elaborate*set-waypoint*true
+    (state <s> ^name go-to ^destination <d> ^superstate <s*1>)
+    (<d> ^id <id>)
+    (<s*1> ^io <i*1>)
+    (<i*1> ^input-link <i*2>)
+    (<i*2> ^waypoints <w*1>)
+    (<w*1> ^waypoint <wp>)
+    (<wp> ^id <id>)
+    -->
+    (<s> ^set-waypoint true + ^waypoint-data <wp> +)
+}
+
+
+sp {go-to*elaborate*yaw-aligned*increased-tolerance
+    (state <s> ^name go-to ^waypoint-data <w> ^superstate <s*1>)
+    (<s*1> ^parameters <p>)
+    (<p> ^increased-angular-tolerance-range <iatr>
+          ^increased-angular-tolerance-multiplier <iatm>
+          ^min-angular-distance <min> ^max-angular-distance <max>)
+    (<w> -^distance { >= <iatr> <d*1> })
+    -->
+    (<s> ^angular-tolerances <at> +)
+    (<at> ^max (* <iatm> <max>) + ^min (* <iatm> <min>) +)
+    (write (crlf) |Increased rotation tolerance: | (* <iatm> <min>) | | (* <iatm> <max>))
+}
+
+sp {go-to*elaborate*yaw-aligned*normal-tolerance
+    (state <s> ^name go-to ^waypoint-data <w> ^superstate <s*1>)
+    (<s*1> ^parameters <p>)
+    (<p> ^increased-angular-tolerance-range <iatr> ^min-angular-distance <min>
+          ^max-angular-distance <max>)
+    (<w> -^distance { < <iatr> <d*1> })
+    -->
+    (<s> ^angular-tolerances <at> +)
+    (<at> ^max <max> + ^min <min> +)
+    (write (crlf) |Normal rotation tolerance:| <min> | | <max>)
+}
+
+sp {go-to*elaborate*yaw-aligned*false*min
+    (state <s> ^name go-to ^angular-tolerances <a*1> ^waypoint-data <w>)
+    (<a*1> ^min <min>)
+    (<w> -^abs-relative-bearing { >= <min> <a*2> })
+    -->
+    (<s> ^yaw-aligned false +)
+    (write (crlf) |Not oriented towards dest|)
+}
+
+sp {go-to*elaborate*yaw-aligned*false*max
+    (state <s> ^name go-to ^angular-tolerances <a*1> ^waypoint-data <w>)
+    (<a*1> ^max <max>)
+    (<w> -^abs-relative-bearing { <= <max> <a*2> })
+    -->
+    (<s> ^yaw-aligned false +)
+    (write (crlf) |Not oriented towards dest|)
+}
+
+sp {go-to*elaborate*yaw-aligned*true
+    (state <s> ^name go-to ^angular-tolerances <at> ^waypoint-data <w>)
+    (<at> ^min <min> ^max <max>)
+    (<w> -^abs-relative-bearing { < <min> <a*2> }
+          -^abs-relative-bearing { > <max> <a*1> })
+    -->
+    (<s> ^yaw-aligned true +)
+    (write (crlf) |Oriented towards dest|)
+}
+
+
+
+
+
+## Operator Move-forward
+
+sp {go-to*propose*move-forward
+    (state <s> ^yaw-aligned true ^name go-to ^superstate <s*1>)
+    (<s*1> ^parameters <p*1>)
+    (<p*1> ^medium-linear-velocity <medium>)
+    -->
+    (<s> ^operator <op> + ^operator <op> =)
+    (<op> ^name move-forward + ^actions <a> +)
+    (<a> ^set-velocity <sv> +)
+    (<sv> ^linear-velocity <medium> + ^angular-velocity 0 +)
+}
+
+
+
+
+## Operator Turn-to-waypoint
+
+sp {go-to*propose*turn-to-waypoint
+    (state <s> ^yaw-aligned false ^name go-to ^waypoint-data <w*1>)
+    (<w*1> ^yaw <yaw>)
+    -->
+    (<s> ^operator <op> +)
+    (<op> ^name turn-to-waypoint + ^actions <a*1> +)
+    (<a*1> ^set-heading <s*1> +)
+    (<s*1> ^yaw <yaw> +)
+    (write (crlf) |Rotating to waypoint at heading | <yaw>)
+}
+
+
+
+## Operator set-waypoint
+
+sp {go-to*propose*set-waypoint
+    (state <s> ^set-waypoint false ^name go-to)
+    -->
+    (<s> ^operator <op> + ^operator <op> = ^operator <op> >)
+    (<op> ^name set-waypoint +)
+}
+
+sp {apply*go-to*add-waypoint-output-link
+    (state <s> ^operator <o*1> ^destination <w> ^io <i*1>)
+    (<o*1> ^name set-waypoint)
+    (<w> ^y <y> ^x <x> ^id <ida>)
+    (<i*1> ^output-link <ol>)
+    -->
+    (write (crlf) |Add waypoint: | <ida>)
+    (<ol> ^add-waypoint <aw> +)
+    (<aw> ^id <ida> + ^x <x> + ^y <y> +)
+}
+
+sp {apply*go-to*remove-waypoint-output-link
+    (state <s> ^operator <o*1> ^destination <d*1> ^io <io>)
+    (<o*1> ^name set-waypoint)
+    (<d*1> ^id <id2>)
+    (<io> ^output-link <output> ^input-link <i*1>)
+    (<i*1> ^waypoints <w*1>)
+    (<w*1> ^waypoint <w*2>)
+    (<w*2> ^id { <> <id2> <id> })
+    -->
+    (write (crlf) |Remove waypoint: | <id> | | <id2>)
+    (<output> ^remove-waypoint <r*1> +)
+    (<r*1> ^id <id> +)
+}
+
+
+

@@ -1,0 +1,54 @@
+superdroids = [charlie];
+charlie 
+{
+	position = [0, 0];
+	productions = "agents/robot3/clean-house-new.soar";
+	simulated = false;
+}
+
+image_path = "../common/atrium-1.png";
+image_origin = [ 10, 10 ];
+meters_per_pixel = 0.1;
+
+metadata
+{
+	0 = [ 4, 4, 48, 28];
+	1 = [ 35, 32, 12, 4];
+	2 = [ 4, 36, 48, 34];
+	3 = [ 14, 70, 12, 4];
+	4 = [ 4, 74, 48, 47];
+	
+	doors = [1,3];
+
+	objects
+	{
+		green-cube 
+		{
+			size = [ .25, .25 ];
+			color = green;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = sulfur;
+			shape = cube;
+			type = block;
+		}
+	
+		blue-short-burn-sphere 
+		{
+			size = [ .25, .25 ];
+			color = blue;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = blue;
+			height = short;
+			smell = burn;
+			shape = sphere;
+			type = block;
+		}
+	}
+}
+

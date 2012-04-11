@@ -1,0 +1,28 @@
+scanmatcher_manager {
+    channel = "LASER";
+}
+
+scanmatcher {
+    decimate = 1;
+    max_scan_history = 10;
+    meters_per_pixel = 0.05;
+    gridmap_size = 100;
+
+    range_covariance = 0.02;
+
+    use_odometry = false;
+    search_x_m = 2.5;
+    search_y_m = 2.5;
+    search_theta_deg = 35;
+    search_theta_res_deg = 1;
+
+    pose_dist_thresh_m = 2;
+    pose_theta_thresh_deg = 25;
+}
+
+LASER {
+    position = [ 3.78, .5, 0];
+    rollpitchyaw_degrees = [ 0, 0, 0];
+    max_range = 79;
+    mask_out_deg = [ -91, -84];
+}

@@ -1,0 +1,13 @@
+struct map_metadata_t
+{
+    int64_t utime;                  // microsecond time stamp
+
+    int32_t nareas;
+    int32_t area_ids[nareas];       // area id numbers
+    double areas[nareas][4];        // x, y, w, h for each area
+
+    int32_t ngateways;
+    int32_t gateway_ids[ngateways]; // gateway id numbers
+    double gateways[ngateways][2];  // x, y for each gateway
+}
+

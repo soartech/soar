@@ -1,0 +1,25 @@
+/square {
+newpath
+moveto
+0 1 rlineto
+1 0 rlineto
+0 -1 rlineto
+-1 0 rlineto
+closepath
+0 0 0 setrgbcolor
+fill
+} def
+
+/circle {
+ .5 0 360 arc closepath
+fill
+} def
+
+30 30 translate
+
+18 18 scale
+
+/nrows 20 def
+/ncols 15 def
+
+1 2 ncols 2 mul { dup 1 2 nrows 2 mul {  circle dup } for } for pop

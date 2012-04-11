@@ -1,0 +1,11 @@
+struct waypoint_t
+{
+       int64_t utime;
+
+       double xLocal;
+       double yLocal;
+       double tLocal;
+
+       double xyThreshold;
+       double tThreshold;
+}

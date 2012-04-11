@@ -1,0 +1,18 @@
+############ Mods to selection-astar because use robot position not current location
+
+sp {selection*apply*state*evaluation*path-current
+   :default
+   (state <s> ^name selection
+              ^operator <o>
+              ^superstate.top-state <ts>)
+   (<ts> ^current-location <loc>
+         ^robot-position <rp>)
+   (<o> ^name evaluate-operator
+        ^evaluation <e>)
+  -(<e> ^path-cost
+        ^current-location
+        ^robot-position)
+-->
+   (<e> ^path-cost 0
+        ^robot-position <loc>
+        ^current-location <loc>)}

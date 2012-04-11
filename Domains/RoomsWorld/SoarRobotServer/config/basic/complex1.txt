@@ -1,0 +1,235 @@
+splinters = [seek, civ];
+seek {
+	position = [0, 0];
+	#productions = "agents/robot3/clean-house-new.soar";
+}
+
+civ {
+	position = [0, 1];
+	#productions = "agents/robot3/clean-house-new.soar";
+}
+
+image_path = "../common/complex1.png";
+image_origin = [ 11,51 ];
+meters_per_pixel = 0.15;
+
+metadata
+{
+	0 = [ 2, 2,18,59];
+	1 = [24, 2,56,34];
+	2 = [82, 2,16,32];
+	3 = [98, 2,28,32];
+	4 = [80,11, 2,11];
+	5 = [20,12, 4,13];
+	6 = [82,34,16,44];
+	7 = [24,42,17,21];
+	8 = [62,42,16,21];
+	9 = [20,45, 4,10];
+	10= [78,49, 4,12];
+	11= [ 7,61, 7, 4];
+	12= [24,63,17,15];
+	13= [41,63,11,15];
+	14= [52,63,10,15];
+	15= [62,63,16,15];
+	16= [ 2,65,18,13];
+	17= [24,78,28,30];
+
+	doors = [4,5,9,10,11];	# gateways auto-generated
+	
+	closed = [4,11];
+
+	locked = [5,113];	# pairs of door, key. implies closed.
+	
+	// Movable objects
+	objects
+	{
+		placed = [ green-short-sulfur-cube, 7.9, 4.7,
+                   blue-short-burn-sphere, 15.3, 5.5 ];
+		
+		green-short-sulfur-cube 
+		{
+			size = [ .3, .3 ];
+			color = green;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = sulfur;
+			shape = cube;
+			type = block;
+		}
+		
+		blue-short-burn-sphere 
+		{
+			size = [ .45, .45 ];
+			color = blue;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = blue;
+			height = short;
+			smell = burn;
+			shape = sphere;
+			type = block;
+		}
+		
+		red-short-burn-cube 
+		{
+			size = [ .3, .3 ];
+			color = red;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = burn;
+			shape = cube;
+			type = block;
+		}
+	}
+}
+
+metadata {
+	areas = [ left, top, right, a3, a4, bottom, a6, a7, a8, bottomleft ];
+
+	left {		// id 0, pos 2,2 size 18,59
+		pos = [ -1.35, -1.5 ]; size = [ 2.7, 8.85 ];
+	}
+	top{		// id 1, pos 24,2 size 56,34
+		pos = [ 1.95, 2.25 ]; size = [ 8.4, 5.1 ];
+	}
+	right {		// id 2, pos 82,2 size 16,76
+		pos = [ 10.65, -4.05 ]; size = [ 2.4, 11.4 ];
+	}
+	a3 {		// top to right, pos 80,11 size 2,11
+		pos = [ 10.35, 4.35 ]; size = [ 0.3, 1.65 ];
+		properties = [ type ];
+		property {
+			type = door;
+		}
+	}
+	a4 {		// left to top, pos 20,12 size 4,13
+		pos = [ 1.35, 3.9 ]; size = [ 0.6, 1.95 ];
+		properties = [ type ];
+		property {
+			type = door;
+		}
+	}
+	bottom {	// id 5, pos 24,42 size 54,36
+		pos = [ 1.95, -4.05 ]; size = [ 8.1, 5.4 ];
+	}
+	a6 {		// left to bottom, pos 20,45 size 4,10
+		pos = [ 1.35, -0.6 ]; size = [ 0.6, 1.5 ];
+		properties = [ type ];
+		property {
+			type = door;
+		}
+	}
+	a7 {		// bottom to right, pos 78,49 size 4,12
+		pos = [ 10.05, -1.5 ]; size = [ 0.6, 1.8 ];
+		properties = [ type ];
+		property {
+			type = door;
+		}
+	}
+	a8 {		// left to bottom left, pos 7,61 size 7,4
+		pos = [ -0.6, -2.1 ]; size = [ 1.05, 0.6 ];
+		properties = [ type ];
+		property {
+			type = door;
+		}
+	}
+	bottomleft {	// id 9, pos 2,65 size 18,13
+		pos = [ -1.35, -4.05 ]; size = [ 2.7, 1.95 ];
+	}
+	
+	// Gateways, points connecting two areas. 
+	gateways = [ g0, g1, g2, g3, g4, g5, g6, g7, g8, g9 ];
+
+	g0 {	// pos 20,18
+		to = [ left, a4 ];	// when in "left",
+		pos = [ 1.35, 4.95 ];
+	}
+	g1 {	// pos 23,18
+		to = [ a4, top];
+		pos = [ 1.8, 4.95 ];
+	}
+	g2 {	// pos 80,16
+		to = [ top, a3 ];
+		pos = [ 10.35, 5.25 ];
+	}
+	g3 {	// pos 81,16
+		to = [ a3, right ];
+		pos = [ 10.5, 5.25 ];
+	}
+	g4 {	// pos 20,49
+		to = [ left, a6 ];
+		pos = [ 1.35, 0.3 ];
+	}
+	g5 {	// pos 23,49
+		to = [ a6, bottom ];
+		pos = [ 1.8, 0.3 ];
+	}
+	g6 {	// pos 78,54
+		to = [ bottom, a7 ];
+		pos = [ 10.05, -0.45 ];
+	}
+	g7 {	// pos 81,54
+		to = [ a7, right ];
+		pos = [ 10.5, -0.45 ];
+	}
+	g8 {	// pos 10,61
+		to = [ left, a8 ];
+		pos = [ -0.15, -1.5 ];
+	}
+	g9 {	// pos 10,64
+		to = [ a8, bottomleft ];
+		pos = [ -0.15, -1.95 ];
+	}
+	
+	// Movable objects
+	objects = [ green-short-sulfur-cube, blue-short-burn-sphere, red-short-burn-cube ];
+
+	green-short-sulfur-cube {
+		pos = [ 12.0, 6.4 ];
+		size = [ 0.2, 0.2 ];
+		color = green;
+		weight = 0.5;
+		diffusible = key;
+		diffused = false;
+		diffuse-wire = green;
+		height = short;
+		smell = sulfur;
+		shape = cube;
+		type = block;
+	}
+	
+	blue-short-burn-sphere {
+		pos = [ 3.0, -2.0 ];
+		size = [ 0.4, 0.4 ];
+		color = blue;
+		weight = 0.5;
+		diffusible = key;
+		diffused = false;
+		diffuse-wire = blue;
+		height = short;
+		smell = burn;
+		shape = sphere;
+		type = block;
+	}
+	
+	red-short-burn-cube {
+		size = [ 0.2, 0.2 ];
+		color = red;
+		weight = 0.5;
+		diffusible = key;
+		diffused = false;
+		diffuse-wire = green;
+		height = short;
+		smell = burn;
+		shape = cube;
+		type = block;
+
+	}
+}

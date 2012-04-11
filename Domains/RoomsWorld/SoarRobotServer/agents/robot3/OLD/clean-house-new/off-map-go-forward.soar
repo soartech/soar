@@ -1,0 +1,12 @@
+sp {clean-house-new*propose*off-map-go-forward
+   :interrupt
+   (state <s> ^name robot
+              ^top-state.parameters.medium-linear-velocity <medium>
+              ^io.input-link.self.area -1)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name off-map-go-forward
+         ^actions <a>)
+   (<a> ^set-velocity <sv>)
+   (<sv> ^linear-velocity <medium>
+         ^angular-velocity 0)}

@@ -1,0 +1,76 @@
+superdroids = [charlie];
+charlie 
+{
+	position = [0, 0];
+	productions = "agents/robot3/clean-house-new.soar";
+	simulated = true;
+}
+
+image_path = "../common/five-rooms.png";
+image_origin = [ 11,51 ];
+meters_per_pixel = 0.15;
+
+metadata
+{
+	0 = [ 2, 2,18,59];
+	1 = [24, 2,56,34];
+	2 = [82, 2,16,76];
+	3 = [80,11, 2,11];
+	4 = [20,12, 4,13];
+	5 = [24,42,54,36];
+	6 = [20,45, 4,10];
+	7 = [78,49, 4,12];
+	8 = [ 7,61, 7, 4];
+	9 = [ 2,65,18,13];
+
+	doors = [3, 4, 6, 7, 8];	# gateways auto-generated
+	
+	// Movable objects
+	objects
+	{
+		placed = [ green-short-sulfur-cube, 7.9, 4.7,
+                   blue-short-burn-sphere, 15.3, 5.5 ];
+		
+		green-short-sulfur-cube 
+		{
+			size = [ .3, .3 ];
+			color = green;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = sulfur;
+			shape = cube;
+			type = block;
+		}
+		
+		blue-short-burn-sphere 
+		{
+			size = [ .45, .45 ];
+			color = blue;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = blue;
+			height = short;
+			smell = burn;
+			shape = sphere;
+			type = block;
+		}
+		
+		red-short-burn-cube 
+		{
+			size = [ .3, .3 ];
+			color = red;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = burn;
+			shape = cube;
+			type = block;
+		}
+	}
+}

@@ -1,0 +1,58 @@
+package jmat;
+
+public class MatrixTest
+{
+    public static void main(String args[])
+    {
+	/*
+	Matrix M = new Matrix(5,5, Matrix.SPARSE);
+	for (int i = 0; i < M.getRowDimension(); i++)
+	    M.set(i,i, 1);
+
+	M.scale(2);
+	M.print();
+
+	Matrix N = Matrix.identity(5,5);
+	N.scale(5);
+	N.print();
+
+	M.times(N).print();
+
+	M.inverse().print();
+	*/
+	/*	Matrix A = Matrix.random(5,5);
+	Matrix B = Matrix.random(5,1);
+	Matrix X = A.solve(B);
+	*/
+
+	/*	double AA[][] = { { 1, 2, 5 },
+			  {-3, 1, 7 },
+			  { 2, 5, -5 } };
+	*/
+
+	double AA[][] = {{3,6,6},
+			 {3,2,1},
+			 {6,4,8}};
+	Matrix A = new Matrix(AA);
+	LUDecomposition LU = new LUDecomposition(A);
+
+	Jama.Matrix JA = new Jama.Matrix(AA);
+	Jama.LUDecomposition JLU = new Jama.LUDecomposition(JA);
+
+	new Matrix(JLU.LU).print();
+	LU.LU.print();
+
+	int x = 2, y = 15;
+
+	x = y -= 3;
+
+	System.out.println(x+" "+y);
+
+	/*	
+	A.print();
+	B.print();
+	X.print();
+	A.times(X).print();
+	*/
+    }
+}

@@ -1,0 +1,52 @@
+splinters = [seek];
+seek 
+{
+	position = [2, -2];
+	#productions = "agents/robot3/clean-house-new.soar";
+}
+
+image_path = "../common/4subrooms.png";
+image_origin = [ 0, 0 ];
+meters_per_pixel = 0.6;
+
+metadata
+{
+	 0 = [ 1, 1, 9, 9];
+	 1 = [ 1,10, 9, 9];
+	 2 = [ 1,19, 9, 9];
+	 3 = [ 1,28, 9,12];
+	
+	doors = [];
+
+	objects
+	{
+		green-cube 
+		{
+			size = [ .25, .25 ];
+			color = green;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = green;
+			height = short;
+			smell = sulfur;
+			shape = cube;
+			type = block;
+		}
+	
+		blue-short-burn-sphere 
+		{
+			size = [ .25, .25 ];
+			color = blue;
+			weight = 0.5;
+			diffusible = key;
+			diffused = false;
+			diffuse-wire = blue;
+			height = short;
+			smell = burn;
+			shape = sphere;
+			type = block;
+		}
+	}
+}
+

@@ -1,0 +1,9 @@
+struct urg_range_t
+{
+	int64_t		utime;
+	int32_t		num_ranges;
+	float		ranges[num_ranges];
+	float		rad0;
+	float		radstep;
+}
+

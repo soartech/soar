@@ -1,0 +1,28 @@
+APRIL Robotics Toolbox (ART)
+------------
+
+The APRIL Robotics Toolbox is maintained by the APRIL Robotics
+Laboratory at the University of Michigan, under the supervision of
+Prof. Edwin Olson (ebolson@umich.edu).
+
+The goal of this toolbox is to provide reusable software components
+that can be used and relied upon by others. At this point in time, the
+toolbox is brand new and so volatility should be expected.
+
+
+Dependencies
+------------
+
+You'll need these setup properly in order to even build the april
+
+LCM: Message marshalling/passing system.
+     http://lcm.googlecode.com
+
+JOGL: OpenGL interface for Java.
+      http://jogl.dev.java.net 
+ 
+jmat, vis: Linear algebra and visualization for Java
+      http://april.eecs.umich.edu/
+
+jcam: Image acquisition library for Java (Linux only)
+      http://april.eecs.umich.edu/

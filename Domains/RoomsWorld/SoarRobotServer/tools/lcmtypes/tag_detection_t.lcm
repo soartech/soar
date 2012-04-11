@@ -1,0 +1,19 @@
+struct tag_detection_t
+{
+    int32_t id;              // id of the detected tag
+    int32_t errors;          // how many bit errors?
+
+    // homography relates tag 2D homogeneous world coordinates to
+    // homogeneous 2D pixel coordinates relative to the image
+    // center.  The tag in world coordinates spans from (-1,-1) to
+    // (1,1).
+    double homography[3][3]; 
+
+    // the image center (as used by the homography).
+    double hxy[2];
+
+    // to compute pixel coordinates for tag coordinates (x,y), use:
+    // tmp = H[2][0]*x + H[2][1]*y + H[2][2]
+    // px = (H[0][0]*x + H[0][1]*y + H[0][2])/tmp + cxy[0]
+    // py = (H[1][0]*x + H[1][1]*y + H[1][2])/tmp + cxy[1]
+}

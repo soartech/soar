@@ -1,0 +1,3 @@
+pushd clean-room-BRIMS
+source clean-room-BRIMS_source.soar
+popd

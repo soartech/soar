@@ -1,0 +1,6 @@
+#sp {elaborations*elaborate*avoids
+#   (state <s> ^name robot)
+#-->
+#   (<s> ^avoids <avoids>)
+#}
+#

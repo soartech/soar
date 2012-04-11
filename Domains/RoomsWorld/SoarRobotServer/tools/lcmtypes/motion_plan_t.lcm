@@ -1,0 +1,7 @@
+struct motion_plan_t
+{
+    int64_t utime;
+	
+    int32_t nsteps;
+    double xy[nsteps][2];
+}

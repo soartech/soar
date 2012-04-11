@@ -1,0 +1,154 @@
+VERSION 4
+\clean-house-new\clean-house-new.dm
+0	ROOT clean-house-new clean-house-new 1
+1	0	FOPERATOR _firstload _firstload.soar 2
+2	0	FOLDER all all 3
+3	2	OPERATOR wait wait.soar 4
+4	0	FOLDER elaborations elaborations 5
+5	4	FOPERATOR _all _all.soar 6
+6	4	FOPERATOR area area.soar 7
+7	4	FOPERATOR avoids avoids.soar 8
+8	4	FOPERATOR blocks-epmem blocks-epmem.soar 9
+9	4	FOPERATOR control control.soar 10
+10	4	FOPERATOR desired desired.soar 11
+11	4	FOPERATOR diffusing diffusing.soar 12
+12	4	FOPERATOR direction direction.soar 13
+13	4	FOPERATOR io-errors io-errors.soar 14
+14	4	FOPERATOR labels labels.soar 15
+15	4	FOPERATOR output output.soar 16
+16	4	FOPERATOR parameters parameters.soar 17
+17	4	FOPERATOR self self.soar 18
+18	4	FOPERATOR smem smem.soar 19
+19	4	FOPERATOR top-state top-state.soar 20
+20	0	FOPERATOR _readme _readme.soar 21
+21	0	HLFOPERATOR common common.soar common 0 22
+22	21	HLOPERATOR go-to go-to.soar go-to 215 23
+23	22	FOPERATOR elaborations elaborations.soar 24
+24	22	FOPERATOR collision-elaborations collision-elaborations.soar 25
+25	22	OPERATOR initialize-progress initialize-progress.soar 26
+26	22	OPERATOR move-forward move-forward.soar 27
+27	22	OPERATOR record-progress record-progress.soar 28
+28	22	OPERATOR set-waypoint set-waypoint.soar 29
+29	22	OPERATOR stop stop.soar 30
+30	22	OPERATOR turn-around-object turn-around-object.soar 31
+31	22	OPERATOR turn-through-doorway turn-through-doorway.soar 32
+32	22	OPERATOR turn-to-waypoint turn-to-waypoint.soar 33
+33	21	HLOPERATOR go-to-area go-to-area.soar go-to-area 278 34
+34	33	FOPERATOR elaborations elaborations.soar 35
+35	33	OPERATOR go-to-gateway go-to-gateway.soar 36
+36	33	HLOPERATOR go-to-next-area go-to-next-area.soar go-to-next-area 280 37
+37	36	FOPERATOR elaborations elaborations.soar 38
+38	36	OPERATOR go-to go-to.soar 39
+39	33	OPERATOR retrieve-destination retrieve-destination.soar 40
+40	33	OPERATOR retrieve-next-area retrieve-next-area.soar 41
+41	0	HLIOPERATOR Impasse__Operator_Tie Impasse__Operator_Tie.soar Impasse__Operator_Tie 130 42
+42	41	FOPERATOR elaborations elaborations.soar 43
+43	41	HLOPERATOR evaluate-operator evaluate-operator.soar evaluate-operator 135 44
+44	43	FOPERATOR elaborations elaborations.soar 45
+45	43	OPERATOR goto-gateway goto-gateway.soar 46
+46	0	HLOPERATOR chase chase.soar chase 160 47
+47	46	FOPERATOR elaborations elaborations.soar 48
+48	46	OPERATOR move-to-player move-to-player.soar 49
+49	0	HLOPERATOR deposit-object deposit-object.soar deposit-object 104 50
+50	49	FOPERATOR elaborations elaborations.soar 51
+51	49	OPERATOR detect-no-storage-area detect-no-storage-area.soar 52
+52	49	OPERATOR find-block-in-area find-block-in-area.soar 53
+53	49	OPERATOR goto-storage-area goto-storage-area.soar 54
+54	49	HLOPERATOR move-to-room-center move-to-room-center.soar move-to-room-center 114 55
+55	54	FOPERATOR elaborations elaborations.soar 56
+56	54	OPERATOR drop-block drop-block.soar 57
+57	54	OPERATOR go-to go-to.soar 58
+58	54	OPERATOR stop stop.soar 59
+59	0	OPERATOR finished-cleaning finished-cleaning.soar 60
+60	0	OPERATOR force-go force-go.soar 61
+61	0	HLOPERATOR get-object get-object.soar get-object 94 62
+62	61	FOPERATOR elaborations elaborations.soar 63
+63	61	OPERATOR assign-area-object assign-area-object.soar 64
+64	61	HLOPERATOR find-block-in-area find-block-in-area.soar find-block-in-area 72 65
+65	64	FOPERATOR elaborations elaborations.soar 66
+66	64	OPERATOR note-turning note-turning.soar 67
+67	64	OPERATOR record-area-direction record-area-direction.soar 68
+68	64	OPERATOR spin spin.soar 69
+69	64	OPERATOR stop-spin stop-spin.soar 70
+70	61	OPERATOR go-to-seen-block go-to-seen-block.soar 71
+71	61	OPERATOR go-to-unseen-block-in-room go-to-unseen-block-in-room.soar 72
+72	61	OPERATOR goto-not-clean-area goto-not-clean-area.soar 73
+73	61	OPERATOR goto-unvisited-area goto-unvisited-area.soar 74
+74	61	HLOPERATOR pickup-block pickup-block.soar pickup-block 55 75
+75	74	FOPERATOR elaborations elaborations.soar 76
+76	74	OPERATOR go-to go-to.soar 77
+77	74	OPERATOR grasp-block grasp-block.soar 78
+78	74	HLOPERATOR grasp-ied grasp-ied.soar grasp-ied 385 79
+79	78	FOPERATOR elaborations elaborations.soar 80
+80	78	OPERATOR grasp-confirm grasp-confirm.soar 81
+81	78	OPERATOR grasp-diffuse grasp-diffuse.soar 82
+82	78	OPERATOR grasp-get grasp-get.soar 83
+83	78	OPERATOR grasp-help grasp-help.soar 84
+84	78	OPERATOR grasp-plan grasp-plan.soar 85
+85	78	OPERATOR grasp-warn grasp-warn.soar 86
+86	74	OPERATOR spin spin.soar 87
+87	61	OPERATOR retrieve-blocks retrieve-blocks.soar 88
+88	0	OPERATOR halt halt.soar 89
+89	0	OPERATOR init-robot init-robot.soar 90
+90	0	HLOPERATOR msg msg.soar msg 346 91
+91	90	FOPERATOR elaborations elaborations.soar 92
+92	90	HLOPERATOR instr-all instr-all.soar instr-all 355 93
+93	92	FOPERATOR elaborations elaborations.soar 94
+94	92	OPERATOR all-do all-do.soar 95
+95	90	OPERATOR instr-allow instr-allow.soar 96
+96	90	OPERATOR instr-avoid instr-avoid.soar 97
+97	90	OPERATOR instr-confirmed instr-confirmed.soar 98
+98	90	HLOPERATOR instr-connected instr-connected.soar instr-connected 415 99
+99	98	FOPERATOR elaborations elaborations.soar 100
+100	98	OPERATOR connected-do connected-do.soar 101
+101	90	OPERATOR instr-diffuse-wire instr-diffuse-wire.soar 102
+102	90	HLOPERATOR instr-goto instr-goto.soar instr-goto 400 103
+103	102	FOPERATOR elaborations elaborations.soar 104
+104	102	OPERATOR goto-do goto-do.soar 105
+105	90	OPERATOR instr-heuristic instr-heuristic.soar 106
+106	90	OPERATOR instr-initiate instr-initiate.soar 107
+107	90	HLOPERATOR instr-label instr-label.soar instr-label 364 108
+108	107	FOPERATOR elaborations elaborations.soar 109
+109	107	OPERATOR label-done label-done.soar 110
+110	107	OPERATOR label-first label-first.soar 111
+111	107	OPERATOR label-next label-next.soar 112
+112	90	HLOPERATOR instr-patrol instr-patrol.soar instr-patrol 463 113
+113	112	FOPERATOR elaborations elaborations.soar 114
+114	112	OPERATOR copy-list-element copy-list-element.soar 115
+115	112	OPERATOR init-list-copy init-list-copy.soar 116
+116	112	OPERATOR terminate-list-copy terminate-list-copy.soar 117
+117	90	OPERATOR instr-terminate instr-terminate.soar 118
+118	90	OPERATOR msg-bad msg-bad.soar 119
+119	0	OPERATOR off-map-go-forward off-map-go-forward.soar 120
+120	0	HLOPERATOR patrol patrol.soar patrol 478 121
+121	120	FOPERATOR elaborations elaborations.soar 122
+122	120	OPERATOR goto-next-area goto-next-area.soar 123
+123	120	OPERATOR next-area next-area.soar 124
+124	120	OPERATOR restart-patrol-first-area restart-patrol-first-area.soar 125
+125	0	HLOPERATOR random-walk random-walk.soar random-walk 663 126
+126	125	FOPERATOR elaborations elaborations.soar 127
+127	125	OPERATOR go-to-next-area go-to-next-area.soar 128
+128	0	OPERATOR re-record-object re-record-object.soar 129
+129	0	OPERATOR record-area record-area.soar 130
+130	0	OPERATOR record-avoid record-avoid.soar 131
+131	0	HLOPERATOR record-label record-label.soar record-label 600 132
+132	131	FOPERATOR elaborations elaborations.soar 133
+133	131	OPERATOR record-label-first record-label-first.soar 134
+134	131	OPERATOR record-label-next record-label-next.soar 135
+135	0	OPERATOR record-next-areas record-next-areas.soar 136
+136	0	OPERATOR record-object record-object.soar 137
+137	0	OPERATOR record-smem-current-area record-smem-current-area.soar 138
+138	0	OPERATOR record-smem-new-gateway-area record-smem-new-gateway-area.soar 139
+139	0	OPERATOR record-smem-new-wall-area record-smem-new-wall-area.soar 140
+140	0	OPERATOR record-storage-area record-storage-area.soar 141
+141	0	OPERATOR record-unconnected-area record-unconnected-area.soar 142
+142	0	OPERATOR remove-distant-areas-smem remove-distant-areas-smem.soar 143
+143	0	OPERATOR remove-object remove-object.soar 144
+144	0	OPERATOR retrieve-current-area-gateways retrieve-current-area-gateways.soar 145
+145	0	OPERATOR retrieve-current-area-walls retrieve-current-area-walls.soar 146
+146	0	OPERATOR retrieve-neighbor-area retrieve-neighbor-area.soar 147
+147	0	OPERATOR select-mission select-mission.soar 148
+148	0	OPERATOR store-area store-area.soar 149
+149	0	OPERATOR terminate terminate.soar 150
+150	0	OPERATOR update-object-data update-object-data.soar 151
+END

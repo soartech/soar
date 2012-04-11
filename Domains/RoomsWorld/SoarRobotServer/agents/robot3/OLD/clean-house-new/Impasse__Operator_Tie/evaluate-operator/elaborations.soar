@@ -1,0 +1,45 @@
+sp {evaluate-operator*elaborate*destination*success
+ #interrupt
+   (state <s> ^name evaluate-operator
+              ^desired <d>
+              ^destination-area.id <id>
+              ^current-location.id <id>)
+-->
+   (<s> ^success <d>)
+}
+
+sp {evaluate-operator*elaborate*visited*failure
+   (state <s> ^name evaluate-operator
+              ^current-location <area>
+              ^destination-area.id <id>
+              ^current-location <ca>
+              ^desired <d>
+              ^visited-area <area>)
+   (<ca> ^id <> <id>)
+-->
+  #(write (crlf) |Returned to area: | <area>)
+   (<s> ^partial-failure <d>)
+}
+
+sp {evaluate-operator*elaborate*visited*indifferent
+   (state <s> ^name evaluate-operator
+              ^current-location <area>
+              ^desired <d>)
+   (<area> ^id <id>
+          -^visited yes)
+-->
+###(write (crlf) |Haven't visited: | <area>)
+   (<s> ^indifferent <d>)
+}
+
+sp {evaluate-operator*elaborate*return*robot-position
+   :default
+   (state <s> ^name evaluate-operator
+              ^tried-tied-operator  # Wait until operator applied
+              ^superstate.operator.evaluation <e>
+              ^top-state.robot-position <wp>)
+   (<e> -^robot-position)
+-->
+   (<e> ^robot-position <wp>)
+}
+

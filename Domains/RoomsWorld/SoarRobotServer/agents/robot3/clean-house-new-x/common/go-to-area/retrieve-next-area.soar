@@ -1,0 +1,74 @@
+sp {go-to-area*propose*retrieve-next-area*previous-area*smem
+   (state <s> ^type go-to-area
+             -^retrieved <pa>
+              ^top-state.parameters.areas-held-in smem
+              ^current-location <ca>)
+   (<ca> ^previous-area <pa>)
+   (<pa> -^id <id>)
+-->
+##(write (crlf) |Propose retrieve previous area | <pa> | :| (cmd stats -d ))
+   (<s> ^operator <op> +, =, <)
+   (<op> ^name retrieve-next-area
+         ^area <pa>)}
+
+sp {go-to-area*propose*retrieve-next-area*next*smem
+ #interrupt
+   (state <s> ^type go-to-area
+             -^retrieved <pa>
+              ^top-state.parameters.areas-held-in smem
+              ^current-location <ca>)
+   (<ca> ^next <pa>)
+   (<pa> -^id <id>)
+-->
+###(write (crlf) |Propose retrieve next area | <pa> | :| (cmd stats -d ))
+  (<s> ^operator <op> +, =, >)
+   (<op> ^name retrieve-next-area
+         ^area <pa>)}
+
+sp {go-to-area*propose*retrieve-next-area*neighbor*smem
+   (state <s> ^type go-to-area
+             -^retrieved <pa>
+              ^top-state.parameters.areas-held-in smem
+              ^current-location <ca>)
+   (<ca> ^neighbor-area <pa>)
+   (<pa> -^id <id>)
+-->
+  ###(write (crlf) |Propose retrieve neighbor area | <pa> | :| (cmd stats -d ))
+   (<s> ^operator <op> +, =, >)
+   (<op> ^name retrieve-next-area
+         ^area <pa>)}
+
+sp {apply*retrieve-next-area
+ #interrupt
+   (state <s> ^operator <op>
+              ^smem.command <cmd>)
+   (<op> ^name retrieve-next-area
+         ^area <area>)
+-->
+  ###(write (crlf) |Retrieve next area (go-to-area) | <area> | :| (cmd stats -d ))
+   (<cmd> ^retrieve <area>)
+}
+
+sp {apply*retrieve-next-area*success
+ #interrupt
+   (state <s> ^operator <op>
+              ^smem <smem>)
+   (<smem> ^result.success)
+   (<op> ^name retrieve-next-area
+         ^area <area>)
+-->
+   (<s> ^retrieved <area>)
+}
+
+
+sp {apply*retrieve-next-area*failure
+ #interrupt
+   (state <s> ^operator <op>
+              ^smem <smem>)
+   (<smem> ^result.failure)
+   (<op> ^name retrieve-next-area
+         ^area <area>)
+-->
+   (interrupt)
+ (write (crlf) |Failed Retrieval: | <area>)
+}

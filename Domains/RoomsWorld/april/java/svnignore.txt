@@ -1,0 +1,3 @@
+java.hprof.txt
+hs_err_*.log
+docs
