@@ -13,8 +13,6 @@ OSX:
 libJava_sml_ClientInterface.jnilib
 libSoar.dylib
 libTestExternalLibraryLib.dylib
-soar-debugger.jar
-soar-debugger-api.jar
 
 Linux:
 livJava_sml_ClientInterface.so
@@ -25,8 +23,6 @@ Windows:
 Java_sml_ClientInterface.dll
 Soar.dll
 TastExternalLibraryLib.dll
-soar-debugger.jar
-soar-debugger-api.jar
 
 2) Also put the following files form your Soar release into the correct native folder:
 
@@ -50,7 +46,7 @@ You can safely remove the release directory or the SoarRobotServer/build directo
 
 TODO:
 
-Make sure all the right LICENCE.txt files are in place before this source code goes public.
+Make sure all the right LICENSE.txt files are in place before this source code goes public.
 Test Soar agents to make sure they work the way we want.
 Add documentation to the release so end users will know what to do with it.
 Deal with SoarRobotTablet, which is pretty much ignored for now.
