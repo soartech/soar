@@ -227,7 +227,9 @@ public class GuiApplication
         
         System.out.println("CLASSPATH: " + System.getenv("CLASSPATH"));
         System.out.println("DYLD_LIBRARY_PATH: " + System.getenv("DYLD_LIBRARY_PATH"));
+        System.out.println("LD_LIBRARY_PATH: " + System.getenv("LD_LIBRARY_PATH"));
         System.out.println("SOAR_HOME: " + System.getenv("SOAR_HOME"));
+        System.out.println("java.library.path: " + System.getProperty("java.library.path"));
         
         JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);

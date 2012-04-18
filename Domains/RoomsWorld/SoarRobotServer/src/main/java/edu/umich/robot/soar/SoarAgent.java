@@ -405,7 +405,9 @@ public class SoarAgent implements RobotController, RadioHandler
             boolean isOSX = System.getProperty("os.name").equals("Mac OS X");
             int port = agent.GetKernel().GetListenerPort();
             String command = "java " + (isOSX ? "-XstartOnFirstThread " : "") + "-jar " + jarPath + " -debugger -remote -port " + port + " -agent " + getName();
+            System.out.println("Spawning debugger with command: \"" + command + "\"");
             Runtime.getRuntime().exec(command);
+            System.out.println("Done spawning debugger");
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
