@@ -1,0 +1,391 @@
+Algebra_Agent 
+	type=zip
+	out=Agents\
+	Agents\algebra=top
+Arithmetic_Agent 
+	type=zip
+	out=Agents\
+	Agents\arithmetic=top
+Arithmetic-SMem_Agent 
+	type=zip
+	out=Agents\
+	Agents\arithmetic-smem=top
+BlocksWorld_Hierarchical_Lookahead_Agent 
+	type=zip
+	out=Agents\
+	Agents\blocks-world-hierachical-lookahead=top
+BlocksWorld_Hierarchical_Agent 
+	type=zip
+	out=Agents\
+	Agents\blocks-world-hierarchical=top
+BlocksWorld_Lookahead_Agent 
+	type=zip
+	out=Agents\
+	Agents\blocks-world-lookahead=top
+BlocksWorld_Hierarchical_State_Evaluation_Agent
+	type=zip
+	out=Agents\
+	Agents\blocks-world-lookahead-state-evaluation=top
+BlocksWorld_Subgoaling_Agent
+	type=zip
+	out=Agents\
+	Agents\blocks-world-operator-subgoaling=top
+BlocksWorld_Subgoaling_RL_Agent
+	type=zip
+	out=Agents\
+	Agents\blocks-world-operator-subgoaling-RL=top
+BlocksWorld_RL_Agent
+	type=zip
+	out=Agents\
+	Agents\blocks-world-RL=top
+BlocksWorld_Simple_Agent
+	type=zip
+	out=Agents\
+	Agents\blocks-world-simple=top
+Episodic_Memory_Counting_Agent 
+	type=zip
+	out=Agents\
+	Agents\count-epmem=top
+Counting_Agent 
+	type=zip
+	out=Agents\
+	Agents\count-test-files=top
+Eight_Puzzle_Agent
+	type=zip
+	out=Agents\
+	Agents\eight-puzzle=top
+Episodic_Memory_Tutorial_Agent
+	type=zip
+	out=Agents\
+	Agents\epmem-tutorial=top
+Fifteen_Puzzle_Agent 
+	type=zip
+	out=Agents\
+	Agents\fifteen-puzzle=top
+Graph_Search_Agent
+	type=zip
+	out=Agents\
+	Agents\graph-search=top
+Graph_Search_SMem_Agent 
+	type=zip
+	out=Agents\
+	Agents\graph-search-smem=top
+Hello_World_Operator_Agent
+	type=zip
+	out=Agents\
+	Agents\hello-world-operator=top
+Hello_World_Rule_Agent 
+	type=zip
+	out=Agents\
+	Agents\hello-world-rule=top
+KB_Agent 
+	type=zip
+	out=Agents\
+	Agents\kb=top
+Left_Right_RL_Agent 
+	type=zip
+	out=Agents\
+	Agents\left-right=top
+Missionaries_And_Cannibals_Simple_Agent 
+	type=zip
+	out=Agents\
+	Agents\mac=top
+Missionaries_And_Cannibals_Planning_Agent 
+	type=zip
+	out=Agents\
+	Agents\mac-planning=top
+Reinforcement_Learning_Unit_Test_Agent
+	type=zip
+	out=Agents\
+	Agents\rl-unit=top
+Semantic_Memory_Tutorial_Agent
+	type=zip
+	out=Agents\
+	Agents\smem-tutorial=top
+Soar7_Agent_Collection 
+	type=zip
+	out=Agents\
+	Agents\soar7=top
+Tower_Of_Hanoi_Recursive_Agent
+	type=zip
+	out=Agents\
+	Agents\towers-of-hanoi-recursive=top
+Tower_Of_Hanoi_Simple_Agent
+	type=zip
+	out=Agents\
+	Agents\towers-of-hanoi-simple=top
+Water_Jug_Hierarchical_Agent
+	type=zip
+	out=Agents\
+	Agents\water-jug-hierarchy=top
+Water_Jug_Look_Ahead_Agent
+	type=zip
+	out=Agents\
+	Agents\water-jug-look-ahead=top
+Water_Jug_Reinforcement_Learning_Agent
+	type=zip
+	out=Agents\
+	Agents\water-jug-rl=top
+Water_Jug_Simple_Agent
+	type=zip
+	out=Agents\
+	Agents\water-jug-simple=top
+Water_Jug_Tie_Agent
+	type=zip
+	out=Agents\
+	Agents\water-jug-tie=top
+SoarManual
+  type=copy
+	out=Documentation\
+	Documentation\pdf\SoarManual.pdf=top
+SoarTutorial
+	type=copy
+	out=Documentation\
+	Documentation\pdf\Soar Tutorial Part 1.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 2.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 3.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 4.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 5.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 6.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 7 - RL.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 8 - SMem.pdf=SoarTutorial
+	Documentation\pdf\Soar Tutorial Part 9 - EpMem.pdf=SoarTutorial
+Episodic_Memory_Sizer
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\epmem-size=top
+QuickLink
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\QuickLink=top
+State2Dot
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\State2Dot=top
+UltraEdit_Soar_Formatting_Wordfile
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\UltraEdit_Wordfile=top
+VisualSoar_Source
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\VisualSoar=top
+Vim_Soar_Formatting_Plugin
+    type=zip
+    out=AgentDevelopmentTools\
+    AgentDevelopmentTools\vimplugin=top
+Dice
+    type=zip
+    out=Domains\
+    Domains\Dice=top
+SoarQnA
+    type=zip
+    out=Domains\
+    Domains\SoarQnA=top
+SoarTextIO
+    type=zip
+    out=Domains\
+    Domains\SoarTextIO=top
+WordNet
+    type=zip
+    out=Domains\
+    Domains\wn=top
+WordNet_With_Parse_Trees
+    type=zip
+    out=Domains\
+    Domains\wsd=top
+CSharp_Interface_Example
+    type=zip
+    out=ExampleDomainDevelopmentCode\
+    ExampleDomainDevelopmentCode\CSharp=top
+PHP_Interface_Example
+    type=zip
+    out=ExampleDomainDevelopmentCode\
+    ExampleDomainDevelopmentCode\PHP=top
+Python_Interface_Example
+    type=zip
+    out=ExampleDomainDevelopmentCode\
+    ExampleDomainDevelopmentCode\Soar_Exp=top
+Soar_Scratch_Pad_Example
+    type=zip
+    out=ExampleDomainDevelopmentCode\
+    ExampleDomainDevelopmentCode\SoarScratchPad=top
+Tower_Of_Hanoi_SML_Example
+    type=zip
+    out=ExampleDomainDevelopmentCode\
+    ExampleDomainDevelopmentCode\TOHSML=top
+Soar_Filter_C_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\FilterC=top
+Soar_Filter_Tcl_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\FilterTcl=top
+Java_Missionaries_and_Cannibals_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\JavaMissionaries=top
+Java_Tower_of_Hanoi_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\JavaTOH=top
+LoggerJava_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\LoggerJava=top
+LoggerWinC_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\LoggerWinC=top
+RL_Command_Line_Interface_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\RlCli=top
+Soar_Obfuscator
+    type=zip
+    out=Unsupported\
+    Unsupported\SoarObfuscator=top
+Working_Memory_Activation_Tracker_Example
+    type=zip
+    out=Unsupported\
+    Unsupported\WMActivationTracker=top
+SoarTutorial_9.3.2
+  type=multiplatform-zip
+  out=SoarSuite\
+  # Missing: PythonCLI.py
+	# Missing: TestPythonSML.py, (joseph will re-add)
+	Compiled\VisualSoar\VisualSoar.jar=bin
+	Compiled\COMPILE_DIR\out\libJava_sml_ClientInterface.DLL_EXTENSION=bin
+	Compiled\COMPILE_DIR\out\libSoar.DLL_EXTENSION=bin
+	Compiled\COMPILE_DIR\out\SoarJavaDebugger.jar=bin
+	Compiled\COMPILE_DIR\out\java=bin\java
+	Documentation\Agents_readme.txt=Agents\
+	Documentation\pdf\Soar Tutorial Part 1.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 2.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 3.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 4.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 5.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 6.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 7 - RL.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 8 - SMem.pdf=Documentation
+	Documentation\pdf\Soar Tutorial Part 9 - EpMem.pdf=Documentation
+	Documentation\pdf\SoarManual.pdf=Documentation
+  Agents\arithmetic=Agents\arithmetic
+  Agents\blocks-world-RL=Agents\blocks-world-RL
+  Agents\blocks-world-hierachical-lookahead=Agents\blocks-world-hierachical-lookahead
+  Agents\blocks-world-hierarchical=Agents\blocks-world-hierarchical
+  Agents\blocks-world-lookahead-state-evaluation=Agents\blocks-world-lookahead-state-evaluation
+  Agents\blocks-world-lookahead=Agents\blocks-world-lookahead
+  Agents\blocks-world-operator-subgoaling-RL=Agents\blocks-world-operator-subgoaling-RL
+  Agents\blocks-world-operator-subgoaling=Agents\blocks-world-operator-subgoaling
+  Agents\blocks-world-simple=Agents\blocks-world-simple
+  Agents\default=Agents\default
+  Agents\eight-puzzle=Agents\eight-puzzle
+  Agents\epmem-tutorial=Agents\epmem-tutorial
+  Agents\fifteen-puzzle=Agents\fifteen-puzzle
+  Agents\hello-world-operator=Agents\hello-world-operator
+  Agents\hello-world-rule=Agents\hello-world-rule
+  Agents\left-right=Agents\left-right
+  Agents\mac-planning=Agents\mac-planning
+  Agents\mac=Agents\mac
+  Agents\smem-tutorial=Agents\smem-tutorial
+  Agents\towers-of-hanoi-recursive=Agents\towers-of-hanoi-recursive
+  Agents\towers-of-hanoi-simple=Agents\towers-of-hanoi-simple
+  Agents\water-jug-hierarchy=Agents\water-jug-hierarchy
+  Agents\water-jug-look-ahead=Agents\water-jug-look-ahead
+  Agents\water-jug-rl=Agents\water-jug-rl
+  Agents\water-jug-simple=Agents\water-jug-simple
+  Agents\water-jug-tie=Agents\water-jug-tie
+  Compiled\Soar2D\Eaters_TankSoar.jar=bin
+  Domains\Eaters_TankSoar\agents\eaters=Agents\Eaters
+  Domains\Eaters_TankSoar\agents\tanksoar=Agents\TankSoar
+  Domains\Eaters_TankSoar\config\eaters.cnf=config
+  Domains\Eaters_TankSoar\config\maps\eaters=config\maps\eaters
+  Domains\Eaters_TankSoar\config\maps\tanksoar=config\maps\tanksoar
+  Domains\Eaters_TankSoar\config\tanksoar.cnf=config
+  Domains\Eaters_TankSoar\lib\commons-logging-1.1.1.jar=bin\java
+  Domains\Eaters_TankSoar\lib\log4j-1.2.15.jar=bin\java
+  Domains\Eaters_TankSoar\lib\stopwatch-0.4-with-deps.jar=bin\java
+  Release\RELEASE_DIR\Eaters.LAUNCH_EXTENSION=top
+  Release\RELEASE_DIR\SoarJavaDebugger.LAUNCH_EXTENSION=top
+  Release\RELEASE_DIR\TankSoar.LAUNCH_EXTENSION=top
+  Release\RELEASE_DIR\VisualSoar.LAUNCH_EXTENSION=top
+TankSoar_9.3.2
+  type=multiplatform-zip
+  out=Domains\
+  Release\RELEASE_DIR\TankSoar.LAUNCH_EXTENSION=top
+  Compiled\Soar2D\Eaters_TankSoar.jar=bin
+	Compiled\COMPILE_DIR\out\libJava_sml_ClientInterface.DLL_EXTENSION=bin
+	Compiled\COMPILE_DIR\out\libSoar.DLL_EXTENSION=bin
+  Compiled\COMPILE_DIR\out\java\soar-debugger.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\soar-debugger-api.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\soar-smljava.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\sml.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\swt.jar=bin\java
+  Compiled\COMPILE_DIR\out\SoarJavaDebugger.jar=bin
+  Domains\Eaters_TankSoar\lib\stopwatch-0.4-with-deps.jar=bin\java
+  Domains\Eaters_TankSoar\lib\commons-logging-1.1.1.jar=bin\java
+  Domains\Eaters_TankSoar\lib\log4j-1.2.15.jar=bin\java
+  Domains\Eaters_TankSoar\agents\tanksoar=agents\
+  Domains\Eaters_TankSoar\config\tanksoar.cnf=config
+  Domains\Eaters_TankSoar\config\maps\tanksoar=config\maps\tanksoar
+Eaters_9.3.2
+  type=multiplatform-zip
+  out=Domains\
+  Release\RELEASE_DIR\Eaters.LAUNCH_EXTENSION=top
+  Compiled\Soar2D\Eaters_TankSoar.jar=bin
+	Compiled\COMPILE_DIR\out\libJava_sml_ClientInterface.DLL_EXTENSION=bin
+	Compiled\COMPILE_DIR\out\libSoar.DLL_EXTENSION=bin
+  Compiled\COMPILE_DIR\out\java\soar-debugger.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\soar-debugger-api.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\soar-smljava.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\sml.jar=bin\java
+  Compiled\COMPILE_DIR\out\java\swt.jar=bin\java
+  Compiled\COMPILE_DIR\out\SoarJavaDebugger.jar=bin
+  Domains\Eaters_TankSoar\lib\stopwatch-0.4-with-deps.jar=bin\java
+  Domains\Eaters_TankSoar\lib\commons-logging-1.1.1.jar=bin\java
+  Domains\Eaters_TankSoar\lib\log4j-1.2.15.jar=bin\java
+  Domains\Eaters_TankSoar\agents\eaters=agents\
+  Domains\Eaters_TankSoar\config\eaters.cnf=config
+  Domains\Eaters_TankSoar\config\maps\eaters=config\maps\eaters
+SoarSuite_9.3.2
+	type=multiplatform-zip
+  out=SoarSuite\
+	Compiled\COMPILE_DIR\out=bin
+	# Missing: PythonCLI.py
+	# Missing: TestPythonSML.py, (joseph will re-add)
+	Compiled\VisualSoar\VisualSoar.jar=bin
+  Agents\default=Agents\default
+  Release\RELEASE_DIR\SoarJavaDebugger.LAUNCH_EXTENSION=top
+  Release\RELEASE_DIR\VisualSoar.LAUNCH_EXTENSION=top
+  Release\Soar Agents.txt=Agents\
+  Release\Soar Tutorial.txt=Documentation
+	Documentation\pdf\SoarManual.pdf=Documentation
+	Release\Building_Soar.txt=Documentation
+	Release\Release_Notes_9.3.2.txt=Documentation
+	Release\license.txt=top
+SoarSuite_9.3.2-source
+  type=zip
+  out=SoarSuite\
+  SoarSuite\Core=Core
+  SoarSuite\Java=Java
+  SoarSuite\scons=scons
+  SoarSuite\TestCLI=TestCLI
+  SoarSuite\Tests=Tests
+  SoarSuite\build_lsb.sh=top
+  SoarSuite\build.bat=top
+  SoarSuite\SConstruct=top
+  Release\Soar Agents.txt=Agents\
+  Release\Soar Tutorial.txt=Documentation
+	Documentation\pdf\SoarManual.pdf=Documentation
+	Release\Building_Soar.txt=top
+	Release\license.txt=top
+	Release\Release_Notes_9.3.2.txt=Documentation
+	Compiled\VisualSoar\VisualSoar.jar=bin
+  Agents\default=Agents\default
+RoomsWorld_9.3.2
+  type=multiplatform-zip
+  out=Domains\
+  Release\RELEASE_DIR\RoomsWorld.LAUNCH_EXTENSION=top
+	Compiled\COMPILE_DIR\soar_robot_server=top
