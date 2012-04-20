@@ -1,0 +1,13 @@
+sp {comp-ph-norm*elaborate*flags-dynamic
+   (state <s> ^name dice)
+-->
+   (<s> ^heuristics true
+        ^split false
+        ^heuristics-chunked false
+        ^model-enabled false)
+   (write |Setting heuristics-chunked to false|)
+}
+learn --only
+#rl --set learning-policy q-learning
+#rl --set learning on
+source dice-agent-new.soar

@@ -1,0 +1,571 @@
+\documentclass[11pt,a4paper,dvipdfm]{article}
+
+\usepackage[footnotesep=8mm]{geometry}
+\usepackage{verbatim}
+\usepackage{fullpage}
+\usepackage[colorlinks=true,
+            linkcolor=cyan,
+            urlcolor=blue]{hyperref}
+
+% do not indent paragraphs
+\setlength{\parindent}{0pt}
+% set space between paragraphs
+\setlength{\parskip}{10pt}
+
+\newcommand{\selfref}[1]{\href{#1}{#1}}
+\newcommand{\footref}[2]{\textsl{#1}\footnote{\selfref{#2}}}
+\newcommand{\prompttext}[1]{\texttt{#1}}
+\newcommand{\shprompt}[1]{\prompttext{\$ #1}}
+\newcommand{\lispprompt}[1]{\prompttext{* #1}}
+
+\begin{document}
+
+\title{RL-Glue Lisp Codec 1.0 Manual}
+\author{Gabor Balazs \\ gabalz@rl-community.org}
+\date{}
+
+\maketitle
+\setcounter{tocdepth}{2}
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+RL-Glue codecs provide TCP/IP connectivity to the RL-Glue reinforcement
+learning software library. This codec makes possible to create agent,
+environment and experiment programs in the Common Lisp programming language.
+
+For general information and motivation about the
+\footref{RL-Glue library}{http://glue.rl-community.org/}, please refer to the
+documentation provided with that project.
+
+This software is licensed under the
+\footref{Apache 2.0 license}{http://www.apache.org/licenses/LICENSE-2.0.html}.
+We are not lawyers, but our intention is that this codec should be used however
+it is useful. We would appreciate to hear what you are using it for, and to get
+credit if appropriate.
+
+\subsection{Software requirements}
+\hypertarget{softreqs}{}
+
+Required libraries for the codec.
+\begin{itemize}
+\item[] split-sequence (\selfref{http://www.cliki.net/SPLIT-SEQUENCE})
+\item[] usocket (\selfref{http://common-lisp.net/project/usocket/})
+\end{itemize}
+
+\subsection{Supported Lisp implementations}
+
+\begin{itemize}
+\item[] SBCL (\selfref{http://www.sbcl.org/})
+\item[] CMUCL (\selfref{http://www.cons.org/cmucl/})
+\item[] Lispworks (\selfref{http://www.lispworks.com/})
+\item[] Allegro CL (\selfref{http://www.franz.com/products/allegrocl/})
+\item[] CLISP (\selfref{http://www.gnu.org/software/clisp/})
+\item[] Scieneer (\selfref{http://www.scieneer.com/scl/})
+\item[] CCL / OpenMCL (\selfref{http://www.clozure.com/clozurecl.html})
+\end{itemize}
+
+\subsection{Getting the codec}
+
+The codec can be downloaded either as a tarball or can be checked out of the
+subversion repository.
+
+The tarball distributions can be found here: \\
+\selfref{http://code.google.com/p/rl-glue-ext/wiki/Lisp}
+
+The subversion trunk can be checked out this way: \\
+\shprompt{svn co
+          http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Lisp
+          lisp-codec}
+
+\subsection{Installation}
+
+The codec provides ASDF packages, so the
+\footref{ASDF library}{http://common-lisp.net/project/asdf/} has to be set up
+for your Lisp implementation. If you want to know more about it, take a look
+at our \hyperlink{asdfintro}{quick ASDF introduction.}
+
+The main ASDF packages are \prompttext{rl-glue-codec} and
+\prompttext{rl-glue-utils}. The former provides the connectivity with the
+RL-Glue component, the latter contains utilities which can be helpful during
+using the codec. The \prompttext{rl-glue-examples} package contains the
+agent, environment and experiment examples described later in this document.
+
+The codec is distributed in three different ways described in the following
+sections. Choose according to your needs and knowledge, but if you remain
+unsure at the end, we recommend the full distribution.
+
+\subsubsection{Full distribution}
+
+\textsl{Recommended for users without ASDF experience.}
+
+This distribution contains a pre-configured ASDF environment with all the
+libraries required to use the codec. It also provides the manual and the
+API reference documentation. You don't need any ASDF installation and
+configuration knowledge to use this distribution.
+
+The installation is very simple.
+
+Choose the install destination. \\
+\shprompt{cd /path/to}
+
+Unpack the files. \\
+\shprompt{tar -zxf lisp-codec-full-<version>.tar.gz} \\
+
+Then you are able to use the codec.
+
+Start your Lisp. \\
+\shprompt{lisp} \\
+\lispprompt{}
+
+Initialize the ASDF sustem. \\
+\lispprompt{(load \#p"/path/to/lisp-codec-full/setup")} \\
+
+Now you are ready to load the rl-glue ASDF packages. The ASDF system will
+compile them automatically on the first time to reduce the loading time of
+the later occasions. Continue by reading the
+\hyperlink{usage}{usage instructions}.
+
+\subsubsection{ASDF distribution}
+
+\textsl{Recommended for users with ASDF experience.}
+
+If you are an experienced ASDF user, you probably have an installed and
+configured ASDF system. Then this distribution is for you, it contains
+the \prompttext{rl-glue-codec}, \prompttext{rl-glue-utils} and
+\prompttext{rl-glue-examples} ASDF packages which can be installed as any
+other ASDF package. It also provides the manual and the API reference
+documentation.
+
+If you choose this distribution, you have to install the
+\hyperlink{softreqs}{library dependencies} on your own. Of course,
+you can use a sophisticated installer (like
+\footref{ASDF-Install}{http://www.cliki.net/ASDF-Install}
+or
+\footref{clbuild}{http://common-lisp.net/project/clbuild/})
+which can handle this problem.
+
+\subsubsection{Developer distribution}
+
+\textsl{Recommended for Lisp codec developers.}
+
+This distribution is a snapshot of the Lisp codec development directory.
+It contains all the source code, tests, documentation and development tools.
+If you choose this, you have to do the installation as in case of the ASDF
+distribution.
+
+\subsection{Uninstallation}
+
+Just delete what you don't need anymore.
+
+If you used a sophisticated tool for the installation (like
+ASDF-Install or clbuild), you should use its uninstall method.
+
+If you have used ASDF-Binary-Locations, don't forget to remove the
+\prompttext{fasl} files.
+
+\subsection{Credits and acknowledgment}
+
+G\'abor Bal\'azs wrote the Lisp codec, that's me!
+
+I would like thank the lispers on the
+\footref{\prompttext{\#lisp} IRC channel}{http://www.cliki.net/IRC}
+on \textsl{irc.freenode.net} of their great help in many Lisp specific
+questions.
+
+\subsubsection{Contributing}
+
+If you would like to become a member of this project and contribute 
+updates/changes to the code, please send a message to rl-glue@googlegroups.com.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Using the codec}
+\hypertarget{usage}{}
+
+This section describes how the codec can be used to create agents, environments
+and experiments in Lisp, and how they can be glued into a running system.
+
+\subsection{Packages}
+
+The codec has an own (ASDF) package named \prompttext{rl-glue-codec}. \\
+\lispprompt{(asdf:oos 'asdf:load-op :rl-glue-codec)}
+
+You can use the proper package qualified symbol names, e.g. \\
+\lispprompt{(defclass my-agent (rl-glue-codec:agent) \ldots)} \\
+\lispprompt{(defmethod rl-glue-codec:env-init ((env my-env)) \ldots)}
+
+Or you can import all the symbols into your package by the \prompttext{:use}
+directive, and use the codec symbols without any package qualification
+(the further examples will assume this case). \\
+\lispprompt{(defpackage :my-package (:use :rl-glue \ldots)~\ldots)}
+
+There are a few utilities for the codec which can be useful. These can be
+accessed in the \prompttext{rl-glue-utils} (ASDF) package. More information
+about them can be found in \hyperlink{rlutils}{their section}.
+
+\subsection{Types}
+
+There is an abstract data type, \prompttext{rl-abstract-type}, which can
+contain integers, floating point numbers and a character string. Its slots can
+be accessed by the \prompttext{int-array}, \prompttext{float-array} and
+\prompttext{char-string} functions. There are two macros for number array
+creation, \prompttext{make-int-array} and \prompttext{make-float-array},
+which automatically set the type of the contained elements according to the
+codec requirements. The usage of them is strongly suggested.
+
+\begin{center}
+\begin{tabular}{ll}
+    observation         & rl-abstract-type \\
+    action              & rl-abstract-type \\
+    reward              & double-float \\
+    terminal            & boolean \\
+    task specification  & string \\
+    state key           & rl-abstract-type \\
+    random seed key     & rl-abstract-type \\
+\end{tabular}
+\end{center}
+
+\subsection{Agents}
+
+On writing an agent first, you have to create an own agent class, e.g. \\
+\lispprompt{(defclass my-agent (agent) \ldots)}
+
+Second, implement the following methods for it. \\
+\lispprompt{(defmethod agent-init ((agent my-agent) task-spec) \ldots)} \\
+\lispprompt{(defmethod agent-start ((agent my-agent) first-observation) \ldots)} \\
+\lispprompt{(defmethod agent-step ((agent my-agent) reward observation) \ldots)} \\
+\lispprompt{(defmethod agent-end ((agent my-agent) reward) \ldots)} \\
+\lispprompt{(defmethod agent-cleanup ((agent my-agent)) \ldots)} \\
+\lispprompt{(defmethod agent-message ((agent my-agent) input-message) \ldots)}
+
+A detailed description of the methods can be obtained this way. \\
+\lispprompt{(documentation \#'<method-name> 'function)}
+
+When your agent is ready, you can run it. \\
+\lispprompt{(run-agent (make-instance 'my-agent) \\
+\mbox{~~~~~~~~~~~~~}:host "192.168.1.1" \\
+\mbox{~~~~~~~~~~~~~}:port 4096 \\
+\mbox{~~~~~~~~~~~~~}:retry-timeout 10)}
+
+It will try to connect your agent to an RL-Glue component listening on
+\prompttext{192.168.1.1} and port \prompttext{4096}, waiting 10 seconds
+between the trials. Its detailed description can be checked this way. \\
+\lispprompt{(documentation \#'run-agent 'function)}
+
+It will prompt something like this, where each dot denotes a connection
+trial. \\
+\prompttext{RL-Glue Lisp Agent Codec Version 1.0, Build 414} \\
+\prompttext{\mbox{~~~~~~~~}Connecting to 192.168.1.1:4096 ....~ok}
+
+\subsection{Environments}
+
+On writing an environment, first you have to create an own environment class,
+e.g. \\
+\lispprompt{(defclass my-env (environment) \ldots)}
+
+Second, implement the following methods for it. \\
+\lispprompt{(defmethod env-init ((env my-env)) \ldots)} \\
+\lispprompt{(defmethod env-start ((env my-env)) \ldots)} \\
+\lispprompt{(defmethod env-step ((env my-env) action) \ldots)} \\
+\lispprompt{(defmethod env-cleanup ((env my-env)) \ldots)} \\
+\lispprompt{(defmethod env-message ((env my-env) input-message) \ldots)}
+
+A detailed description of the methods can be obtained this way. \\
+\lispprompt{(documentation \#'<method-name> 'function)}
+
+When your environment is ready, you can run it. \\
+\lispprompt{(run-env (make-instance 'my-env) \\
+\mbox{~~~~~~~~~~~}:host "192.168.1.1" \\
+\mbox{~~~~~~~~~~~}:port 4096 \\
+\mbox{~~~~~~~~~~~}:retry-timeout 10)}
+
+It will try to connect your environment to an RL-Glue component listening on
+\prompttext{192.168.1.1} and port \prompttext{4096}, waiting 10 seconds
+between the trials. Its detailed description is here. \\
+\lispprompt{(documentation \#'run-env 'function)}
+
+It will prompt something like this, where each dot denotes a connection
+trial. \\
+\prompttext{RL-Glue Lisp Environment Codec Version 1.0, Build 414} \\
+\prompttext{\mbox{~~~~~~~~}Connecting to 192.168.1.1:4096 ....~ok}
+
+\subsection{Experiments}
+
+On writing an experiment, first you have to create an own experiment class,
+e.g. \\
+\lispprompt{(defclass my-exp (experiment) \ldots)}
+
+Second, implement your experiment. For this the codec provides client
+functions which hides the necessary buffer handling and network operation.
+These are the following.
+
+\prompttext{rl-init},
+\prompttext{rl-start},
+\prompttext{rl-step},
+\prompttext{rl-cleanup},
+\prompttext{rl-close},
+\prompttext{rl-return},
+\prompttext{rl-num-steps}, \\
+\prompttext{rl-num-episodes},
+\prompttext{rl-episode},
+\prompttext{rl-agent-message},
+\prompttext{rl-env-message}.
+
+\ \\
+A detailed description of these functions can be obtained this way. \\
+\lispprompt{(documentation \#'<function name> 'function)}
+
+Do not forget to call the \prompttext{rl-close} function at the end of your
+experiment, because it closes the network connection and so terminates the
+RL-Glue session.
+
+\subsection{Running}
+
+After you have an agent, an environment and an experiment, which could be
+written on any of the supported languages, you can connect them by RL-Glue.
+
+First start the server. \\
+\shprompt{rl\_glue}
+
+You should see this kind of output on the server side. \\
+\prompttext{RL-Glue Version 3.0, Build 909 \\
+RL-Glue is listening for connections on port=4096 \\
+\mbox{~~~~~~~~}RL-Glue ::~Agent connected. \\
+\mbox{~~~~~~~~}RL-Glue ::~Environment connected. \\
+\mbox{~~~~~~~~}RL-Glue ::~Experiment connected.}
+
+Then start the agent, the environment and the experiment.
+
+The output of the Lisp agent. \\
+\prompttext{RL-Glue Lisp Agent Codec Version 1.0, Build 414 \\
+\mbox{~~~~~~~~}Connecting to 127.0.0.1:4096 .~ok}
+
+The output of the Lisp environment. \\
+\prompttext{RL-Glue Lisp Environment Codec Version 1.0, Build 414 \\
+\mbox{~~~~~~~~}Connecting to 127.0.0.1:4096 .~ok}
+
+The output of the Lisp experiment. \\
+\prompttext{RL-Glue Lisp Experiment Codec Version 1.0, Build 414 \\
+\mbox{~~~~~~~~}Connecting to 127.0.0.1:4096 .~ok}
+
+\subsection{Utilities}
+\hypertarget{rlutils}{}
+
+The utilities has an own (ASDF) package named \prompttext{rl-glue-utils}. \\
+\lispprompt{(asdf:oos 'asdf:load-op :rl-glue-utils)}
+
+\subsubsection{Task specification parser}
+
+This is a parser for the
+\footref{task specification language}
+{http://glue.rl-community.org/Home/rl-glue/task-spec-language}. Only the
+RL-Glue version 3.0 specification type is supported.
+
+The parser can return a \prompttext{task-spec} object from a specification
+string, e.g. \\
+\lispprompt{(parse-task-spec \\
+\mbox{~~~~}"VERSION RL-Glue-3.0 PROBLEMTYPE episodic DISCOUNTFACTOR 1 \\
+\mbox{~~~~~}OBSERVATIONS INTS (3 0 1) ACTIONS DOUBLES (3.2 6.5) CHARCOUNT 50 \\
+\mbox{~~~~~}REWARDS (-1.0 1.0) EXTRA extra specification") \\
+\#<TASK-SPEC>}
+
+The \prompttext{task-spec} object has the following slots.
+
+\prompttext{version}, \prompttext{problem-type}, \prompttext{discount-factor}, \\
+\prompttext{int-observations}, \prompttext{float-observations},
+\prompttext{char-observations}, \\ \prompttext{int-actions},
+\prompttext{float-actions}, \prompttext{char-actions}, \\
+\prompttext{rewards}, \prompttext{extra-spec}
+
+Their names are appropriately show their functionalities according to the task
+specification documentation. The \prompttext{int-} and \prompttext{float-}
+observation and action slot values contain \prompttext{int-range} and
+\prompttext{float-range} objects appropriately. These have the
+\prompttext{repeat-count}, \prompttext{min-value} and \prompttext{max-value}
+slots. For the latter two there are three special symbols which are
+\prompttext{'-inf}, \prompttext{'+inf} and \prompttext{'unspec}. They are used
+to represent the NEGINF, POSINF and UNSPEC specification keywords.
+
+The \prompttext{task-spec} type supports the \prompttext{to-string} generic
+function with which it can be converted to a string. There are also two other
+helper functions, namely \prompttext{across-ranges} and
+\prompttext{ranges-dimension}, which can be useful for range vector handling.
+Their documentation can be checked by the \prompttext{documentation} function.
+
+\lispprompt{(documentation 'rl-glue-utils:across-ranges 'function)} \\
+\lispprompt{(documentation 'rl-glue-utils:ranges-dimension 'function)}
+
+\subsection{Examples}
+\hypertarget{examples}{}
+
+There is an (ASDF) package named \prompttext{rl-glue-examples} located
+in the \prompttext{example} directory. You have to load it before you
+run the examples. \\
+\lispprompt{(pushnew \#p"/path/to/lisp-codec/examples/" asdf:*central-registry*)} \\
+\lispprompt{(asdf:oos 'asdf:load-op :rl-glue-examples)}
+
+\subsubsection{The skeleton example}
+
+The \prompttext{skeleton} example has a very simple agent, environment
+and experiment of which duty is only an introduction about the usage of
+the codec for the user. The environment is a ``discrete line'' with 21
+states and the agent starts from the middle and can go left and right.
+It randomly selects the actions and rewarded differently on the ends of
+the line. The experiment tries to cover the presentation of the used
+features.
+
+To run the example you have to do the following. \\
+Running the RL-Glue core. \\
+\shprompt{rl\_glue} \\
+Starting the agent (in the first Lisp thread). \\
+\lispprompt{(rl-glue-skeleton:start-agent)} \\
+Starting the environment (in the second Lisp thread). \\
+\lispprompt{(rl-glue-skeleton:start-environment)} \\
+Starting the experiment (in the third Lisp thread). \\
+\lispprompt{(rl-glue-skeleton:start-experiment)}
+
+\subsubsection{The mines-sarsa example}
+
+The \prompttext{mines-sarsa} example has an episodic environment. At the
+beginning of each episode the agents is put somewhere onto the mine field.
+Its goal is to find the exit point without stepping to a mine. The rewards
+are $-1$ for each intermediate step, $-100$ for stepping to a mine and $+10$
+for reaching the exit. The example contains a simple sarsa agent with epsilon
+greedy action selection policy and a simple lookup table to store the action
+values. A few basic functionalities like turning learning or exploration
+on/off, saving the value function and setting the starting position are
+implemented by the message system of RL-Glue.
+
+To run the example you have to do the following. \\
+Running the RL-Glue core. \\
+\shprompt{rl\_glue} \\
+Starting the agent (in the first Lisp thread). \\
+\lispprompt{(rl-glue-mines-sarsa:start-agent)} \\
+Starting the environment (in the second Lisp thread). \\
+\lispprompt{(rl-glue-mines-sarsa:start-environment)} \\
+Starting the experiment (in the third Lisp thread). \\
+\lispprompt{(rl-glue-mines-sarsa:start-experiment)}
+
+\section{Lisp related topics}
+
+We provide here example solutions for a few Lisp related problems.
+
+\subsection{Quick introduction to ASDF}
+\hypertarget{asdfintro}{}
+
+ASDF (Another System Definition Facility) is a library with which another
+Lisp libraries can be distributed. The home page of ASDF is here
+\selfref{http://common-lisp.net/project/asdf/}, and many ASDF libraries can
+be found here \selfref{http://www.cliki.net/Library}.
+
+Sometimes ASDF is included by the Lisp implementation (e.g. in case of SBCL
+or CCL), in other cases you can download it from its home page. It is only a
+single Lisp file which does not depend on anything, so it can be simply loaded.
+
+The ASDF facility usually has two directories. The source directory in which
+the packages are stored, and the system directory from which symlinks are
+pointed to the .asd system definition files. In this manual we refer to the
+former by \prompttext{asdf-source-dir} and to the latter by
+\prompttext{asdf-system-dir}. If your file system does not support symbolic
+links (e.g. in case of 
+\footref{FAT}{http://en.wikipedia.org/wiki/File\_Allocation\_Table} or
+\footref{NTFS}{http://en.wikipedia.org/wiki/NTFS}) or you just don't
+want to use symbolic links, take a look at the
+\hyperlink{nosymlink}{Using ASDF without symbolic links} section. Be aware
+of that \footref{Cygwin}{http://www.cygwin.com/} supports symbolik links,
+but it probably works only with Lisps compiled under it, and might not
+function well with the pre-compiled Windows Lisp binaries.
+
+To set up ASDF create these directories, e.g.: \\
+\shprompt{mkdir /.../asdf} \\
+\shprompt{mkdir /.../asdf/source} \\
+\shprompt{mkdir /.../asdf/system}
+
+Put the ASDF Lisp file, \prompttext{asdf.lisp} into \prompttext{/.../asdf} and
+create or extend your Lisp init file (check the manual of your Lisp
+about it) by the followings to prevent typing it all the time. \\
+\prompttext{(load \#p"/.../asdf/asdf.lisp")} \\
+\prompttext{(pushnew \#p"/.../asdf/system/" asdf:*central-registry*)} \\
+The ending slash is important in the path, don't forget it!
+
+Then you are ready to install ASDF libraries by downloading and unpacking them
+into the \prompttext{asdf-source-dir} directory and creating a symlink to the
+appropriate (there can be more, e.g. for testing) .asd file(s) from the
+\prompttext{asdf-system-dir} directory.
+
+You can compile and load the installed libraries by this command. \\
+\lispprompt{(asdf:oos 'asdf:load-op :library-name)}
+
+By default the compiled Lisp file is placed next to the source which is
+usually unwanted because of two reasons. First it messes up the source
+directory, but more importantly if the source directory was created by an
+other user (e.g. in case of system-wide installations), the current user may
+not have write access for it and on such an attempt an error is signalled.
+
+The cure for this problem is the ASDF-Binary-Locations library. Its home
+page is located here
+\selfref{http://common-lisp.net/project/asdf-binary-locations/}. It stores
+the compiled files under a specifiable directory in the same structure as
+the sources are organised. \\
+
+You can install this library using the above described method. Download and
+unpack it to \prompttext{asdf-source-dir}, then create the appropriate
+symbolic link.
+
+\shprompt{cd asdf-system-dir} \\
+\shprompt{ln -s
+/asdf-source-dir/asdf-binary-locations/asdf-binary-locations.asd \\
+\mbox{~~~~~~~~}asdf-binary-location.asd}
+
+After the installation, you might want to create a directory for the
+compilation result files, e.g. \\
+\shprompt{mkdir /.../fasls}
+
+And add the followings to your Lisp init file. \\
+\prompttext{(setf asdf:*centralize-lisp-binaries* t)} \\
+\prompttext{(setf asdf:*default-toplevel-directory* \#p"/.../fasls/")}
+
+\hypertarget{nosymlink}{\subsection{Using ASDF without symbolic links}}
+
+This manual always considers that you are using symlinks, but if you apply
+this method, just ignore those parts, everything should work without them.
+
+When symbolic links are not available or not welcomed to use, its system
+definition search functionality can be redefined to find the \prompttext{.asd}
+files recursively under the \prompttext{asdf:*central-registry*} directories.
+It will let you simply ``drop-in'' the new packages into these directories,
+and they will be available for loading without any further steps. For this
+you might want to add the following to the Lisp init file just after loading
+the \prompttext{asdf.lisp} file.
+
+\prompttext{(in-package :asdf) \\
+(defvar *subdir-search-registry* '(\#p"/my/lisp/libraries/") \\
+\mbox{~~}"List of directories to search subdirectories within.") \\
+(defvar *subdir-search-wildcard* :wild \\
+\mbox{~~}"Value of :wild means search only one level of subdirectories; \\
+\mbox{~~~}value of :wild-inferiors means search all levels of subdirectories \\
+\mbox{~~~}(I don't advise using this in big directories!)") \\
+(defun sysdef-subdir-search (system) \\
+\mbox{~~}(let ((latter-path (make-pathname :name (coerce-name system) \\
+\mbox{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}:directory (list :relative \\
+\mbox{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}*subdir-search-wildcard*) \\
+\mbox{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}:type "asd" \\
+\mbox{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}:version :newest \\
+\mbox{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}:case :local))) \\
+\mbox{~~~~}(dolist (d *subdir-search-registry*) \\
+\mbox{~~~~~~}(let* ((wild-path (merge-pathnames latter-path d)) \\
+\mbox{~~~~~~~~~~~~~}(files (directory wild-path))) \\
+\mbox{~~~~~~~~~}(when files \\
+\mbox{~~~~~~~~~~~}(return (first files))))))) \\
+(pushnew 'sysdef-subdir-search *system-definition-search-functions*) \\
+(in-package :cl-user)}
+
+This method is published on the \selfref{http://www.cliki.net/asdf} page
+in the \textsl{Alternative Sysdef Search functionality} section.
+
+\end{document}
+

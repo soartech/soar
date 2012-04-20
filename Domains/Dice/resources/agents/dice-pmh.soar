@@ -1,0 +1,8 @@
+sp {comp-pm-norm*elaborate*flags-dynamic
+   (state <s> ^name dice)
+-->
+   (<s> ^heuristics true
+        ^split false
+        ^model-enabled true)}
+#learn --only
+source dice-agent-new.soar

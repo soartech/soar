@@ -1,0 +1,45 @@
+sp {propose*avoid-pit
+   (state <s> ^name mario-soar-combined
+              ^pit <p>)
+   (<p> ^isdangerous yes)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name avoid-pit
+        ^pit <p>)
+}
+sp {pit*random*action
+   (state <s> ^name avoid-pit
+              ^superstate <ss>)
+   (<ss> ^rand-move <mv>
+         ^rand-speed <sp>
+         ^rand-jump <rj>
+         ^tile-type.right <tr>)
+   (<p> ^dist-start <ds>
+        ^isdangerous yes)
+   (<rj> ^up <j>) 
+   (<mv> ^direction <d>
+       - ^direction left)
+   (<sp> ^degree <sd>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name action
+        ^direction <d>
+        ^jump <j>
+        ^speed <sd>)
+}
+sp {avoid*pit
+   :template
+   (state <s> ^name avoid-pit
+              ^operator <op> +
+              ^pit <p>
+              ^tile-type.right <tr>)
+   (<op> ^name action
+         ^direction <dir>
+         ^jump <jp>
+         ^speed <sp>)
+   (<p> ^dist-start <ds>
+        ^width <w>
+        ^isdangerous yes)
+--> 
+   (<s> ^operator <op> = 0)
+}

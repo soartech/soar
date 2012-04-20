@@ -1,0 +1,11 @@
+sp {comp-pmh-norm*elaborate*flags-dynamic
+   (state <s> ^name dice)
+-->
+   (<s> ^expectation-only false
+        ^probabilities true
+        ^probabilities-only false
+        ^model-enabled true
+        ^normalized-reward true
+        ^model2-enabled false)}
+learn --disable
+source dice-model-bot-new.soar

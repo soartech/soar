@@ -1,0 +1,22 @@
+LDFLAGS := $(LDFLAGS)  -lm -lrlutils -lrlenvironment -lrlgluenetdev
+CFLAGS := $(CFLAGS)  -Wall -pedantic
+
+all: SampleMinesEnvironment
+
+SampleMinesEnvironment: SampleMinesEnvironment.o 
+	$(CC)   SampleMinesEnvironment.o $(LDFLAGS) -o SampleMinesEnvironment      
+
+SampleMinesEnvironment.o: SampleMinesEnvironment.c
+	$(CC)  $(CFLAGS) -c SampleMinesEnvironment.c -o SampleMinesEnvironment.o 
+
+clean:
+	rm -rf SampleMinesEnvironment SampleMinesEnvironment.exe *.o
+
+
+
+
+
+
+
+
+

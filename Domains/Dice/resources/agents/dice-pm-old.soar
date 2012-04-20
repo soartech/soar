@@ -1,0 +1,10 @@
+sp {comp-p-norm*elaborate*flags-dynamic
+   (state <s> ^name dice)
+-->
+   (<s> ^probabilities true
+        ^probabilities-only true
+        ^normalized-reward true
+        ^model-enabled true
+        ^model2-enabled false)}
+learn --off
+source dice-agent-old.soar

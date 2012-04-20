@@ -1,0 +1,22 @@
+LDFLAGS := $(EXTRA_LDFLAGS) -lrlutils -lrlenvironment -lrlgluenetdev
+CFLAGS := $(EXTRA_CFLAGS) -Wall -pedantic
+
+all: SkeletonEnvironment
+
+SkeletonEnvironment: SkeletonEnvironment.o 
+	$(CC) SkeletonEnvironment.o $(LDFLAGS) -o SkeletonEnvironment      
+
+SkeletonEnvironment.o: SkeletonEnvironment.c
+	$(CC)  $(CFLAGS) -c SkeletonEnvironment.c -o SkeletonEnvironment.o 
+
+clean:
+	rm -rf SkeletonEnvironment SkeletonEnvironment.exe *.o
+
+
+
+
+
+
+
+
+

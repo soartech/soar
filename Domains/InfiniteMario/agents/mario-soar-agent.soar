@@ -1,0 +1,3 @@
+pushd mario-soar-agent
+source mario-soar-combined_source.soar
+popd

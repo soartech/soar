@@ -1,0 +1,105 @@
+
+### Control knowledge for selecting evaluate-operator operators
+
+sp {selection*force-learn
+   (state <s> ^name selection)
+-->
+   (force-learn <s>)}
+
+#### Ordering of operator selections
+
+sp {selection*prefer*worst*pass
+   (state <s> ^name selection
+              ^operator <o> +)
+   (<o> ^name evaluate-operator
+        ^superoperator.name pass)
+-->
+   (<s> ^operator <o> <)}
+
+sp {selection*prefer*worst*push
+   (state <s> ^name selection
+              ^operator <o> +)
+   (<o> ^name evaluate-operator
+        ^superoperator <so>)
+   (<so> ^name bid
+         ^push-face)
+-->
+   (<s> ^operator <o> <)}
+
+sp {selection*compare*create-preferences
+   (state <s> ^name selection
+              ^operator <op1> +
+                        <op2> +)
+   (<op1> ^name create-preferences)
+   (<op2> ^name << evaluate-operator compute-alternative-dice-counts >>)
+-->
+   (<s> ^operator <op1> < <op2>)
+}
+
+#### Computing probability using RHS function
+
+sp {apply*compute-bid*invoke-qna-query*split-false
+   (state <s> ^top-state.split false
+              ^evaluation <eval>)
+   (<eval> ^compute-probability <cp>)
+   (<cp> ^count <count> 
+         ^number-of-dice <dice>
+         ^number-of-faces <faces>
+         ^predicate <pred>)   
+-->
+   (<eval> ^probability (compute-dice-probability <dice> <faces> <count> <pred>))   
+}
+
+## Convert evaluations to preferences in superstate
+
+sp {selection*convert*probability*numeric-value
+   (state <s> ^name selection
+              ^superstate <ss>
+              ^evaluation <e1>)
+   (<ss> ^desired <d>)
+   (<e1> ^superoperator <x>
+         ^probability <nv>
+         ^desired <d>)
+-->
+   (<e1> ^numeric-value <nv>)}
+
+########SPLIT
+
+sp {apply*compute-bid*compute-probability*split-true
+   (state <s> ^top-state.split true
+              ^evaluation <eval>)
+   (<eval> ^compute-probability <cp>
+           ^superoperator <so>)
+   (<cp> ^count <count> 
+         ^number-of-dice <dice>
+         ^number-of-faces <faces>
+         ^predicate <pred>)
+-->
+   (write (crlf) |1.Copy args to superoperator: | <so>)
+   (<so> ^count <count> 
+         ^number-of-dice <dice>
+         ^number-of-faces <faces>
+         ^predicate <pred>)
+}
+
+sp {apply*compute-bid*invoke-rhs-probability
+   (state <s> ^top-state.split true
+             #^top-state.next-player-data.face <face>  - next-player-data nil
+             #^io.input-link.state.last-bid.face <face> - bid (not push)
+             #^io.input-link.history.action push 
+             #^top-state.last-bid -bid (not push)
+              ^evaluation <eval>)
+   (<eval> ^superoperator <so>)
+   (<so> # ^name  { <> bid <name> }  # include whether there is a push
+         ^count <count> 
+          ^number-of-dice <dice>
+          ^number-of-faces <faces>
+          ^predicate <pred>)
+-->
+  (write (crlf) |2.Compute probability back up: | <eval> |: | (compute-dice-probability <dice> <faces> <count> <pred>))
+   (<eval> ^probability (compute-dice-probability <dice> <faces> <count> <pred>))   
+}
+
+
+
+

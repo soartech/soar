@@ -1,0 +1,22 @@
+LDFLAGS := $(EXTRA_LDFLAGS)  -lrlexperiment -lrlutils -lrlgluenetdev
+CFLAGS := $(EXTRA_CFLAGS) -Wall -pedantic 
+
+all: SkeletonExperiment
+
+SkeletonExperiment: SkeletonExperiment.o 
+	$(CC) SkeletonExperiment.o   $(LDFLAGS)  -o SkeletonExperiment      
+
+SkeletonExperiment.o: SkeletonExperiment.c
+	$(CC)  $(CFLAGS) -c SkeletonExperiment.c -o SkeletonExperiment.o 
+
+clean:
+	rm -rf SkeletonExperiment SkeletonExperiment.exe *.o
+
+
+
+
+
+
+
+
+

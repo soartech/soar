@@ -1,0 +1,51 @@
+sp {mario*elaborate*mario
+   (state <s> ^io.input-link.mario <mario>
+              ^name mario-soar-combined)
+-->
+   (<s> ^mario <mario>)
+}
+sp {mario*elaborate*mario1
+   (state <s> ^io.input-link <il>
+              ^xtile <xt>
+              ^mario <mario>)
+   
+   (<mario> ^yi <my>)
+   (<il> ^visual-scene.tile-row <row>)
+   (<xt> ^centre <xpos>)
+   (<row> ^y <y> < <my>
+          ^tile <t>)
+   (<t> ^x <xpos>
+        ^type |7|)
+-->
+   (<mario> ^tile-above-dist (+ <y> 4)
+            ^tile-below-dist <y>)
+}
+sp {mario*elaborate*mario2
+   (state <s> ^io.input-link <il>
+              ^xtile <xt>
+              ^mario <mario>)
+   (<mario> ^tile-above-dist <yt>
+          - ^tile-above-no <yt>)
+   (<il> ^visual-scene.tile-row <row>)
+   (<xt> ^centre <xpos>)
+   (<row> ^y <yt>
+          ^tile <t>)
+   (<t> ^x <xpos>
+        ^type <type>)
+-->
+   (<mario> ^tile-above <type>)
+}
+sp {mario*elaborate*mario3
+   (state <s> ^mario <mario>)
+   (<mario> ^tile-above-dist <td1>)
+   (<mario> ^tile-above-dist > <td1>)
+-->
+   (<mario> ^tile-above-no <td1>)
+}
+sp {mario*elaborate*mario3
+   (state <s> ^mario <mario>)
+   (<mario> ^tile-below-dist <td1>)
+   (<mario> ^tile-below-dist > <td1>)
+-->
+   (<mario> ^tile-below-no <td1>)
+}

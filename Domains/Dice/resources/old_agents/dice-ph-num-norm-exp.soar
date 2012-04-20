@@ -1,0 +1,13 @@
+sp {dice-ph-num-norm-exp*elaborate*flags-dynamic
+   (state <s> ^name dice)
+-->
+   (<s> ^expectation-only false
+        ^probabilities true
+        ^probabilities-only false
+        ^model-enabled false
+        ^normalized-reward true
+        ^model2-enabled false)}
+learn --only
+rl --set learning-rate 1
+rl --set decay-mode exp
+source dice-model-bot-new.soar

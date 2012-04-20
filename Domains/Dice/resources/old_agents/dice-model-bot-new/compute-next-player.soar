@@ -1,0 +1,16 @@
+sp {dice*propose*compute-next-player
+   (state <s> ^name dice
+              ^my-turn true
+              ^players-initialized true
+             -^next-player-data
+             -^clear-data true)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name compute-next-player)
+}
+sp {dice*elaborate-operator*compute-next-player
+   (state <s> ^name dice
+              ^io.input-link.history nil)
+-->
+   (<s> ^next-player-data.player nil)
+}

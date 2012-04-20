@@ -1,0 +1,15 @@
+sp {compute-next-player*propose*initialize-compute-next-player
+   (state <s> ^name compute-next-player
+             -^current-history)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name initialize-compute-next-player)
+}
+
+sp {apply*initialize-compute-next-player
+   (state <s> ^operator <op>
+              ^superstate.io.input-link.history <h>)
+   (<op> ^name initialize-compute-next-player)
+-->
+   (<s> ^current-history <h>)
+}

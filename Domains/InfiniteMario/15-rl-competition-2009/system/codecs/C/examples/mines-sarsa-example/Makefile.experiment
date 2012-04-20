@@ -1,0 +1,14 @@
+LDFLAGS := $(LDFLAGS)  -lm -lrlutils -lrlexperiment -lrlgluenetdev
+CFLAGS := $(CFLAGS)  -Wall -pedantic
+
+all: SampleExperiment
+
+SampleExperiment: SampleExperiment.o 
+	$(CC)  SampleExperiment.o $(LDFLAGS) -o SampleExperiment
+
+SampleExperiment.o: SampleExperiment.c
+	$(CC)  $(CFLAGS) -c SampleExperiment.c -o SampleExperiment.o 
+
+clean:
+	rm -rf SampleExperiment SampleExperiment.exe *.o
+

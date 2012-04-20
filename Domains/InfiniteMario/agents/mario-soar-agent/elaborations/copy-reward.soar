@@ -1,0 +1,7 @@
+sp {copy*reward
+   (state <s> ^reward-link <r>
+              ^io.input-link <il>)
+   (<il> ^reward <num>)
+-->
+   (<r> ^reward.value <num>)
+}

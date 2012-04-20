@@ -1,0 +1,4 @@
+
+LISPBIN="sbcl"
+LISP="${LISPBIN} --noinform --disable-debugger"
+

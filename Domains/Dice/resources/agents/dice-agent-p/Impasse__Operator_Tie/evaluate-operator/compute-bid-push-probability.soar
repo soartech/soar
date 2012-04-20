@@ -1,0 +1,20 @@
+## Could combine with compute-bid-difference if that used new unknown computation.
+## Only consider pushing after first bid
+
+sp {evaluate-operator*propose*compute-bid-push-probability
+   (state <s> ^name evaluate-operator
+              ^operator <o> +)
+   (<o> ^type compute-probability
+        ^superoperator <so>)
+   (<so> ^name bid
+         ^push-face-count 
+         ^face <face>
+         ^multiplier <multipler>)
+
+-->
+   (<o> ^name compute-bid-push-probability
+        ^face <face>
+        ^multiplier <multipler>)
+}
+
+## Uses rules from compute-bid-probability

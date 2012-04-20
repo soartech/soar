@@ -1,0 +1,9 @@
+
+AGENT='test-empty-agent'
+ENVIRONMENT='test-empty-environment'
+EXPERIMENT='test-empty-experiment'
+
+C_AGENT='test_empty_agent'
+C_ENVIRONMENT='test_empty_environment'
+C_EXPERIMENT='test_empty_experiment'
+

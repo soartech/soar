@@ -1,0 +1,11 @@
+source _all.soar
+source copy-reward.soar
+source elaborate-height.soar
+source elaborate-mario.soar
+source elaborate-monsters.soar
+source elaborate-pipes.soar
+source elaborate-pits.soar
+source elaborate-platform.soar
+source elaborate-tiles.soar
+source remove-actions.soar
+source top-state.soar

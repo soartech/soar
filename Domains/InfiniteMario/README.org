@@ -1,0 +1,22 @@
+* Running Instructions
+1. Download and install [[http://code.google.com/p/soar/wiki/Downloads?tm%3D2][Soar]].
+2. Configure environment variables for Soar ($SOAR_HOME)
+3. Perform the install instructions found at [[http://2009.rl-competition.org/software.php#download][RL-Competition 2009 software]].  The software is already in the download within the 15-rl-competition-2009 directory
+4. Configure $COMP_HOME to point to the topmost directory of your
+   local install of the competition software
+5. Configure $AGENT_HOME to point to the topmost directory of your
+   local install of MarioSoar
+6. cd $AGENT_HOME
+7. make clean;make
+8. Run the agent ./run.bash config/combined.config
+9. cd to trainer $COMP_HOME/trainers/guiTrainerJava/ for GUI
+   trainer and ./run.bash or $COMP_HOME/trainers/consoleTrainerJava/
+   for headless trainer
+
+
+* Related Publications
+*Shiwali Mohan* and John Laird. An Object-Oriented Approach to Reinforcement Learning in an Action Game. In Proceedings of 7th the Artificial Intelligence for Interactive Digital Entertainment Conference, AIIDE, 2011.
+
+*Shiwali Mohan* and John Laird. Relational Reinforcement Learning in Infinite Mario. In Proceedings of the 24th AAAI Conference on Artificial Intelligence, AAAI, 2010. (Extended Abstract).
+
+*Shiwali Mohan* and John E. Laird. Learning to Play Mario. Technical Report CCA-TR-2009-03, Center for Cognitive Architecture, University of Michigan, Ann Arbor, Michigan, 2009.

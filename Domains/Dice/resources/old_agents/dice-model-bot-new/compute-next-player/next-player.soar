@@ -1,0 +1,19 @@
+sp {compute-next-player*propose*next-player
+   (state <s> ^name compute-next-player
+              ^current-history <np>)
+   (<np> ^next { <> nil <nnp> })
+  -(<nnp> ^player.me true)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^name next-player)
+}
+
+sp {compute-next-player*apply*next-player
+   (state <s> ^operator <op>
+              ^current-history <np>)
+      (<np> ^next { <> nil <nnp> })
+   (<op> ^name next-player)
+-->
+   (<s> ^current-history <np> -
+        <nnp>)
+}

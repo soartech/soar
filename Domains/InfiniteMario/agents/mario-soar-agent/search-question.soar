@@ -1,0 +1,61 @@
+sp {propose*search-question
+   (state <s> ^name mario-soar-combined
+              ^question <q>)
+   (<q> ^isreachable yes)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name search-question
+        ^question <q>)
+}
+sp {search-question-general
+   :template
+   (state <s> ^name mario-soar-combined
+              ^operator <op> +)
+   (<op> ^name search-question
+         ^question <q>)
+   (<q>  ^distx <dx>
+         ^disty <dy>)
+-->
+   (<s> ^operator <op> = 0)
+}
+sp {question*random*action
+   (state <s> ^name search-question
+             
+              ^superstate <ss>)
+   (<ss>  ^rand-move <mv>
+          ^rand-jump <jp>
+          ^rand-speed <sp>
+          ^mario <mario>)
+   (<mv> ^direction <d>)
+   (<jp> ^up <j>)
+   (<mario> ^xi <mx>
+            ^yi <my>)
+   (<sp> ^degree <sd>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name action
+        ^direction <d>
+        ^jump <j>
+        ^speed <sd>)
+}
+sp {search-question
+   :template
+   (state <s> ^name search-question
+              ^operator <op> +
+              ^superstate <ss>)
+   (<ss> ^mario <m>
+         ^operator <so>)
+   (<so> ^name search-question
+         ^question <q>)
+   (<m> ^type <mt>
+        ^tile-above <ta>)
+   (<q> ^distx <dx>
+        ^disty <dy>
+        ^isreachable yes)
+   (<op> ^name action
+         ^direction <d>
+         ^jump <j>
+         ^speed <sd>)
+--> 
+   (<s> ^operator <op> = 0)
+}

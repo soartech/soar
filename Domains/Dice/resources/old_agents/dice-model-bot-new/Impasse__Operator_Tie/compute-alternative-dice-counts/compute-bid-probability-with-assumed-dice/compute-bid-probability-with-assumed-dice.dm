@@ -1,0 +1,79 @@
+39
+INT_RANGE 205 -2147483648 2147483647
+INT_RANGE 204 3 6
+SOAR_ID 207
+ENUMERATION 206 7 eq ge gt le lt ne neq
+ENUMERATION 201 1 compute-probability
+ENUMERATION 279 1 compute-holds-probability
+INT_RANGE 278 -2147483648 2147483647
+ENUMERATION 200 1 dice
+INT_RANGE 203 1 2147483647
+SOAR_ID 202
+INT_RANGE 283 -2147483648 2147483647
+INT_RANGE 282 -2147483648 2147483647
+SOAR_ID 199
+SOAR_ID 280
+INT_RANGE 284 -2147483648 2147483647
+SOAR_ID 153
+SOAR_ID 259
+ENUMERATION 222 1 all
+ENUMERATION 262 1 compute-dice-counts
+SOAR_ID 263
+ENUMERATION 260 1 state
+ENUMERATION 261 1 compute-bid-probability-with-assumed-dice
+INT_RANGE 266 -2147483648 2147483647
+INT_RANGE 267 -2147483648 2147483647
+ENUMERATION 264 1 compute-bid-probability
+SOAR_ID 265
+ENUMERATION 208 1 nil
+SOAR_ID 209
+SOAR_ID 268
+FLOAT_RANGE 210 -Infinity Infinity
+INT_RANGE 111 1 6
+FLOAT_RANGE 288 -Infinity Infinity
+FLOAT_RANGE 289 -Infinity Infinity
+ENUMERATION 117 2 special unknown
+INT_RANGE 292 -2147483648 2147483647
+LINKED_DATAMAP 293 ../compute-alternatives-dice-counts.dm
+LINKED_DATAMAP 294 ../../../dice.dm
+LINKED_DATAMAP 295 ../compute-alternative-dice-counts.dm
+INT_RANGE 112 -2147483648 2147483647
+38
+259 name 261
+259 operator 263
+153 not-face 278
+259 total-known 288
+268 dice-count 153
+199 source 200
+259 evaluation 199
+259 operator 280
+265 face 266
+209 probability 210
+259 total-possible 289
+265 name 264
+259 top-state 294
+280 name 279
+199 result 207
+207 next 208
+202 predicate 206
+259 dice-counts 268
+153 face 117
+153 face 111
+207 features 209
+199 results 222
+202 count 205
+202 number-of-dice 203
+265 multiplier 267
+259 superstate 295
+259 holds-evaluation 199
+259 type 260
+199 parameters 202
+263 name 262
+280 face 284
+153 count 112
+199 query 201
+280 holds 282
+259 operator 265
+202 number-of-faces 204
+153 hold-face 292
+280 undercup 283

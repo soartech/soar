@@ -1,0 +1,29 @@
+sp {propose*initialize-mario-soar-combined
+   (state <s> ^superstate nil
+             -^name)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name initialize-mario-soar-combined)
+}
+
+sp {apply*initialize-mario-soar-combined
+   (state <s> ^operator <op>)
+   (<op> ^name initialize-mario-soar-combined)
+-->
+   (<s> ^name mario-soar-combined
+        ^rand-move <m1>
+        ^rand-move <m2>
+        ^rand-move <m3>
+        ^rand-jump <j1>
+        ^rand-jump <j2>
+        ^rand-speed <s1>
+        ^rand-speed <s2>)
+   (<m1> ^direction left)
+   (<m2> ^direction right)
+   (<m3> ^direction nil)
+   (<j1> ^up yes)
+   (<j2> ^up no)
+   (<s1> ^degree low)
+   (<s2> ^degree high)
+   (<s> ^metadata <m>)
+}

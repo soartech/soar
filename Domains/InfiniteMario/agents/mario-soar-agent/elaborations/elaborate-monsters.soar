@@ -1,0 +1,96 @@
+sp {mario*elaborate*monster
+   (state <s> ^io.input-link.monsters.monster <m>
+              ^name mario-soar-combined)
+   -(<m> ^type |Mario|)
+-->
+   (<s> ^monster <m>)
+}
+sp {mario*elaborate*num_monster
+   (state <s> ^io.input-link.num_monsters <nm>
+              ^name mario-soar-combined)
+-->
+   (<s> ^num_monsters <nm>)
+}
+sp {mario*elaborate*monster-distance
+   (state <s> ^mario <mario>
+              ^monster <ob>)
+   (<mario> ^x <mariox>
+            ^y <marioy>)
+   (<ob> ^x <obx>
+         ^y <oby>)
+-->
+   (<ob> ^distx (- <obx> <mariox>)
+         ^disty (- <oby> <marioy>))
+}
+sp {mario*elaborate*monster2
+   (state <s> ^monster <m>)
+  -(<m> ^type |Fireball|)
+   (<m> ^distx < 6
+       ^disty < 5)
+   -(<m> ^distx < -4)
+   -(<m> ^disty < -2)
+-->
+   (<m> ^isthreat yes)
+}
+
+sp {mario*elaborate*monster5
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sx < 0.0)
+-->
+   (<m> ^horiz-direction negative)
+}
+sp {mario*elaborate*monster6
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sx > 0.0)
+-->
+   (<m> ^horiz-direction positive)
+}
+sp {mario*elaborate*monster65
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sx 0.0)
+-->
+   (<m> ^horiz-direction stationary)
+}
+sp {mario*elaborate*monster7
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sy < 0.0)
+-->
+   (<m> ^vert-direction negative)
+}
+sp {mario*elaborate*monster4
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sy > 0.0)
+-->
+   (<m> ^vert-direction positive)
+}
+sp {mario*elaborate*monster45
+   (state <s> ^name mario-soar-combined
+              ^monster <m>)
+   (<m> ^sy 0.0)
+-->
+   (<m> ^vert-direction stationary)
+}
+sp {mario*elaborate*monster10
+   (state <s> ^name mario-soar-combined
+              ^monster <m>
+              ^pipe <p>)
+   (<p> ^distx <px>
+        ^height <py>
+        ^end <pend>)
+   (<m> ^type |Piranha Plant|
+        ^distx > <px>
+        ^disty < <py>
+        ^distx <= <pend>)
+   
+-->
+  (<m> ^isthreat no)
+}
+
+
+
+        

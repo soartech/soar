@@ -1,0 +1,9 @@
+
+AGENT='test-1-agent'
+ENVIRONMENT='test-1-environment'
+EXPERIMENT='test-sanity-experiment'
+
+C_AGENT='test_1_agent'
+C_ENVIRONMENT='test_1_environment'
+C_EXPERIMENT='test_sanity_experiment'
+

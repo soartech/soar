@@ -1,0 +1,130 @@
+sp {mario*elaborate*height
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<v> ^tile-row <row>)
+   (<row> ^y <y>
+          ^tile <t>)
+   (<t> ^x <xloc>
+        ^type |7|)
+--> 
+(<m> ^height-tile <h>)
+(<h> ^xleft (- <xloc> 1)
+        ^xloc <xloc>
+        ^yloc <y>
+        ^yup  (+ <y> 1)
+        ^ydown (- <y> 1))
+}
+sp {mario*elaborate*height1
+   (state <s> ^metadata <m> 
+              ^io.input-link.visual-scene <v>
+              ^name mario-soar-combined)
+   (<m> ^height-tile <h>)
+   (<v> ^tile-row <row1>
+        ^tile-row <row2>
+        ^tile-row <row3>)
+   (<h> ^xleft <xleft>
+        ^yup <yup>
+        ^xloc <x>
+        ^yloc <y>
+        ^ydown <ydown>)
+   (<row1> ^y <y>
+           ^tile <tile1>)
+   (<tile1> ^x <xleft>
+            ^type | |)
+   (<row2> ^y <yup>
+           ^tile <tile2>)
+   (<tile2> ^x <x> 
+            ^type | |)
+   (<row3> ^y <ydown>
+           ^tile <tile3>)
+   (<tile3> ^x <x>
+            ^type |7|)
+-->
+   (<s> ^height <height>)
+   (<height> ^xloc <x>
+        ^yloc <y>)
+}
+sp {mario*elaborate*height4
+   (state <s> ^metadata <m> 
+              ^io.input-link.visual-scene <v>
+              ^name mario-soar-combined)
+   (<m> ^height-tile <h>)
+   (<v> ^tile-row <row1>
+        ^tile-row <row2>
+        ^tile-row <row3>)
+   (<h> ^xleft <xleft>
+        ^yup <yup>
+        ^xloc <x>
+        ^yloc <y>
+        ^ydown <ydown>)
+   (<row1> ^y <y>
+           ^tile <tile1>)
+   (<tile1> ^x <xleft>
+            ^type | |)
+   (<row2> ^y <yup>
+           ^tile <tile2>)
+   (<tile2> ^x <x> 
+            ^type | |)
+   (<row3> ^y <ydown>
+           ^tile <tile3>)
+   (<tile3> ^x <xleft>
+            ^type |7|)
+-->
+   (<s> ^height <height>)
+   (<height> ^xloc <x>
+        ^yloc <y>)
+}
+sp {mario*elaborate*height2
+   (state <s> ^height <height>
+              ^mario <mario>
+              ^name mario-soar-combined)
+   (<mario> ^xi <x>
+            ^yi <y>
+            ^tile-below-dist <td1>
+          - ^tile-below-no <td1>)
+   (<height> ^xloc <hx>
+           ^yloc <hy>)
+-->
+   (<height> ^distx (- <hx> <x>)
+        ^height (- <hy> <td1>))
+}
+sp {mario*elaborate*height3
+   (state <s> ^height <height>
+              ^name mario-soar-combined)
+   (<height> ^distx < 4
+             ^distx >= 0)
+   
+-->
+   (<height> ^isreachable yes)
+}
+sp {mario*elaborate*height5
+   (state <s> ^metadata <m> 
+              ^io.input-link.visual-scene <v>
+              ^name mario-soar-combined)
+   (<m> ^height-tile <h>)
+   (<v> ^tile-row <row1>
+        ^tile-row <row2>
+        ^tile-row <row3>)
+   (<h> ^xleft <xleft>
+        ^yup <yup>
+        ^xloc <x>
+        ^yloc <y>
+        ^ydown <ydown>)
+   (<row1> ^y <y>
+           ^tile <tile1>)
+   (<tile1> ^x <xleft>
+            ^type | |)
+   (<row2> ^y <yup>
+           ^tile <tile2>)
+   (<tile2> ^x <xleft> 
+            ^type |7|)
+   (<row3> ^y <ydown>
+           ^tile <tile3>)
+   (<tile3> ^x <x>
+            ^type | |)
+-->
+   (<s> ^height <height>)
+   (<height> ^xloc <x>
+        ^yloc <y>)
+}

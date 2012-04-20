@@ -1,0 +1,16 @@
+sp {elaborations*elaborate*my-turn*true
+   (state <s> ^io.input-link.players <ps>
+              ^io.input-link.state.inprogress true)
+   (<ps> ^current <me>
+         ^me <me>)
+-->
+   (<s> ^my-turn true)
+}
+
+sp {elaborations*elaborate*my-turn*false
+   (state <s> ^io.input-link.players <ps>)
+   (<ps> ^current {<> <me>}
+         ^me <me>)
+-->
+   (<s> ^my-turn false)
+}

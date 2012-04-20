@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<authors xmlns:html="http://www.w3.org/1999/xhtml">
+ <author uid="brian@tannerpages.com">
+  Brian Tanner &lt;<html:a href="mailto:brian@tannerpages.com">brian@tannerpages.com</html:a>&gt;
+ </author>
+ <author uid="bttanner">
+  Brian Tanner &lt;<html:a href="mailto:brian@tannerpages.com">brian@tannerpages.com</html:a>&gt;
+ </author>
+ <author uid="whitienator">
+  Adam White &lt;<html:a href="mailto:awhite@cs.ualberta.ca">awhite@cs.ualberta.ca</html:a>&gt;
+ </author>
+ <author uid="andrewbutcher">
+  Andrew Butcher &lt;<html:a href="mailto:andrew.butcher@uleth.ca">andrew.butcher@uleth.ca</html:a>&gt;
+ </author>
+</authors>

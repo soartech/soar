@@ -1,0 +1,18 @@
+sp {dice*propose*remove-reward
+   (state <s> ^name dice
+             -^io.input-link.state.inprogress false
+              ^reward-link <rl>)
+   (<rl> ^reward <r>)
+-->
+   (<s> ^operator <op> !)
+   (<op> ^name remove-reward)
+}
+
+sp {apply*remove-reward
+   (state <s> ^operator <op>
+              ^reward-link <rl>)
+   (<rl> ^reward <r>)
+   (<op> ^name remove-reward)
+-->
+   (<rl> ^reward <r> -)
+}

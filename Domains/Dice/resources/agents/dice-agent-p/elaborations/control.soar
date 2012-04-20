@@ -1,0 +1,37 @@
+sp {reject*bid*all-push*1-face
+#   :interrupt
+  (state <s> ^io.input-link <il>
+             ^operator <op> +)
+  (<op> ^name bid
+        ^push-face <face>
+        ^push-face-count 1)
+  (<il> ^players.me.cup <cup>)
+  (<cup> ^count <count>
+         ^<face> <count>)
+-->
+  (<s> ^operator <op> -)
+}
+
+sp {elaborate*bid*all-push*2-face
+  (state <s> ^io.input-link <il>
+             ^operator <op> +)
+  (<op> ^name bid
+        ^push-face { <> 1 <face> }
+        ^push-face-count 2)
+  (<il> ^players.me.cup <cup>)
+  (<cup> ^1 <count-1>
+         ^count <count>
+         ^<face> <count-face>)
+-->
+  (<op> ^remainder-after-push (- <count> (+ <count-1> <count-face>)))
+}
+
+
+sp {reject*bid*all-push*non-1-face
+  # :interrupt
+  (state <s> ^operator <op> +)
+  (<op> ^name bid
+        ^remainder-after-push 0)
+-->
+  (<s> ^operator <op> -)
+}

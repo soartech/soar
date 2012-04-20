@@ -1,0 +1,103 @@
+# No previous bid - suggest all possible bids.
+
+sp {propose*bid-special*no-prior-bid
+   (state <s> ^io.input-link <il>
+              ^true-dice-counts.total-dice-count < 7
+              ^dice-data.next-bid <nb>
+              ^true-dice-counts.dice-counted true)
+   (<nb> ^current-face <face>)
+   (<il> ^affordances.action <a>
+         ^state.special true
+         ^state.last-bid nil) ### history or state last-bid? JELBUG
+   (<a> ^name bid
+        ^available true)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name bid
+        ^face <face>
+        ^multiplier 1)}
+
+sp {propose*bid-special*no-prior-bid*7
+   (state <s> ^io.input-link <il>
+              ^true-dice-counts.total-dice-count { >= 7 <tdc> }
+              ^dice-data.next-bid <nb>
+              ^true-dice-counts.dice-counted true)
+   (<nb> ^current-face <face>)
+   (<il> ^affordances.action <a>
+         ^state.special true
+         ^state.last-bid nil) ### history or state last-bid? JELBUG
+   (<a> ^name bid
+        ^available true)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name bid
+        ^face <face>
+        ^multiplier (div <tdc> 7))}
+
+## prior bid - suggest same face without push.
+sp {propose*bid-special*not-one
+   (state <s> ^io.input-link <il>
+              ^true-dice-counts.dice-counted true
+              ^last-bid <last-bid>)
+   (<il> ^affordances.action <a>
+         ^state.special true
+         ^players.me.total-dice > 1)
+   (<a> ^name bid
+        ^available true)
+   (<last-bid> ^face <face>
+               ^count <multiplier>)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name bid
+        ^face <face>
+        ^multiplier (+ 1 <multiplier>))}
+
+## prior bid - not one die - push - must add one.
+sp {propose*bid-special*have-1-die*push
+   (state <s> ^io.input-link <il>
+              ^true-dice-counts.dice-counted true
+              ^last-bid <last-bid>)
+   (<il> ^affordances.action <a>
+         ^state.special true
+         ^players.me <me>)
+   (<me> ^cup <cup>)
+   (<cup> ^count > 1
+          ^<face> { <push-dice-number> > 0 })
+   (<a> ^name bid
+        ^available true)
+   (<last-bid> ^face <face>
+               ^count <multiplier>)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name bid
+        ^face <face>
+        ^push-face-count 1
+        ^push-dice-number <push-dice-number>
+        ^push-face <face>
+        ^multiplier (+ 1 <multiplier>))
+}
+
+## prior bid - have one die - no push - can change bid
+sp {propose*bid-special*have-1-die*change-bid
+   (state <s> ^io.input-link <il>
+              ^true-dice-counts.dice-counted true
+              ^dice-data.next-bid <nb>
+              ^last-bid <last-bid>)
+   (<il> ^affordances.action <a>
+         ^state.special true
+         ^players.me <me>)
+   (<nb> ^current-face <face>
+         ^new-face <new-face>
+         ^increment-multiplier <inc>)
+   (<me> ^cup.count 1
+         ^pushed.count 0)
+   (<a> ^name bid
+        ^available true)
+   (<last-bid> ^face <face>
+               ^count <multiplier>)
+-->
+   (<s> ^operator <o>)
+   (<o> ^name bid
+        ^face <new-face>
+        ^multiplier (+ <inc> <multiplier>))}
+

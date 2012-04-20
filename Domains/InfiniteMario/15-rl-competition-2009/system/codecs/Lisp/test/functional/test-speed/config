@@ -1,0 +1,9 @@
+
+AGENT='test-1-agent'
+ENVIRONMENT='test-speed-environment'
+EXPERIMENT='test-speed-experiment'
+
+C_AGENT='test_1_agent'
+C_ENVIRONMENT='test_speed_environment'
+C_EXPERIMENT='test_speed_experiment'
+

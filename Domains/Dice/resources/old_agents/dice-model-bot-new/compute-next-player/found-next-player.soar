@@ -1,0 +1,27 @@
+sp {compute-next-player*propose*found-next-player
+   (state <s> ^name compute-next-player
+              ^current-history.next nil)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name found-next-player
+         ^history nil)
+}
+
+sp {compute-next-player*propose*found-next-player2
+   (state <s> ^name compute-next-player
+              ^current-history <cp>)
+   (<cp> ^next.player.me true)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name found-next-player
+         ^history <cp>)
+}
+
+sp {dice*apply*found-next-player
+   (state <s> ^operator <op>
+              ^superstate <ss>)
+   (<op> ^name found-next-player
+         ^history <np>)
+-->
+   (<ss> ^next-player-data <np>)
+}

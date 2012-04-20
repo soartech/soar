@@ -1,0 +1,7 @@
+sp {dice*elaborate-operator*state-no-change-dice-error
+   (state <s> ^top-state <ts> ^impasse no-change ^attribute state)
+   (<ts> ^name dice) 
+-->
+   (write |dice error!|)
+   (exec dice-error)
+}

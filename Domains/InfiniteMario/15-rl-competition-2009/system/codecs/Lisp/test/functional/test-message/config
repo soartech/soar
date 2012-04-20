@@ -1,0 +1,9 @@
+
+AGENT='test-message-agent'
+ENVIRONMENT='test-message-environment'
+EXPERIMENT='test-message-experiment'
+
+C_AGENT='test_message_agent'
+C_ENVIRONMENT='test_message_environment'
+C_EXPERIMENT='test_message_experiment'
+

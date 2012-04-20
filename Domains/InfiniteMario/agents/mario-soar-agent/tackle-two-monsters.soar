@@ -1,0 +1,77 @@
+sp {propose*tackle-two-monsters
+   (state <s> ^name mario-soar-combined
+              ^monster <m1>
+              ^monster {<m2> <> <m1>})
+   (<m1> ^distx <dx1>)
+   (<m2> ^distx > <dx1>)
+   (<m1> ^isthreat yes)
+  -(<m1> ^isthreat no)
+   (<m2> ^isthreat yes)
+  -(<m2> ^isthreat no)
+  -(<s> ^inhibit-two true)
+-->
+   (<s> ^operator <o> +
+        ^inhibit-one true)
+   (<o> ^name tackle-two-monsters
+        ^monster <m1>
+        ^monster <m2>)
+}
+sp {two-monster*random*action
+   (state <s> ^name tackle-two-monsters
+              ^superstate <ss>)
+   (<ss> ^rand-move <mv>
+         ^rand-jump <jp>
+         ^rand-speed <sp>
+         ^mario <mario>
+         ^operator <so>)
+   (<so> ^name tackle-two-monsters
+         ^monster <m1>
+         ^monster {<m2> <> <m1>})
+   (<m1> ^distx <dx1>
+        ^disty <dy1>
+        ^horiz-direction <hdir1>
+        ^vert-direction <vdir1>)
+   (<m2> ^distx {<dx2> > <dx1>}
+        ^disty <dy2>
+         ^horiz-direction <hdir2>
+        ^vert-direction <vdir2>)
+   (<jp> ^up <j>) 
+   (<mario> ^yi <my>)
+   (<mv> ^direction <d>)
+   (<sp> ^degree <sd>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name action
+        ^direction <d>
+        ^jump <j>
+        ^speed <sd>)
+}
+sp {two-tackle*monster
+   :template
+   (state <s> ^name tackle-two-monsters
+              ^operator <op> +
+              ^superstate <ss>)
+   (<ss> ^operator <so>
+         ^mario <mario>)
+   (<so> ^name tackle-two-monsters
+              ^monster <m1>
+              ^monster  {<m2> <> <m1>})
+   (<mario> ^type <mtype>
+            ^tile-above <ta>)
+   (<op> ^name action
+         ^direction <d>
+         ^jump <j>
+         ^speed <sp>)
+   (<m1> ^type <monst1>
+        ^distx <dx1>
+        ^disty <dy1>
+        ^horiz-direction <hdir1>
+        ^vert-direction <vdir1>)
+  (<m2> ^type <monst2>
+        ^distx {<dx2> > <dx1>}
+        ^disty <dy2>
+        ^horiz-direction <hdir2>
+        ^vert-direction <vdir2>)
+--> 
+   (<s> ^operator <op> = 0)
+}

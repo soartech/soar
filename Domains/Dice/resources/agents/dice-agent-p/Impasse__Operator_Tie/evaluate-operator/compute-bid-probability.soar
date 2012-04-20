@@ -1,0 +1,104 @@
+###The following for non-first bid
+sp {evaluate-operator*propose*operator
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.superoperator <so>)
+-->
+   (<s> ^operator <op> + =)
+   (<op> ^type compute-probability
+         ^superoperator <so>)
+}
+
+sp {evaluate-operator*propose*compute-bid-probability
+   (state <s> ^name evaluate-operator
+              ^operator <o> +)
+    (<o> ^type compute-probability
+        ^superoperator <so>)
+    (<so> ^name bid
+        -^push-face
+         ^face <face>
+         ^multiplier <multipler>)
+-->
+    (<o> ^name compute-bid-probability
+          ^face <face>
+          ^multiplier <multipler>)
+}
+
+##################################
+## Bid 1 with a push.
+sp {apply*compute-bid-probability*1*bid
+   (state <s> ^operator <op>
+              ^superstate.operator.evaluation <eval>
+              ^dice-counts.dice-count <dc1>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>
+         ^face 1
+         ^multiplier <bid-multi>
+         ^unknown <multi-unknown>
+         ^sunknown <sunknown>)
+   (<dc1> ^face 1
+          ^count <multi-1>)
+-->
+   (write (crlf) | Bid: | <bid-multi> | 1's. Unknowns: | <multi-unknown> | M-Unknowns: | <sunknown> |, Known 1's: | <multi-1>)
+   (write (crlf) |  Count: |  (- <bid-multi> <multi-1>) |, Unknowns: | (+ <sunknown> <multi-unknown>))
+   (<s>  ^total-known (- <multi-1> <bid-multi>)
+         ^total-possible (- (+ <sunknown> <multi-unknown> <multi-1>) <bid-multi>))
+   (<eval> ^compute-probability <cp>)
+   (<cp> ^count (- <bid-multi> <multi-1>)
+          ^number-of-dice (+ <sunknown> <multi-unknown>)
+          ^number-of-faces 6
+          ^predicate ge)
+}
+
+## Special Rules with a push.
+sp {apply*compute-bid-probability*special-rules*bid
+   (state <s> ^operator <op>
+              ^superstate.operator.evaluation <eval>
+              ^top-state.io.input-link.state.special true
+              ^dice-counts.dice-count <dc1>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>
+         ^face { <> 1 <face> }
+         ^multiplier <bid-multi>
+         ^unknown <multi-unknown>
+         ^sunknown <sunknown>)
+   (<dc1> ^face <face>
+          ^count <multi-1>)
+-->
+   (write (crlf) | Bid: | <bid-multi> | 1's. Unknowns: | <multi-unknown> | M-Unknowns: | <sunknown> |, Known | <face> |'s: | <multi-1>  | Special Rules.|)
+   (write (crlf) |  Count: |  (- <bid-multi> <multi-1>) |, Unknowns: | (+ <sunknown> <multi-unknown>))
+   (<s> ^total-known (- <multi-1> <bid-multi>)
+        ^total-possible (- (+ <multi-unknown> <sunknown> <multi-1>) <bid-multi>))
+   (<eval> ^compute-probability <cp>)
+   (<cp> ^count (- <bid-multi> <multi-1>)
+          ^number-of-dice (+ <sunknown> <multi-unknown>)
+          ^number-of-faces 6
+          ^predicate ge)
+}
+
+
+## NO special rules - not a 1 bid
+sp {apply*compute-bid-probability*not-special-rules*bid
+   (state <s> ^operator <op>
+              ^superstate.operator.evaluation <eval>
+              ^dice-counts.dice-count <dc1> <dc2>
+               ^top-state.io.input-link.state.special false)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>
+         ^face { <> 1 <face> }
+         ^multiplier <bid-multi>
+         ^unknown <multi-unknown>
+         ^sunknown <sunknown>)
+   (<dc1> ^face <face>
+          ^count <multi-bid>)
+   (<dc2> ^face 1
+          ^count <multi-1>)
+-->
+   (write (crlf) | Bid: | <bid-multi> | | <face> |'s. Unknowns: | <multi-unknown> | M-Unknowns: | <sunknown> |, Known 1's: | <multi-1>)
+   (write (crlf) |  Count: |  (- <bid-multi> (+ <multi-bid> <multi-1>)) |, Unknowns: | (+ <sunknown> <multi-unknown>))
+   (<s> ^total-known (- (+ <multi-1> <multi-bid> ) <bid-multi>)
+        ^total-possible (- (+ <multi-unknown> <sunknown> <multi-bid> <multi-1>) <bid-multi>))
+   (<eval> ^compute-probability <cp>)
+   (<cp> ^count (- <bid-multi> (+ <multi-bid> <multi-1>))
+          ^number-of-dice  (+ <sunknown> <multi-unknown>)
+          ^number-of-faces 3
+          ^predicate ge)
+}
+
+

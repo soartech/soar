@@ -1,0 +1,7 @@
+source elaborations.soar
+source compute-bid-probability.soar
+source compute-bid-push-probability.soar
+source compute-challenge-pass-likelihood.soar
+source compute-challenge-probability.soar
+source compute-exact-probability.soar
+source compute-pass-likelihood.soar

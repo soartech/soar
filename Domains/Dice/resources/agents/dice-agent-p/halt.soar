@@ -1,0 +1,26 @@
+sp {elaborations*elaborate*inprogress*false
+  (state <s> ^io.input-link.state.inprogress false)
+-->
+   (<s> ^operator <o> + =, >)
+   (<o> ^name halt)
+}
+
+sp {elaborations*elaborate*mystatus*bad
+  (state <s> ^io.input-link.players.mystatus {<> play})
+-->
+   (<s> ^operator <o> + =, >)
+   (<o> ^name halt)
+}
+
+sp {apply*halt
+   (state <s> ^operator <op>)
+   (<op> ^name halt)
+-->
+   (halt)
+}
+
+sp {dice-model-bot-new*elaborate*halt
+   (state <s> ^io.input-link.halt now)
+-->
+   (halt)
+}

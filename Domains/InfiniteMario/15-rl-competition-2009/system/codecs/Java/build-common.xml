@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a common build-file to support building of projects for RL-Viz -->
+
+<!-- This script will believe it is wherever you imported it from.  So, if you import it from projects/RLVizLib then to access system you need to tack on ../../system
+We'll try and rely on minimal variables from above.
+
+- rl.viz.system.directory : relative path from the importing project to here, WITHOUT the trailing slash, so like ../../system
+
+-->
+
+<project basedir=".."   name="rl-glue-common">
+<dirname property="imported.basedir" file="${ant.file.imported}"/>
+
+<property name="dist.dir"   value="products"/>
+<property name="src.dir"     value="src"/>
+<property name="test.dir"	value="tests"/>
+<property name="docs.dir"     value="javadocs"/>
+<property name="build.dir"   value="build"/>
+<property name="classes.dir" value="${build.dir}/classes"/>
+<property name="test.classes.dir" value="${build.dir}/testclasses"/>
+
+<property name="junit.jar" value="system/junit.jar" />
+
+<property name="test.reports"   value="reports"/>
+<property name="test.raw"   value="reports/raw"/>
+<property name="result.jar" value="${dist.dir}/${main.project.name}.jar" />
+
+
+<path id="junit.classpath" location="${junit.jar}"/>
+<path id="test.build.classpath" location="${test.classes.dir}"/>
+<path id="result.jar.classpath" location="${result.jar}"/>
+<!--
+<taskdef resource="net/sf/antcontrib/antlib.xml">
+  <classpath>
+    <pathelement location="${rl.viz.system.directory}/libs/ant-contrib-1.0b3.jar"/>
+  </classpath>
+</taskdef>
+-->
+<target name="get.svn.version" description="Get the current subversion revision number of the project">
+    <exec executable="svnversion"
+          failifexecutionfails="no"
+          outputproperty="svn.revision.version">
+    <arg value="."/>
+    </exec>
+</target>
+
+<target name="get.rlvizlib.version">
+    <exec executable="java"
+          failifexecutionfails="no"
+          outputproperty="rlvizlib.spec.version">
+		<arg value="-jar"/>
+		<arg value="${rlvizlib.jar}"/>
+		<arg value="--version"/>
+    </exec>
+</target>
+
+<target name="rl-clean" >
+    <delete dir="${build.dir}"/>
+    <delete file="${result.jar}"/>
+    <delete dir="${test.raw}"/>
+    <delete dir="${test.reports}"/>
+</target>
+
+<target name="rl-debug">
+	<property name="build.debug" value="on"/>
+</target>
+
+<target name="rl-compile" >
+   <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" target="1.5" destdir="${classes.dir}"  debug="${build.debug}" deprecation="${build.deprecation}">
+	</javac> 
+</target>
+
+
+<target name="rl-jar" depends="rl-compile,get.svn.version,get.rlvizlib.version" >
+    <mkdir dir="${dist.dir}" />
+    <jar destfile="${result.jar}" basedir="${classes.dir}" >
+        <manifest>
+		   <attribute name="RLVizLib-Link-Version" value="${rlvizlib.spec.version}"/>
+		    <section name="${main.package.name}">
+		      <attribute name="Specification-Title" value="${main.project.name}"/>
+		      <attribute name="Specification-Version" value="${main.package.spec.version}"/>
+		      <attribute name="Specification-Vendor" value="RLAI"/>
+		      <attribute name="Implementation-Title" value="${main.project.name}"/>
+		      <attribute name="Implementation-Version" value="Build:${svn.revision.version}"/> 
+		      <attribute name="Implementation-Vendor" value="${main.vendor.name}"/>
+		    </section>
+        </manifest>
+    </jar>
+</target>
+
+<target name="rl-compile-tests" depends="rl-jar">
+    <mkdir dir="${test.classes.dir}"/>
+	
+    <javac srcdir="${test.dir}" destdir="${test.classes.dir}"  target="1.5">
+        <classpath>
+            <path refid="junit.classpath" />
+            <path refid="result.jar.classpath" />
+        </classpath>
+    </javac>
+</target>
+
+<target name="rl-test" depends="rl-clean,rl-jar,rl-compile-tests">
+	<mkdir dir="${test.raw}" />
+   <junit printsummary="withOutAndErr" showoutput="yes" >
+        <classpath>
+            <path refid="junit.classpath" /> 
+			<path refid="result.jar.classpath" />
+			<path refid="test.build.classpath" />
+        </classpath>
+        
+        <batchtest fork="yes" todir="${test.raw}">
+            <formatter type="xml"/> 
+            <fileset dir="${test.dir}" includes="**/*Test.java"/>
+        </batchtest>
+    </junit>
+</target> 
+
+<target name="rl-test-html" depends="rl-test">
+	<mkdir dir="${test.reports}" />
+    <junitreport todir="${test.reports}">
+        <fileset dir="${test.raw}">
+            <include name="TEST-*.xml" />
+        </fileset>
+        <report todir="${test.reports}" />
+    </junitreport>
+</target>
+
+
+<target name="rl-javadoc" depends="get.svn.version">
+    <mkdir dir="${docs.dir}"/>
+<!--    <javadoc sourcepath="${src.dir}" destdir="${docs.dir}" access="private"/>-->
+
+<javadoc packagenames="org.rlcommunity.rlglue.codec.*"
+         sourcepath="${src.dir}"
+         excludepackagenames="org.rlcommunity.rlglue.codec.tests.*"
+         defaultexcludes="yes"
+         destdir="${docs.dir}"
+         author="true"
+         version="true"
+         use="true"
+         windowtitle="RL-Glue Java Codec ${RLGlueCodec.spec.version}" />
+	</target>
+
+
+</project>

@@ -1,0 +1,39 @@
+Update the ChangeLog (right now just in the C codec directory)
+-------------------------------------
+Changelog can be automatically updated by having SVN2CL installed:
+http://ch.tudelft.nl/~arthur/svn2cl/
+
+Before release, the changelog can be updated automatically.
+
+NOTE:
+- Replace 0 with the revision of the latest release.  This will get you just the changes since then.
+- Open changelog.new.txt.  Check it out, see if you like it. Then, copy it into ChangeLog, and title it with the current release name.  See ChangeLog to see what I mean.
+
+$> svn2cl --group-by-day -i -o changelog.new.txt --reparagraph --separate-daylogs --authors=../../../authors.xml --revision HEAD:0
+
+
+Test Test Test
+-------------------------------------
+We don't have a good fully automated test suite of all the codecs yet (that would/will be cool).  For now, you can go into projects/codecs/C and test the C codec:
+$> sudo make uninstall 		#Make sure there is no code being used in the test that shouldn't be
+$> make distclean
+$> ./configure
+$> make
+$> make distcheck				#If distcheck passes, you're good
+$> sudo make install 			#Re-install on your machine
+
+Make a Tag for the release
+-------------------------------------
+NOTE: PICK A NAME FOR THE RELEASE AND USE THAT INSTEAD OF rl-glue-extensions-1.0-alpha
+
+#We could probably automate this somehow
+$> svn cp https://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/C https://rl-glue-ext.googlecode.com/svn/tags/releases/rl-glue-codec-c-1.0-alpha
+
+Upload the release to Google Code
+-------------------------------------
+Go here: http://code.google.com/p/rl-glue-ext/downloads/entry
+
+- Make sure to set the tags appropriately:
+	Featured Type-Archive OpSys-All
+	
+- Make sure to deprecate old release

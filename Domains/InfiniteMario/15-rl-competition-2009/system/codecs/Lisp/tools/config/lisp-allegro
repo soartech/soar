@@ -1,0 +1,4 @@
+
+LISPBIN="alisp"
+LISP="${LISPBIN}"
+

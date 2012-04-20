@@ -1,0 +1,74 @@
+sp {dice-model-bot-new*propose*clear-turn-data
+   (state <s> ^name dice
+              ^clear-data true)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name clear-turn-data)
+}
+
+sp {dice-game-bot*compare*clear
+   (state <s> ^operator <op1> +
+                        <op2> +)
+   (<op1> ^name <> push)
+   (<op2> ^name clear-turn-data)
+-->
+   (<s> ^operator <op1> < <op2>)
+}
+
+
+sp {apply*clear-turn-data*dice-counts
+   (state <s> ^operator <op>
+              ^true-dice-counts <tdc>
+              ^alternative-dice-counts <edc>)
+   (<op> ^name << accept clear-turn-data >>)
+-->
+   (<s> ^true-dice-counts <tdc> -
+                          <ntdc>
+        ^alternative-dice-counts <edc> -
+                                 <nedc>)
+}
+
+sp {apply*clear-turn-data
+   (state <s> ^operator <op>
+              ^last-bid <lb>
+              ^player-list <pl>)
+   (<op> ^name << accept clear-turn-data >>)
+-->
+   (<s> ^player-list <pl> -
+        ^players-initialized true -
+        ^last-bid <lb> -)
+}
+
+sp {apply*clear-turn-data*very-safe-bid
+   (state <s> ^operator <op>
+              ^very-safe-bid-computed <dc>)
+   (<op> ^name << accept clear-turn-data >>)
+-->
+   (<s> ^very-safe-bid-computed <dc> -)
+}
+
+sp {apply*clear-turn-data*output
+   (state <s> ^operator <op>
+              ^io.output-link <out>)
+   (<op> ^name << accept clear-turn-data >>)
+   (<out> ^qna-query <qq>)
+-->
+   (<out> ^qna-query <qq> -)
+}
+
+sp {apply*clear-turn-data*last-player-data
+   (state <s> ^operator <op>
+              ^last-player-data <lpd>)
+   (<op> ^name << accept clear-turn-data >>)
+-->
+  (<s> ^last-player-data <lpd> -)
+}
+sp {apply*clear-turn-data*flag
+   (state <s> ^operator <op>
+              ^clear-data true)
+   (<op> ^name clear-turn-data)
+-->
+   (<s> ^clear-data true -)
+}
+
+

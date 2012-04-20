@@ -1,0 +1,42 @@
+multi-attributes dice-counts 5
+multi-attributes player 5
+multi-attributes operator 9
+multi-attributes die 4
+multi-attributes next-bid 25
+multi-attributes action 10
+multi-attributes evaluation 10
+gp-max 10000000
+## Boltzman with low temperature
+indifferent-selection -b
+indifferent-selection -t .08
+
+## TODO
+# 2 Add in using smem (for probability)
+# 3 Add in epmem (?? - user model?)
+
+pushd ../../default
+source selection.soar
+popd
+
+## Not using look ahead search
+excise evaluate-operator*propose*look-ahead
+excise evaluate-operator*propose*look-ahead*reject-all-others
+excise selection*compare*equal-evaluation-indifferent
+
+# NLD 2/28/2011
+sp {selection*select*failure-evaluation-becomes-reject-preference
+  :default
+  (state <s> ^name selection
+             ^superstate <ss>
+             ^evaluation <e1>)
+  (<ss> ^desired <e>)
+  (<e1> ^symbolic-value << lose failure >>
+        ^desired <e>
+        ^superoperator <o1>)
+-->
+  (<ss> ^operator <o1> <)
+}
+
+
+# NLD 1/23/2011
+#waitsnc -e

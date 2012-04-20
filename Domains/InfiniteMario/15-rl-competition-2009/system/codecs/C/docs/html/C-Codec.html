@@ -1,0 +1,994 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>RL-Glue C/C++ Codec</TITLE>
+<META NAME="description" CONTENT="RL-Glue C/C++ Codec">
+<META NAME="keywords" CONTENT="C-Codec">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="C-Codec.css">
+
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<H1 ALIGN="CENTER">RL-Glue C/C++ Codec 2.0 Manual </H1>
+<DIV>
+
+<P ALIGN="CENTER"><STRONG>Brian Tanner :: brian@tannerpages.com</STRONG></P>
+</DIV>
+<BR>
+
+<H2><A NAME="SECTION00010000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+
+<UL>
+<LI><A NAME="tex2html64"
+  HREF="C-Codec.html#SECTION00020000000000000000">Introduction</A>
+<UL>
+<LI><A NAME="tex2html65"
+  HREF="C-Codec.html#SECTION00021000000000000000">Software Requirements</A>
+<LI><A NAME="tex2html66"
+  HREF="C-Codec.html#SECTION00022000000000000000">Getting the Codec</A>
+<LI><A NAME="tex2html67"
+  HREF="C-Codec.html#SECTION00023000000000000000">Installing from a Binary Package</A>
+<LI><A NAME="tex2html68"
+  HREF="C-Codec.html#SECTION00024000000000000000">Installing From Source</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html69"
+  HREF="C-Codec.html#SECTION00030000000000000000">Sample Project</A>
+<UL>
+<LI><A NAME="tex2html70"
+  HREF="C-Codec.html#SECTION00031000000000000000">Skeleton Agent</A>
+<LI><A NAME="tex2html71"
+  HREF="C-Codec.html#SECTION00032000000000000000">Custom Flags for Custom Installs</A>
+<LI><A NAME="tex2html72"
+  HREF="C-Codec.html#SECTION00033000000000000000">Skeleton Environment</A>
+<LI><A NAME="tex2html73"
+  HREF="C-Codec.html#SECTION00034000000000000000">Skeleton Experiment</A>
+<LI><A NAME="tex2html74"
+  HREF="C-Codec.html#SECTION00035000000000000000">Gotchas!</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html75"
+  HREF="C-Codec.html#SECTION00040000000000000000">Running the Agent, Environment, and Experiment Together</A>
+<UL>
+<LI><A NAME="tex2html76"
+  HREF="C-Codec.html#SECTION00041000000000000000">Going Further - Mines Sarsa Example Project</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html77"
+  HREF="C-Codec.html#SECTION00050000000000000000">Codec Specification, Memory Allocation, Types, and Function Prototypes</A>
+<LI><A NAME="tex2html78"
+  HREF="C-Codec.html#SECTION00060000000000000000">Advanced Features</A>
+<UL>
+<LI><A NAME="tex2html79"
+  HREF="C-Codec.html#SECTION00061000000000000000">Connecting to Custom Hosts and Ports</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html80"
+  HREF="C-Codec.html#SECTION00070000000000000000">Changes and 2.x Backward Compatibility</A>
+<LI><A NAME="tex2html81"
+  HREF="C-Codec.html#SECTION00080000000000000000">Frequently Asked Questions</A>
+<UL>
+<LI><A NAME="tex2html82"
+  HREF="C-Codec.html#SECTION00081000000000000000">Where can I get more help?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html83"
+  HREF="C-Codec.html#SECTION00090000000000000000">Credits and Acknowledgements</A>
+<UL>
+<LI><A NAME="tex2html84"
+  HREF="C-Codec.html#SECTION00091000000000000000">Contributing</A>
+</UL></UL>
+<!--End of Table of Contents-->
+<P>
+
+<H1><A NAME="SECTION00020000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+This document describes how to use the C/C++ RL-Glue Codec, a software library that provides socket-compatibility with the RL-Glue Reinforcement Learning software library.  
+
+<P>
+For general information and motivation about the RL-Glue<A NAME="tex2html1"
+  HREF="#foot271"><SUP>1</SUP></A> project, please refer to the documentation provided with that project.
+
+<P>
+This codec will allow you to create agents, environments, and experiment programs in C and/or C++.
+
+<P>
+This software project is licensed under the Apache-2.0<A NAME="tex2html3"
+  HREF="#foot272"><SUP>2</SUP></A> license. We're not lawyers, but our intention is that this code 
+should be used however it is useful.  We'd appreciate to hear what you're using it for, and to get credit if appropriate.
+
+<P>
+This project has a home here:
+<BR><TT><A NAME="tex2html5"
+  HREF="http://glue.rl-community.org/Home/Extensions/c-c-codec">http://glue.rl-community.org/Home/Extensions/c-c-codec</A></TT>
+<P>
+This document should be used in combinations with the technical manual for RL-Glue 3.0.  The RL-Glue 3.0 technical manual explains the data types, function prototypes, etc. for the main C/C++ RL-Glue implementation that is used
+by this codec.  The RL-Glue 3.0 technical manual can be found in the <TT>docs</TT> section of the RL-Glue project or online:
+<BR><TT><A NAME="tex2html6"
+  HREF="http://rl-glue.googlecode.com/svn/trunk/docs/tech_html/index.html">http://rl-glue.googlecode.com/svn/trunk/docs/tech_html/index.html</A></TT>
+<P>
+
+<H2><A NAME="SECTION00021000000000000000">
+Software Requirements</A>
+</H2>
+This project requires that RL-Glue has been installed on your computer.  It has no additional requirements beyond RL-Glue: nothing more exotic than a C compiler, Make, etc.  This codec uses a configure script that was created by GNU Autotools<A NAME="tex2html7"
+  HREF="#foot273"><SUP>3</SUP></A>, so it should compile and run without problems on most *nix platforms (Unix, Linux, Mac OS X, Windows using CYGWIN<A NAME="tex2html9"
+  HREF="#foot274"><SUP>4</SUP></A>). 
+
+<P>
+
+<H2><A NAME="SECTION00022000000000000000">
+Getting the Codec</A>
+</H2>
+You can get the codec a number of ways, including from source as a .tar.gz file, or as a binary distribution.
+
+<P>
+All of the official downloads of the C/C++ codec can be found here:
+<BR>
+<TT><A NAME="tex2html11"
+  HREF="http://code.google.com/p/rl-glue-ext/wiki/CandCPP">http://code.google.com/p/rl-glue-ext/wiki/CandCPP</A></TT>
+<P>
+You may also check the code out directly from the subversion:
+<BR>
+<TT>svn checkout http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/C C-Codec</TT>
+
+<P>
+
+<H2><A NAME="SECTION00023000000000000000">
+Installing from a Binary Package</A>
+</H2>
+
+<H3><A NAME="SECTION00023100000000000000">
+Intel Mac OX 10.3+ Package</A>
+</H3>
+This distribution is an installer package bundled into a Mac Disk Image (.dmg).  This is a graphical installer application and should be fairly self explanatory. This distribution comes with an uninstall script that can be used to remove this codec from your system.
+
+<P>
+
+<H2><A NAME="SECTION00024000000000000000">
+Installing From Source</A>
+</H2>
+The .tar.gz distribution of the codec was made with autotools, which means that you shouldn't have to do much work to get it installed.  
+
+<P>
+
+<H3><A NAME="SECTION00024100000000000000">
+Simple Codec Install</A>
+</H3>
+If you are working on your own machine, it is usually easiest to install the headers and libraries into <TT>/usr/local</TT>, which is the default installation location but requires <I>sudo</I> or <I>root</I> access.
+
+<P>
+The steps are:
+<PRE>
+	&gt;$ ./configure
+	&gt;$ make
+	&gt;$ sudo make install
+</PRE>
+
+<P>
+Provided everything goes well, the headers have now been installed to <TT>/usr/local/include</TT> and the libs to <TT>/usr/local/lib</TT>.
+
+<P>
+<B>NOTE:</B> On many Linux systems, <TT>/usr/local</TT> is not actually on the library and header search paths by default, but <TT>/usr</TT> surely is. In this case, you may want to follow the instructions in Section <A HREF="#custom-install-location">1.4.3</A> system with <TT>-prefix=/usr</TT>.
+
+<P>
+
+<H3><A NAME="SECTION00024200000000000000">
+Install Codec when RL-Glue is in a custom location</A>
+</H3>
+
+<P>
+If <TT>configure</TT> can't find RL-Glue installed on your machine, it will give you an error like the following:
+<PRE>
+checking for rlConnect in -lrlgluenetdev... no
+configure: error: RL-Glue library not found.
+You must have RL-Glue installed to use this codec. 
+	
+If you have not downloaded it please see http://glue.rl-community.org/
+If you do have it installed in a non-standard location you may need to use the 
+--with-rl-glue=/path/to/rlglue 
+command line switch to specify where the rl-glue root is located.
+</PRE>
+
+<P>
+If you installed RL-Glue to some place other than <TT>/usr/local</TT>, say <TT>/Users/btanner/tmp/rlglue</TT>, you could do:
+<PRE>
+	&gt;$ ./configure --with-rl-glue=/Users/btanner/tmp/rlglue
+	&gt;$ make
+	&gt;$ sudo make install
+</PRE>
+
+<P>
+
+<H3><A NAME="SECTION00024300000000000000"></A>
+<A NAME="custom-install-location"></A>
+<BR>
+Install Codec To Custom Location (maybe without <I>root</I> access)
+</H3>
+You might want to install the codec to a location other than the default of <TT>/usr/local</TT>.
+
+<P>
+If you don't have <I>sudo</I> or <I>root</I> access on the target machine, you can install the codec in your home directory (or other directory you have access to).
+If you install to a custom location, you will need set your <TT>CFLAGS</TT> and <TT>LDFLAGS</TT> variables appropriately when compiling your agents, environments, and experiments. See Section <A HREF="#sec:custom-flags">2.2</A> for more information.
+
+<P>
+For example, maybe we want to install the codec to <TT>/Users/btanner/tmp/rlglue</TT>.  This will <B>not</B> clobber RL-Glue if it is already installed to this location, it will install beside it.  The commands are:
+<PRE>
+	&gt;$ ./configure --prefix=/Users/btanner/tmp/rlglue
+	&gt;$ make
+	&gt;$ make install
+</PRE>
+
+<P>
+Provided everything goes well, the headers and libraries have been respectively installed to
+<BR>
+<TT>/Users/btanner/tmp/rlglue/include</TT> and <TT>/Users/btanner/tmp/rlglue/lib</TT>.
+
+<P>
+
+<H3><A NAME="SECTION00024400000000000000">
+Uninstall</A>
+</H3>
+If you decide that you don't want the RL-Glue C codec on your machine anymore, you can easily uninstall it.  The procedures varies a tiny bit depending on if you installed it to the default location, or somewhere custom.
+
+<P>
+
+<H3><A NAME="SECTION00024500000000000000">
+Codec Installed To Default Location</A>
+</H3>
+<PRE>
+	&gt;$ ./configure
+	&gt;$ sudo make uninstall
+</PRE>
+
+<P>
+This will remove all of the headers and libraries from <TT>/usr/local</TT>.
+
+<P>
+
+<H3><A NAME="SECTION00024600000000000000">
+Codec Installed To Custom Location</A>
+</H3>
+You'll need to make sure that either you haven't reconfigured the directory you downloaded from, or, if you removed/changed that already, you have to run configure again the exact same way as when you installed it.  For example:
+<PRE>
+	&gt;$ ./configure --prefix=/Users/btanner/tmp/rlglue
+	&gt;$ make uninstall
+</PRE>
+
+<P>
+That's it!  This will remove all of the headers and libraries from <TT>/Users/btanner/tmp/rlglue</TT>.
+
+<P>
+
+<H1><A NAME="SECTION00030000000000000000">
+Sample Project</A>
+</H1>
+We have included three example projects with this codec, located in the <TT>examples</TT> directory.  The  <TT>skeleton-example</TT> and <TT>mines-sarsa-sample</TT> projects each contain an agent, environment, and experiment written for this C/C++ codec.  
+
+<P>
+The <TT>skeleton-example</TT> contains all of the bare-bones plumbing that is required to create an agent/environment/experiment with this codec and might be a good starting point for creating your own components.
+
+<P>
+The <TT>mines-sarsa-sample</TT> contains a fully functional tabular Sarsa learning algorithm, a discrete-observation grid world problem, and an experiment program that can run these together and gather results.  More details below in Section <A HREF="#mines-sarsa-sample">3.1</A>.
+
+<P>
+the <TT>custom_integrated_env</TT> in Section <A HREF="#custom-env">3.1.4</A> shows how you can adapt this codec to help programs not originally meant for RL-Glue (Atari emulators, real-time strategy games, etc.) work with RL-Glue.
+
+<P>
+In the following sections, we will describe the skeleton project.  Running and using the <TT>mines-sarsa-sample</TT> is analogous.
+
+<P>
+The <TT>README</TT> file in the specific examples directories may also be helpful in getting started.
+
+<P>
+
+<H2><A NAME="SECTION00031000000000000000"></A>
+<A NAME="sec:agent"></A>
+<BR>
+Skeleton Agent
+</H2>
+We have provided a skeleton agent with the codec that is a good starting point for agents that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple agent.
+
+<P>
+The pertinent files are:
+<PRE>
+	examples/skeleton-example/SkeletonAgent.c
+	examples/skeleton-example/Makefile
+</PRE>
+
+<P>
+This agent does not learn anything and randomly chooses integer action 0 or 1.  
+
+<P>
+If RL-Glue and this codec have been installed in the default location, <TT>/usr/local</TT>, then you can compile and run the agent like:
+<PRE>
+	&gt;$ cd examples/skeleton-example
+	&gt;$ make
+	&gt;$ ./SkeletonAgent
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+	RL-Glue C Agent Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+</PRE>
+
+<P>
+This means that the SkeletonAgent is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096! 
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+See Section <A HREF="#sec:custom-flags">2.2</A> if RL-Glue or this Codec are not installed in default locations.
+
+<P>
+The Skeleton agent is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+We will spend a little bit talking about how to compile the agent, because not everyone is comfortable with using a <TT>Makefile</TT>.  To compile
+the agent from the command line, you could do:
+<PRE>
+	&gt;$ cc SkeletonAgent.c -lrlutils -lrlagent -o SkeletonAgent
+</PRE>
+
+<P>
+On some platforms, you may need to add <TT>-lrlgluenetdev</TT>
+
+<P>
+It might be useful to break this down a little bit:
+<DL>
+<DT><STRONG>cc</STRONG></DT>
+<DD>The C compiler.  You could also use <TT>gcc</TT> or <TT>g++</TT>, etc.
+</DD>
+<DT><STRONG>SkeletonAgent.c</STRONG></DT>
+<DD>Compile the SkeletonAgent.c source file.
+</DD>
+<DT><STRONG>-lrlutils</STRONG></DT>
+<DD>Link to the RLUtils library, which comes with the RL-Glue project.  That library contains convenience functions for allocating and cleaning up the structure types.  If you 
+don't use these convenience functions, you don't need this library.  See the RL-Glue 3.0 technical manual for more information about RLUtils.
+</DD>
+<DT><STRONG>-lrlagent</STRONG></DT>
+<DD>Link to the RLAgent library of the codec.  This is where the main agent loop is defined. The main agent loop connects to the <TT>rl_glue</TT> executable server and dispatches commands sent by the glue.
+</DD>
+<DT><STRONG>-lrlgluenetdev</STRONG></DT>
+<DD>Link to the RLGlueNetDev library from the RL-Glue project.  This library is automatically linked through <TT>rlagent</TT> on most platform (except notably Cygwin).  
+RLGlueNetDev provides implementations of the low level network code that is used by all three parts of the codec, as well as the <TT>rl_glue</TT> executable server.
+</DD>
+</DL>
+
+<P>
+
+<H2><A NAME="SECTION00032000000000000000"></A>
+<A NAME="sec:custom-flags"></A>
+<BR>
+Custom Flags for Custom Installs
+</H2>
+If RL-Glue <B>or</B> this codec have been installed in a custom location (for example: <TT>/Users/joe/glue</TT>), or if <TT>/usr/local</TT> isn't in your computers default library and header search paths, then you will
+need to set the header search path in <TT>CFLAGS</TT> and the library search path in <TT>LDFLAGS</TT>.  You can either do this each time you call make, 
+or you can export the values as environment variables.  These instructions apply to agents, environments, and experiment programs.
+
+<P>
+To do it on the command line:
+<PRE>
+&gt;$ CFLAGS=-I/Users/joe/glue/include LDFLAGS=-L/Users/joe/glue/lib make
+</PRE>
+
+<P>
+That might turn out to be quite a hassle while you are developing.  In that case, you can either update the <TT>Makefile</TT> to include these flags, 
+or set an environment variable.  If you are using the bash shell you can <TT>export</TT> the environment variables:
+<PRE>
+&gt;$ export CFLAGS=-I/Users/joe/glue/include
+&gt;$ export LDFLAGS=-L/Users/joe/glue/lib
+&gt;$ make
+</PRE>
+
+<P>
+In some cases, you may be able to compile and link your programs without incident, but you receive shared library loading errors when you try to execute them, as mentioned in Gotchas! (Section <A HREF="#sec:gotchas-shared-libs">2.5.2</A>).
+
+<P>
+The reason for these errors is that the search path of the loader does not include <TT>/usr/local/lib</TT>.  This problem has both temporary and permanent fixes.
+
+<P>
+To temporarily fix the problem, you can set <TT>LD_LIBRARY_PATH</TT> (Linux) or <TT>DYLD_LIBRARY_PATH</TT> (OS X) environment variables, like:
+<PRE>
+	&gt;$ export LD_LIBRARY_PATH=/Users/joe/glue/lib
+</PRE>
+
+<P>
+In some cases (64-bit linux) you may have to use this approach even when RL-Glue and this codec are installed in the default locations:
+<PRE>
+	&gt;$ export LD_LIBRARY_PATH=/usr/local/lib
+</PRE>
+
+<P>
+When you open a new terminal window, all of these environment variables will be lost unless you put the appropriate <TT>export</TT> lines in your shell startup script.
+
+<P>
+The permanent solution requires <TT>root</TT> or <TT>sudo</TT> access to the machine.  You can  edit the file <TT>/etc/ld.so.conf</TT> and add a line like: <TT>/usr/local/lib</TT> to the file.  Then, if you call <TT>sudo ldconfig</TT>, the loader will know to look there for libraries in the future.
+
+<P>
+
+<H2><A NAME="SECTION00033000000000000000"></A>
+<A NAME="sec:env"></A>
+<BR>
+Skeleton Environment
+</H2>
+We have provided a skeleton environment with the codec that is a good starting point for environments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple environment.  This section will follow the same 
+pattern as the agent version (Section <A HREF="#sec:agent">2.1</A>).  This section will be less detailed because many ideas are similar or identical.
+
+<P>
+The pertinent files are:
+<PRE>
+	examples/skeleton-example/SkeletonEnvironment.c
+	examples/skeleton-example/Makefile
+</PRE>
+
+<P>
+This environment is episodic, with 21 states, labeled <!-- MATH
+ $\{0, 1,\ldots,19,20\}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$\{0, 1,\ldots,19,20\}$">. States {0, 20} are terminal and return rewards of {-1, +1} respectively.  The other states return reward of 0.
+There are two actions, {0, 1}.  Action 0 decrements the state number, and action 1 increments it. The environment starts in state 10.
+
+<P>
+If RL-Glue and this codec have been installed in the default location, <TT>/usr/local</TT>, then you can compile and run the environment like:
+<PRE>
+	&gt;$ cd examples/skeleton-example
+	&gt;$ make
+	&gt;$ ./SkeletonEnvironment
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+	RL-Glue C Environment Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+</PRE>
+
+<P>
+This means that the SkeletonEnvironment is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096! 
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+See Section <A HREF="#sec:custom-flags">2.2</A> if RL-Glue or this Codec are not installed in default locations.
+
+<P>
+The Skeleton environment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+Compiling the environment is almost identical to compiling the skeleton agent, except you need to link to the <TT>RLEnvironment</TT> library instead of <TT>RLAgent</TT>.
+<PRE>
+	&gt;$ cc SkeletonEnvironment.c -lrlutils -lrlenvironment -o SkeletonEnvironment
+</PRE>
+
+<P>
+On some platforms, you may need to add <TT>-lrlgluenetdev</TT>
+
+<P>
+
+<H2><A NAME="SECTION00034000000000000000">
+Skeleton Experiment</A>
+</H2>
+We have provided a skeleton experiment with the codec that is a good starting point for experiments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple experiment.  This section will follow the same 
+pattern as the agent version (Section <A HREF="#sec:agent">2.1</A>).  This section will be less detailed because many ideas are similar or identical.
+
+<P>
+The pertinent files are:
+<PRE>
+	examples/skeleton-example/SkeletonExperiment.c
+	examples/skeleton-example/Makefile
+</PRE>
+
+<P>
+This experiment runs <TT>RL_Episode</TT> a few times, sends some messages to the agent and environment, and then steps through one episode using <TT>RL_step</TT>.
+
+<P>
+If RL-Glue and this codec have been installed in the default location, <TT>/usr/local</TT>, then you can compile and run the experiment like:
+<PRE>
+	&gt;$ cd examples/skeleton-example
+	&gt;$ make
+	&gt;$ ./SkeletonExperiment
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+	RL-Glue C Experiment Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+</PRE>
+
+<P>
+This means that the SkeletonExperiment is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096!  
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+See Section <A HREF="#sec:custom-flags">2.2</A> if RL-Glue or this Codec are not installed in default locations.
+
+<P>
+The Skeleton experiment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+Compiling the experiment is almost identical to compiling the skeleton agent, except you need to link to the <TT>RLExperiment</TT> library instead of <TT>RLAgent</TT>.
+<PRE>
+	&gt;$ cc SkeletonExperiment.c -lrlutils -lrlexperiment -o SkeletonExperiment
+</PRE>
+
+<P>
+On some platforms, you may need to add <TT>-lrlgluenetdev</TT>
+
+<P>
+
+<H2><A NAME="SECTION00035000000000000000">
+Gotchas!</A>
+</H2>
+
+<H3><A NAME="SECTION00035100000000000000">
+Crashes and Bus Errors in Experiment Program</A>
+</H3>
+If you are running an experiment using <TT>RL_step</TT>, beware that the last step (when <TT>terminal==1</TT>), the action will be empty.  If you try to access the values of the actions in this 
+case, you may crash your program.
+
+<P>
+
+<H3><A NAME="SECTION00035200000000000000"></A>
+<A NAME="sec:gotchas-shared-libs"></A>
+<BR>
+Shared Library Loading Errors
+</H3>
+On some machines we've used, the codec installs without incident, but when the agent/environment/experiment is run, the system gives an error message similar to:
+<PRE>
+	&gt;$ ./SkeletonAgent: error while loading shared libraries: librlagent-1:0:0.so.1:
+	cannot open shared object file: No such file or directory
+</PRE>
+
+<P>
+So far this has only happened on 64-bit Linux, both a machine at the University
+and a personal install of 64-bit Ubuntu, Hardy Heron.
+
+<P>
+The reason for the error is that <TT>/usr/local/lib</TT> is not in the the loader's search path.  If this happens, the operating system might have an alternate search path, and might not be looking in <TT>/usr/local/lib</TT> for libraries. 
+You can troubleshoot this problem by doing:
+<PRE>
+	&gt;$ LD_DEBUG=libs ./RL_agent
+</PRE>
+If you see that <TT>/usr/local/lib</TT> is not in the search path, you may want to add it to your library search path using <TT>LDFLAGS</TT> or <TT>LD_LIBRARY_PATH</TT>.  See Section <A HREF="#sec:custom-flags">2.2</A> for more information.  
+
+<P>
+
+<H1><A NAME="SECTION00040000000000000000">
+Running the Agent, Environment, and Experiment Together</A>
+</H1>
+At this point, we've compiled and run each of the three components, now it's time to run them with the <TT>rl_glue</TT> executable server.  The following will work from the examples directory if you have them all built, and RL-Glue installed in the default location.
+
+<P>
+You can either execute the following four commands in the same terminal window if you put each on in the background (&amp; on the end), or run them in separate terminal windows:
+<PRE>
+	&gt;$ rl_glue
+	&gt;$ skeleton-example/SkeletonAgent 
+	&gt;$ skeleton-example/SkeletonEnvironment 
+	&gt;$ skeleton-example/SkeletonExperiment
+</PRE>
+
+<P>
+If RL-Glue is not installed in the default location, you'll have to start the <TT>rl_glue</TT> executable server using its full path (unless it's in your <TT>PATH</TT> environment variable):
+<PRE>
+	&gt;$ /path/to/rl-glue/bin/rl_glue &amp;
+</PRE>
+
+<P>
+You should see output like the following if it worked:
+<PRE>
+	&gt;$ rl_glue &amp;
+	RL-Glue Version 3.0-alpha-3, Build 848:852M
+	RL-Glue is listening for connections on port=4096
+
+	&gt;$ skeleton-example/SkeletonAgent &amp; 
+	RL-Glue C Agent Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+		RL-Glue C Agent Codec :: Connected
+		RL-Glue :: Agent connected.
+
+	&gt;$ skeleton-example/SkeletonEnvironment &amp; 
+	RL-Glue C Environment Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+		RL-Glue C Environment Codec :: Connected
+		RL-Glue :: Environment connected.
+
+	$&gt; skeleton-example/SkeletonExperiment
+
+
+	Experiment starting up!
+	RL-Glue C Experiment Codec Version 1.0-alpha-3, Build 192:208M
+		Connecting to host=127.0.0.1 on port=4096...
+		RL-Glue C Experiment Codec :: Connected
+		RL-Glue :: Experiment connected.
+	RL_init called, the environment sent task spec: VERSION RL-Glue-3.0 
+		PROBLEMTYPE episodic DISCOUNTFACTOR 1.0 OBSERVATIONS INTS (0 20) 
+		ACTIONS INTS (0 1)  REWARDS (-1.0 1.0)  
+		EXTRA skeleton_environment(C/C++) by Brian Tanner.
+	
+
+	----------Sending some sample messages----------
+	Agent responded to "what is your name?" with: 
+	my name is skeleton_agent!
+	Agent responded to "If at first you don't succeed; call it version 1.0" with: 
+	I don't know how to respond to your message
+
+	Environment responded to "what is your name?" with: 
+	my name is skeleton_environment!
+	Environment responded to "If at first you don't succeed; call it version 1.0" with: 
+	I don't know how to respond to your message
+
+
+	----------Running a few episodes----------
+	Episode 0	 100 steps 	0.000000 total reward	 0 natural end 
+	Episode 1	 44 steps 	-1.000000 total reward	 1 natural end 
+	Episode 2	 18 steps 	-1.000000 total reward	 1 natural end 
+	Episode 3	 100 steps 	0.000000 total reward	 0 natural end 
+	Episode 4	 50 steps 	1.000000 total reward	 1 natural end 
+	Episode 5	 1 steps 	0.000000 total reward	 0 natural end 
+	Episode 6	 28 steps 	1.000000 total reward	 1 natural end 
+
+
+	----------Stepping through an episode----------
+	First observation and action were: 10 1
+
+	----------Summary----------
+	It ran for 144 steps, total reward was: -1.000000
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00041000000000000000"></A>
+<A NAME="mines-sarsa-sample"></A>
+<BR>
+Going Further - Mines Sarsa Example Project
+</H2>
+The <TT>skeleton</TT> sample project is extremely limited and only shows the mechanics of how RL-Glue components are structured using the C/C++ codec.  The <TT>mines-sarsa</TT> sample project is much richer.
+
+<P>
+More details about the <TT>mines-sarsa</TT> sample project can be found at their RL-Library home:
+<BR>
+<TT><A NAME="tex2html12"
+  HREF="http://library.rl-community.org/packages/mines-sarsa-sample">http://library.rl-community.org/packages/mines-sarsa-sample</A></TT>
+<P>
+
+<H3><A NAME="SECTION00041100000000000000"></A>
+<A NAME="mines-sample"></A>
+<BR>
+Sample-Mines-Environment
+</H3>
+The 
+<A NAME="tex2html15"
+  HREF="http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-c/SampleMinesEnvironment.c">mines
+ environment</A>
+is internally a two-dimensional, discrete grid world where the agent receives a penalty per step until reaching a goal state, hopefully without stepping on any exploding land-mines along the way.  The (x,y) state is flattened into a discrete, scalar observation for the agent.  This environment can receive special messages from the experiment program to print the current state to the screen, and also to toggle between random starting states and a fixed starting-state specified by the experiment.
+
+<P>
+The task specification string<A NAME="tex2html13"
+  HREF="#foot276"><SUP>5</SUP></A> is manually created because there is not yet a task spec builder for C/C++. 
+
+<P>
+
+<H3><A NAME="SECTION00041200000000000000"></A>
+<A NAME="sarsa-sample"></A>
+<BR>
+Samples-Sarsa-Agent
+</H3>
+The 
+<A NAME="tex2html16"
+  HREF="http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-c/SampleSarsaAgent.c">SARSA agent</A>
+is a tabular learning agent that uses <!-- MATH
+ $\epsilon-greedy$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$\epsilon-greedy$"> exploration as described in <A NAME="tex2html17"
+  HREF="http://www.cs.ualberta.ca/~sutton/book/ebook/node64.html">Reinforcement Learning: An Introduction</A>
+by Sutton and Barto.
+
+<P>
+The SARSA agent parses the task specification string using the C/C++ task spec parser.  This agent can receive special messages from the experiment program to pause/unpause learning, pause/unpause exploring, save the current value function to a file, and load the the value function from a file.
+
+<P>
+
+<H3><A NAME="SECTION00041300000000000000">
+Sample-Experiment</A>
+</H3>
+The sample experiment program runs the show.  First, it alternates running the agent in the environment for a number of episodes, and telling the agent to pause learning so that the current performance can be evaluated.  These results are saved to a comma-separated-value file.
+
+<P>
+The sample experiment then tells the agent to save the value function to a file, and then resets the experiment (and agent) to initial conditions.  After verifying that the agent's initial policy is bad, the experiment tells the agent to load the value function from the file.  The agent is evaluated again using this previously-learned value function, and performance is dramatically better.
+
+<P>
+Finally, the experiment sends a message to specify that the environment should use a fixed (instead of random) starting state, and runs the agent from that fixed start state for a while.
+
+<P>
+
+<H3><A NAME="SECTION00041400000000000000"></A>
+<A NAME="custom-env"></A>
+<BR>
+Customized Codec for Flexible Integration
+</H3>
+From time to time, someone wants to connect an agent or environment to RL-Glue which comes from 
+an third-party code base that is not easy to fit into the mod of a standard RL-Glue module.  Often the 
+integration problems are related to the third-party code base defining a main method and controlling 
+the execution flow of the program directly (instead of waiting for commands from the <TT>rl_glue</TT> server).
+
+<P>
+Two such examples that have happened already are Marc Lanctot's real time strategy engine that was used
+in the 2008 RL-Competition, and also the project to connect the Stella Atari emulator to RL-Glue.
+
+<P>
+We support a path for integrating these projects with RL-Glue that involves customizing this C/C++ codec, rather than trying too hard to link to it.  We have provided an example in: <TT>examples/custom_integrated_env</TT>.
+
+<P>
+The relevant files are:
+<BR>
+<A NAME="tex2html18"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/C/examples/custom_integrated_env/src/TheGame.h"><TT>TheGame.h</TT></A>
+<BR>
+<A NAME="tex2html19"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/C/examples/custom_integrated_env/src/TheGame.c"><TT>TheGame.c</TT></A>
+<BR>
+<A NAME="tex2html20"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/C/examples/custom_integrated_env/src/Custom_Integrated_Env_Codec.c"><TT>Custom_Integrated_Env_Codec.c</TT></A>
+<BR>
+
+<P>
+The idea in the example is that you have a game (called <TT>TheGame</TT>) which was never meant to be used
+with RL-Glue.  To integrate it, a copy of <TT>src/RL_client_environment.c</TT> was modified to work 
+specifically with <TT>TheGame</TT>.  For example, all of the calls to <TT>env_init</TT>, <TT>env_start</TT>, <TT>env_step</TT>, etc. were replaced with calls to functions defined in <TT>TheGame</TT>.  The input and output to those <TT>TheGame</TT> functions need to be wrapped up a little
+ bit, but the end result is a fairly easy way to connect <TT>TheGame</TT> to RL-Glue!
+
+<P>
+Check out the source code in the example, and feel free to ask questions in the RL-Glue Google Group!
+
+<P>
+
+<H1><A NAME="SECTION00050000000000000000">
+Codec Specification, Memory Allocation, Types, and Function Prototypes</A>
+</H1>
+There is some important information about memory management practices in RL-Glue, as well as detailed information about the C/C++ RL-Glue type definitions available in the 
+RL-Glue 3.0 technical manual.  We've opted to not duplicate those 6 pages of useful information here : but you really should go read them.
+
+<P>
+The main thing to realize is that agents, environments, and experiment programs are completely interchangeable between <I>direct-compile</I> (RL-Glue project) and <I>socket-communication</I>
+(this codec).  An agent written for either one will be compiled the same way, the only difference is what library it is linked to.  So, 95% of the technical manual from the RL-Glue project applies 
+perfectly to people using this codec! 
+
+<P>
+
+<H1><A NAME="SECTION00060000000000000000">
+Advanced Features</A>
+</H1>
+
+<H2><A NAME="SECTION00061000000000000000">
+Connecting to Custom Hosts and Ports</A>
+</H2>
+Sometimes you will want to connect to the <TT>rl_glue</TT> server over the network instead of 
+on the local host.  Othertimes you may want to run the <TT>rl_glue</TT> server on a port other than
+4096 either because of firewall issues, or because you want to run multiple instances on the same machine.
+
+<P>
+In these cases, you can tell this codec to connect to custom port/host combinations using the environment
+variables <TT>RLGLUE_HOST</TT> and <TT>RLGLUE_PORT</TT>.  These are both optional parameters.
+
+<P>
+For example, try the following code:
+<PRE>
+	&gt; $ RLGLUE_HOST=69.64.159.1 RLGLUE_PORT=1025 skeleton-example/SkeletonAgent
+</PRE>
+
+<P>
+That command could give outcome:
+<PRE>
+RL-Glue C Agent Codec Version 2.0-RC1, Build 277
+    Connecting to host=69.64.159.1 on port=1025...
+</PRE>
+
+<P>
+Alternatively, you can actually use a host name:
+<PRE>
+	&gt; $ RLGLUE_HOST=rlai.net skeleton-example/SkeletonAgent
+</PRE>
+
+<P>
+That command could give outcome:
+<PRE>
+RL-Glue C Agent Codec Version 2.0-RC1, Build 277
+     Connecting to host=69.64.159.1 on port=4096...
+</PRE>
+
+<P>
+If you don't like typing them every time, you can export them:
+<PRE>
+	&gt; $ export RLGLUE_HOST=rlai.net
+	&gt; $ export RLGLUE_PORT=1025
+	&gt; $ skeleton-example/SkeletonAgent
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00070000000000000000">
+Changes and 2.x Backward Compatibility</A>
+</H1>
+There were many changes from RL-Glue 2.x to RL-Glue 3.x.  Most of them are at the level of the API and project organization, and are addressed in the <A NAME="tex2html21"
+  HREF="http://rl-glue.googlecode.com/svn/trunk/docs/html/index.html">RL-Glue overview documentation</A>.  The technical changes are available in the <A NAME="tex2html22"
+  HREF="http://rl-glue.googlecode.com/svn/trunk/docs/tech_html/index.html">RL-Glue Technical Manual</A>.
+
+<P>
+
+<H1><A NAME="SECTION00080000000000000000">
+Frequently Asked Questions</A>
+</H1>
+We're waiting to hear more of your questions!
+
+<P>
+
+<H2><A NAME="SECTION00081000000000000000">
+Where can I get more help?</A>
+</H2>
+
+<H3><A NAME="SECTION00081100000000000000">
+Online FAQ</A>
+</H3>
+We suggest checking out the online RL-Glue C/C++ Codec FAQ:
+<BR>
+<TT><A NAME="tex2html23"
+  HREF="http://glue.rl-community.org/Home/Extensions/c-c-codec#TOC-Frequently-Asked-Questions">http://glue.rl-community.org/Home/Extensions/c-c-codec#TOC-Frequently-Asked-Questions</A></TT>
+<P>
+The online FAQ may be more current than this document, which may have been distributed some time ago.
+
+<P>
+
+<H3><A NAME="SECTION00081200000000000000">
+Google Group / Mailing List</A>
+</H3>
+First, you should join the RL-Glue Google Group Mailing List:
+<BR>
+<TT><A NAME="tex2html24"
+  HREF="http://groups.google.com/group/rl-glue">http://groups.google.com/group/rl-glue</A></TT>
+<P>
+We're happy to answer any questions about RL-Glue.  Of course, try to search through previous messages first in case your question has been answered before.
+
+<P>
+
+<H1><A NAME="SECTION00090000000000000000">
+Credits and Acknowledgements</A>
+</H1>
+Andrew Butcher originally wrote the RL-Glue network library and first version of this codec.  Thanks Andrew.
+
+<P>
+Brian Tanner has since grabbed the torch and has continued to develop the codec.
+
+<P>
+Special thanks to Scott Livingston for creating the new C/C++ task spec parser.
+
+<P>
+
+<H2><A NAME="SECTION00091000000000000000">
+Contributing</A>
+</H2>
+If you would like to become a member of this project and contribute updates/changes to the code, please send a message to rl-glue@googlegroups.com.
+
+<P>
+
+<H1><A NAME="SECTION000100000000000000000">
+Document Information</A>
+</H1>
+<PRE>
+Revision Number: $Rev: 681 $
+Last Updated By: $Author: brian@tannerpages.com $
+Last Updated   : $Date: 2009-02-08 20:03:55 -0700 (Sun, 08 Feb 2009) $
+$URL: https://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/C/docs/C-Codec.tex $
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION000110000000000000000">
+About this document ...</A>
+</H1>
+ <STRONG>RL-Glue C/C++ Codec 2.0 Manual </STRONG><P>
+This document was generated using the
+<A HREF="http://www.latex2html.org/"><STRONG>LaTeX</STRONG>2<tt>HTML</tt></A> translator Version 2002-2-1 (1.71)
+<P>
+Copyright &#169; 1993, 1994, 1995, 1996,
+<A HREF="http://cbl.leeds.ac.uk/nikos/personal.html">Nikos Drakos</A>, 
+Computer Based Learning Unit, University of Leeds.
+<BR>
+Copyright &#169; 1997, 1998, 1999,
+<A HREF="http://www.maths.mq.edu.au/~ross/">Ross Moore</A>, 
+Mathematics Department, Macquarie University, Sydney.
+<P>
+The command line arguments were: <BR>
+ <STRONG>latex2html</STRONG> <TT>C-Codec.tex -split 0 -dir html -mkdir -title 'RL-Glue C/C++ Codec' -local_icons -math</TT>
+<P>
+The translation was initiated by Brian Tanner on 2009-02-09
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot271">... RL-Glue</A><A
+ HREF="C-Codec.html#tex2html1"><SUP>1</SUP></A></DT>
+<DD><TT><A NAME="tex2html2"
+  HREF="http://glue.rl-community.org/">http://glue.rl-community.org/</A></TT>
+
+</DD>
+<DT><A NAME="foot272">... Apache-2.0</A><A
+ HREF="C-Codec.html#tex2html3"><SUP>2</SUP></A></DT>
+<DD><TT><A NAME="tex2html4"
+  HREF="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</A></TT>
+
+</DD>
+<DT><A NAME="foot273">... Autotools</A><A
+ HREF="C-Codec.html#tex2html7"><SUP>3</SUP></A></DT>
+<DD><TT><A NAME="tex2html8"
+  HREF="http://sources.redhat.com/autobook/">http://sources.redhat.com/autobook/</A></TT>
+
+</DD>
+<DT><A NAME="foot274">... CYGWIN</A><A
+ HREF="C-Codec.html#tex2html9"><SUP>4</SUP></A></DT>
+<DD><TT><A NAME="tex2html10"
+  HREF="http://www.cygwin.com/">http://www.cygwin.com/</A></TT>
+
+</DD>
+<DT><A NAME="foot276">... string</A><A
+ HREF="C-Codec.html#tex2html13"><SUP>5</SUP></A></DT>
+<DD><TT><A NAME="tex2html14"
+  HREF="http://glue.rl-community.org/Home/rl-glue/task-spec-language">http://glue.rl-community.org/Home/rl-glue/task-spec-language</A></TT>
+
+</DD>
+</DL><HR>
+<!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brian Tanner
+2009-02-09
+</ADDRESS>
+</BODY>
+</HTML>

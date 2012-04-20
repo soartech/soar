@@ -1,0 +1,15 @@
+sp {apply*action
+   (state <s> ^operator <op>
+              ^io.output-link <ol>)
+   (<op> ^name action
+         ^direction <dir>
+         ^jump <y>
+         ^speed <deg>)
+-->
+   (<ol> ^jump <j>
+         ^move <m>
+         ^speed <sp>)
+   (<j> ^up <y>)
+   (<m> ^direction <dir>)
+   (<sp> ^degree <deg>)
+}

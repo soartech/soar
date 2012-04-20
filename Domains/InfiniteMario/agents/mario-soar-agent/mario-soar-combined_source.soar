@@ -1,0 +1,19 @@
+source _firstload.soar
+pushd all
+source all_source.soar
+popd
+pushd elaborations
+source elaborations_source.soar
+popd
+source apply-action.soar
+source avoid-pit.soar
+source grab-coin.soar
+source initialize-mario-soar-combined.soar
+source move-to-goal.soar
+source operator-preference.soar
+source preference-update-end.soar
+source search-question.soar
+source tackle-four-monsters.soar
+source tackle-monster.soar
+source tackle-three-monsters.soar
+source tackle-two-monsters.soar

@@ -1,0 +1,117 @@
+sp {set-pref*question*coin
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name search-question)
+   (<o2> ^name grab-coin)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*question1
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-monster)
+   (<o2> ^name search-question)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*coin1
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-monster)
+   (<o2> ^name grab-coin)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*question2
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-two-monsters)
+   (<o2> ^name search-question)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*coin2
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-two-monsters)
+   (<o2> ^name grab-coin)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*question3
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-three-monsters)
+   (<o2> ^name search-question)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*coin3
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-three-monsters)
+   (<o2> ^name grab-coin)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*question4
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-four-monsters)
+   (<o2> ^name search-question)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*coin4
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-four-monsters)
+   (<o2> ^name grab-coin)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*monster2
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-two-monsters)
+   (<o2> ^name tackle-two-monsters)
+-->
+   (<s> ^operator <o1> = <o2>)
+}
+sp {set-pref*monster*monster3
+   (state <s> ^operator <o1> +
+              ^operator <o2> +
+              ^operator <o3> +)
+   (<o1> ^name tackle-three-monsters)
+   (<o2> ^name tackle-three-monsters)
+    (<o3> ^name tackle-three-monsters)
+-->
+   (<s> ^operator <o1> = <o2>)
+    (<s> ^operator <o1> = <o3>)
+}
+
+
+
+
+
+
+sp {set-pref*monster*pit1
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-monster
+         ^monster.ditx <dx> > 0)
+   (<o2> ^name avoid-pit
+         ^pit.dist-start > <dx>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}
+sp {set-pref*monster*pit2
+   (state <s> ^operator <o1> +
+              ^operator <o2> +)
+   (<o1> ^name tackle-monster
+         ^monster.distx <dx> < 0)
+   (<o2> ^name avoid-pit
+         ^pit.dist-start < <dx>)
+-->
+   (<s> ^operator <o1> > <o2>)
+}

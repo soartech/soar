@@ -1,0 +1,304 @@
+## GPC: Pretty close to P 0 
+
+gp-max 500000
+
+gp {dice*rl*challenge-exact*after-bid*not-one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^operator <op> +
+              ^io.input-link <in>)
+   (<op> ^name [ challenge exact ])
+   (<dcs> ^dice-count <dc1> <dc2> <dcu>)
+   (<dc1> ^face <last-bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dc2> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+   (<in> ^state.last-bid <bid>
+              ^state.special false)
+   (<bid> ^face { [ 2 3 4 5 6 ] <last-bid-face> }
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*challenge-exact*after-bid*one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^operator <op> +
+              ^io.input-link <in>)
+   (<op> ^name [ challenge exact ])
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+   (<in> ^state.last-bid <bid>          
+        ^state.special false)
+   (<bid> ^face 1
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*challenge*after-pass
+   (state <s> ^superstate nil
+              ^operator <op> +
+              ^io.input-link <in>)
+   (<op> ^name challenge
+         ^target <t1>)
+   (<in> ^history <h>)
+   (<h> ^action pass
+        ^target <t1>)
+    (<t1> ^pushed <p1> ^cup <c1>)
+    (<p1> ^count [ 0 1 2 3 4 ])
+    (<c1> ^count [1 2 3 4 5] )
+
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid*not-one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face { <bid-face> [ 2 3 4 5 6 ] }
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ]     
+         -^push-face)
+   (<dcs> ^dice-count <dc1> <dc2> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dc2> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5  6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid*one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face 1
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ]
+         -^push-face)
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid-push*not-one*push-not-one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face { <bid-face> [ 2 3 4 5 6 ] }
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15  ]
+          ^push-face-count 1
+          ^push-face <bid-face>)
+   (<dcs> ^dice-count <dc1> <dc2> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dc2> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+
+gp {dice*rl*bid-push*not-one*push-one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face { <bid-face> [ 2 3 4 5 6 ] }
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ]
+          ^push-face-count 1
+          ^push-face 1)
+   (<dcs> ^dice-count <dc1> <dc2> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dc2> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid-push*one*push-one
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face 1 
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ]
+          ^push-face-count 1
+          ^push-face 1)
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 13 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10  ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+#####
+## Only have counts up to 7 because don't know one of opponent
+##  one must be the other face (1 or <bid-face>) and one must be 
+## something else - otherwise we wouldn't push
+
+gp {dice*rl*bid-push*not-one*push-two
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special false
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face { <bid-face> [ 2 3 4 5 6 ] }
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ]
+          ^push-face-count 2
+          ^push-face <bid-face>
+          ^push-face 1)
+   (<dcs> ^dice-count <dc1> <dc2> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 ])
+   (<dc2> ^face 1
+          ^count [ 0 1 2 3 4 5 6 7 8 9 10 11 12 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+########################SPECIAL RULES
+### 
+
+gp {dice*rl*challenge-exact*after-bid*special
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^operator <op> +
+              ^io.input-link <in>)
+   (<op> ^name [ challenge exact ])
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face <last-bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9  ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 ])
+   (<in> ^state.last-bid <bid>
+         ^state.special true)
+   (<bid> ^face <last-bid-face> 
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11  ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid*special
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special true
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face <bid-face>
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 ]     
+         -^push-face)
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*bid-push*push*special
+   (state <s> ^superstate nil
+              ^true-dice-counts <dcs>
+              ^io.input-link.state.special true
+              ^operator <op> +)
+   (<op> ^name bid
+          ^face <bid-face> 
+          ^multiplier [ 1 2 3 4 5 6 7 8 9 10 11 ]
+          ^push-face-count 1
+          ^push-face <bid-face>)
+   (<dcs> ^dice-count <dc1> <dcu>)
+   (<dc1> ^face <bid-face>
+          ^count [ 0 1 2 3 4 5 6 7 8 9 ])
+   (<dcu> ^face unknown
+          ^count [ 1 2 3 4 5 6 7 8 9 10 ])
+-->
+   (<s> ^operator <op> = 0)
+}
+
+
+############ Better Pass
+
+gp {dice*rl*pass*valid
+   (state <s> ^superstate nil
+              ^operator <op> +
+              ^io.input-link.players.me <me>)
+   (<op> ^name pass)
+   (<me> ^dice-counts <dcs>
+         ^pushed [ 0 1 2 3 4 ])
+   (<dcs> ^<face> [ 2 3 4 5 ])
+  -(<dcs> ^<> <face> <> 0)  
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*pass*pushed-same*not-valid
+   (state <s> ^superstate nil
+              ^operator <op> +
+              ^io.input-link.players.me <me>)
+   (<op> ^name pass)
+   (<me> ^pushed <pushed> 
+         ^cup.die <> <face>
+         ^cup.count [ 1 2 3 4 5 ])  
+   (<pushed> ^count [ 1 2 3 4 ]
+             ^die.face <face>
+            -^die.face <> <face> ) 
+-->
+   (<s> ^operator <op> = 0)
+}
+
+gp {dice*rl*pass*no-push*not-valid
+   (state <s> ^superstate nil
+              ^operator <op> +
+              ^io.input-link.players.me <me>)
+   (<op> ^name pass)
+   (<me> ^pushed.count 0 
+         ^cup.die <face>
+         ^cup.die <> <face>
+         ^cup.count [ 2 3 4 5 ])  
+-->
+   (<s> ^operator <op> = 0)
+}
+
+
+gp {dice*rl*pass*push*not-valid-push
+   (state <s> ^superstate nil
+              ^operator <op> +
+              ^io.input-link.players.me <me>)
+   (<op> ^name pass)
+   (<me> ^pushed <pushed>)
+   (<pushed> ^die.face <face>
+             ^die.face <> <face>)
+-->
+   (<s> ^operator <op> = 0)
+}
+

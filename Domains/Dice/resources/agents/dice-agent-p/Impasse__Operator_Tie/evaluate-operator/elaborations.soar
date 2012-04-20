@@ -1,0 +1,190 @@
+
+
+### SPECIALS - After Model 
+##################################
+
+## Add in dice that are rerolled into the unknown for used in computing bid difference
+
+sp {evaluate-operator*elaborate*compute-bid-push-probability*push*unknown
+   (state <s> ^name evaluate-operator
+              ^operator <op> +
+              ^dice-counts <dcs> 
+              ^top-state.io.input-link.players.me.cup <cup>
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc2>)
+   (<cup> ^count <undercup>)
+   (<op> ^name compute-bid-push-probability)
+   (<so> ^name bid
+         ^push-dice-number <push-dice-number>)
+   (<dc2> ^face unknown
+          ^count <unknown>)
+-->
+   (write (crlf) |Unknowns: | (+ <unknown> (- <undercup> <push-dice-number>)))
+   (<op> ^unknown (+ <unknown> (- <undercup> <push-dice-number>)))
+}
+
+
+sp {evaluate-operator*elaborate*compute-bid-probability*unknown
+   (state <s> ^name evaluate-operator
+              ^operator <op> +
+              ^dice-counts <dcs>
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc2>)
+   (<op> ^name compute-bid-probability)
+   (<so> ^name bid)
+   (<dc2> ^face unknown
+          ^count <unknown>)
+-->
+   (write (crlf) |Unknowns: | <unknown>)
+   (<op> ^unknown <unknown>)
+}
+
+## No special
+sp {evaluate-operator*elaborate*compute-bid-push-probability*model*no-model
+   (state <s> ^name evaluate-operator
+              ^operator <op> +
+              ^dice-counts <dcs> )
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>)
+  -(<dcs> ^dice-count.face special)
+-->
+   (write (crlf) |No Model.|)
+   (<op> ^sunknown 0)
+}
+
+## Different face for pushing one face.
+sp {evaluate-operator*elaborate*compute-bid-push-probability*model*same
+   (state <s> ^name evaluate-operator
+              ^operator <op> +
+              ^dice-counts <dcs> 
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>)
+   (<so> ^name bid
+         ^face <face>)
+   (<dc> ^face special
+         ^not-face <face>)
+-->
+   (write (crlf) |Model: no additional unknowns because prior bid is same as currrent.|)
+   (<op> ^sunknown 0)
+}
+
+sp {evaluate-operator*elaborate*compute-bid-push-probability*model*different*prior-not-1
+   (state <s> ^name evaluate-operator
+              ^operator <op> +
+              ^dice-counts <dcs> 
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>)
+   (<so> ^name bid
+         ^face <face>)
+   (<dc> ^face special
+         ^not-face { <> <face> <> 1 }
+         ^count <count>)
+-->
+   (write (crlf) |Model:  additional unknowns because prior bid is different: | <count>)
+   (<op> ^sunknown <count>)
+}
+sp {evaluate-operator*elaborate*compute-bid-push-probability*model*different*prior-1
+   (state <s> ^name evaluate-operator
+              ^top-state.io.input-link.state.special <> true
+              ^operator <op> +
+              ^dice-counts <dcs> 
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>)
+   (<so> ^name bid
+         ^face <face>)
+   (<dc> ^face special
+         ^not-face { <> <face> 1}
+         ^count <count>)
+-->
+   (write (crlf) |Model:  additional unknowns because prior bid is 1 and different - div by 2: count: | <count> | div 2: | (div <count> 2))
+   (<op> ^sunknown (div <count> 2))
+}
+
+sp {evaluate-operator*elaborate*compute-bid-push-probability*model*different*prior-1*special
+   (state <s> ^name evaluate-operator
+              ^top-state.io.input-link.state.special true
+              ^operator <op> +
+              ^dice-counts <dcs> 
+              ^superstate.operator.superoperator <so>)
+   (<dcs> ^dice-count <dc>)
+   (<op> ^name << compute-bid-push-probability compute-bid-probability >>)
+   (<so> ^name bid
+         ^face <face>)
+   (<dc> ^face special
+         ^not-face { <> <face> 1}
+         ^count <count>)
+-->
+   (write (crlf) |Model: 0 special unknowns because prior bid is 1 and special rules|)
+   (<op> ^sunknown 0)
+}
+
+
+sp {apply*compute-probability*use-result*split*proto
+   (state <s> ^operator <op>
+              ^top-state.split true
+              ^superstate.operator.evaluation <e>)
+   (<e> ^qna-query2.result.features.probability <prob>)
+   (<op> ^type compute-probability)
+-->
+   (write (crlf) |>>>Split Probability: | <prob>)
+   (<e> ^probability <prob>)
+}
+
+sp {evaluate-operator*monitor
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.superoperator.name <op-name>)
+-->
+   (write  (crlf) |   *** | <op-name> | ***|)
+}
+
+sp {evaluate-operator*monitor*model
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.use-model true)
+-->
+   (write (crlf) |   *** using model for these calculations ***|)
+}
+
+sp {evaluate-operator*monitor*nomodel
+   (state <s> ^name evaluate-operator
+             -^superstate.operator.use-model true)
+-->
+   (write (crlf) |   --- no model for these calculations ---|)
+}
+
+sp {evaluate-operator*elaborate*state*dice-counts
+   (state <s> ^name evaluate-operator
+             -^superstate.operator.use-model true
+              ^superstate.superstate.true-dice-counts <tdc>)
+-->
+   (<s> ^dice-counts <tdc>)
+}
+
+sp {evaluate-operator*elaborate*state*model-dice-counts
+   (state <s> ^name evaluate-operator
+              ^superstate.operator.use-model true
+              ^superstate.alternative-dice-counts <tdc>)
+-->
+   (<s> ^dice-counts <tdc>)
+}
+
+
+sp {evaluate-operator*elaborate*state*next-unknown-nil
+   (state <s> ^name evaluate-operator
+             ^top-state <ts>)
+   (<ts> -^next-player-data.player.cup.count)
+-->
+   (write (crlf) |Next Unknowns: 0|)
+   (<s> ^next-unknowns 0)
+}
+
+
+sp {evaluate-operator*elaborate*state*next-unknown
+   (state <s> ^name evaluate-operator
+              ^top-state.next-player-data.player.cup.count <count>)
+-->   
+   (write (crlf) |Next Unknowns: | <count>)
+   (<s> ^next-unknowns <count>)
+}
+

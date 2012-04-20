@@ -1,0 +1,133 @@
+sp {mario*elaborate*xright
+   (state <s> ^mario <mario>)
+   (<mario> ^xi <x>
+        ^yi <y>)
+-->
+   (<s> ^xtile <xt>
+        ^ytile <yt>)
+   (<xt> ^right (+ <x> 1)
+         ^left (- <x> 1)
+         ^centre <x>)
+}
+
+sp {mario*elaborate*tile-on-right
+   (state <s> ^io.input-link <il>
+              ^xtile.right <xloc>
+              ^mario.yi <y>)
+   (<il> ^visual-scene.tile-row <row>)
+   (<row> ^y <y>
+          ^tile <t>)
+   (<t> ^x <xloc>
+        ^type <ty>)
+-->
+   (<s> ^tile-type.right <ty>)
+}
+sp {mario*elaborate*coin
+   (state <s> ^io.input-link <il>)
+   (<il> ^visual-scene.tile-row <row>)
+   (<row> ^y <y>
+          ^tile <t>)
+   (<t> ^x <x>
+        ^type |$|)
+-->
+   (<s> ^coin <c>)
+   (<c> ^x <x>
+        ^y <y>)
+}
+sp {mario*elaborate*coin1
+   (state <s> ^coin <c>)
+   (<c> ^distx < 2
+        ^disty < 4)
+  -(<c> ^distx < -1)
+  -(<c> ^disty < 0)
+-->
+   (<c> ^isreachable yes)
+}
+sp {mario*elaborate*question
+   (state <s> ^io.input-link <il>)
+   (<il> ^visual-scene.tile-row <row>)
+   (<row> ^y <y>
+          ^tile <t>)
+   (<t> ^x <x>
+        ^type |?|)
+-->
+   (<s> ^question <q>)
+   (<q> ^x <x>
+        ^y <y>)
+}
+sp {mario*elaborate*question1
+   (state <s> ^question <q>)
+   (<q> ^distx < 3
+        ^disty < 4)
+  -(<q> ^distx < -2)
+  -(<q> ^disty < 0)
+-->
+   (<q> ^isreachable yes)
+}
+sp {mario*elaborate*coin-distance
+   (state <s> ^mario <mario>
+              ^coin <ob>)
+   (<mario> ^xi <mariox>
+            ^yi <marioy>)
+   (<ob> ^x <obx>
+         ^y <oby>)
+-->
+   (<ob> ^distx (- <obx> <mariox>)
+         ^disty (- <oby> <marioy>))
+}
+sp {mario*elaborate*question-distance
+   (state <s> ^mario <mario>
+              ^question <ob>)
+   (<mario> ^xi <mariox>
+            ^yi <marioy>)
+   (<ob> ^x <obx>
+         ^y <oby>)
+-->
+   (<ob> ^distx (- <obx> <mariox>)
+         ^disty (- <oby> <marioy>))
+}
+sp {mario*elaborate*coin6
+   (state <s> ^platform <p>
+              ^coin <c>)
+   (<p> ^start <start>
+        ^end <end>
+        ^y <yloc>
+        ^isreachable yes)
+   (<c> ^x > <start>)
+   (<c> ^x < <end>)
+   (<c> ^y <yc>)
+-->
+   (<c> ^py (- <yc> <yloc>))
+}
+sp {mario*elaborate*coin7
+   (state <s> ^platform <p>
+              ^coin <c>)
+   (<p> ^isreachable yes)
+   (<c> ^py < 4)
+   (<c> ^py > -1)
+-->
+   (<c> ^isreachable yes)
+}
+sp {mario*elaborate*question5
+   (state <s> ^platform <p>
+              ^question <q>)
+   (<p> ^start <start>
+        ^end <end>
+        ^y <yloc>
+        ^isreachable yes)
+   (<q> ^x > <start>)
+   (<q> ^x < <end>)
+   (<q> ^y <yc>)
+-->
+   (<q> ^py (- <yc> <yloc>))
+}
+sp {mario*elaborate*question6
+   (state <s> ^platform <p>
+              ^question <q>)
+   (<p> ^isreachable yes)
+   (<q> ^py < 4)
+   (<q> ^py > -1)
+-->
+   (<q> ^isreachable yes)
+}
+

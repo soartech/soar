@@ -1,0 +1,130 @@
+# was challenged successfully
+sp {dice*propose*add-reward*challenged*success
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <in>)
+   (<in> ^rounds <r>
+         ^players.mystatus play
+         ^players.me <me>)
+   (<r> ^action challenge
+        ^id <id>
+        ^result success
+        ^target <me>)
+-->
+   (write (crlf) |Challenge Against Me Succeeded.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value -1)
+}
+
+# was challenged unsuccessfully
+sp {dice*propose*add-reward*challenged*failure
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <in>)
+   (<in> ^rounds <r>
+         ^players.mystatus play
+         ^players.me <me>)
+   (<r> ^action challenge
+        ^id <id>
+        ^result failure
+        ^target <me>)
+-->
+   (write (crlf) |Challenge Against me Failed.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value 1)
+}
+
+# attempted exact/challenge, success
+sp {dice*propose*add-reward*terminate*success
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <in>)
+   (<in> -^state.recorded true
+          ^rounds <r>
+          ^players.me <me>
+          ^players.mystatus play)
+   (<r> ^player <me>
+        ^id <id>
+        ^action << challenge exact >>
+        ^result success)
+-->
+   (write (crlf) |My Challenge/Exact Success.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value 1)
+}
+
+# attempted exact/challenge, failure
+sp {dice*propose*add-reward*terminate*failure
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <in>
+              )
+   (<in> -^state.recorded true
+          ^rounds <r>
+          ^players.me <me>
+          ^players.mystatus play)
+   (<r> ^player <me>
+        ^id <id>
+        ^action << challenge exact >>
+        ^result failure)
+-->
+   (write (crlf) |Challenge/Exact Failure.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value -1)
+}
+
+sp {dice*propose*add-reward*challenged*win
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <il>)
+   (<il> -^state.recorded true
+          ^players.mystatus won
+          ^rounds.id <id>)
+-->
+   (write (crlf) |Won game.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value 1)
+}
+
+sp {dice*propose*add-reward*challenged*lose
+   (state <s> ^name dice
+              ^current-id < <id>
+              ^io.input-link <il>
+              )
+   (<il> -^state.recorded true
+          ^players.mystatus lost
+          ^rounds.id <id>)
+-->
+   (write (crlf) |Lost game.|)
+   (<s> ^operator <o> !)
+   (<o> ^name add-reward
+        ^value -1)
+}
+
+sp {apply*add-reward
+   (state <s> ^operator <op>
+              ^io.input-link.state <r>
+              ^reward-link <rl>)
+   (<op> ^name add-reward
+         ^value <v>)
+-->
+   (write (crlf) |Reward: | <v>)
+   (<r> ^recorded true)
+   (<rl> ^reward.value <v>)
+}
+
+sp {apply*add-reward*update-current-id
+   (state <s> ^operator <op>
+              ^current-id { <cid> <> <id> }
+              ^io.input-link.rounds.id <id>)
+   (<op> ^name add-reward)
+-->
+   (<s> ^current-id <cid> -
+                    <id>)
+}
+

@@ -1,0 +1,110 @@
+sp {propose*tackle-four-monsters
+   (state <s> ^name mario-soar-combined
+              ^monster <m1>
+              ^monster {<m2> <> <m1>}
+              ^monster {<m3> <> <m1> <> <m2>}
+              ^monster {<m4> <> <m1> <> <m3> <> <m4>} )
+    (<m1> ^distx <dx1>)
+    (<m2> ^distx {<dx2> > <dx1>})
+     (<m3> ^distx {<dx3> > <dx2>})
+     (<m4> ^distx {<dx4> > <dx3>})
+   (<m1> ^isthreat yes)
+  -(<m1> ^isthreat no)
+   (<m2> ^isthreat yes)
+  -(<m2> ^isthreat no)
+   (<m3> ^isthreat yes)
+  -(<m3> ^isthreat no)
+   (<m4> ^isthreat yes)
+  -(<m4> ^isthreat no)
+-->
+   (<s> ^operator <o> +
+        ^inhibit-one true
+        ^inhibit-two true
+        ^inhibit-three true)
+   (<o> ^name tackle-four-monsters
+        ^monster <m1>
+        ^monster <m2>
+        ^monster <m3>
+        ^monster <m4>)
+}
+sp {four-monster*random*action
+   (state <s> ^name tackle-four-monsters
+              ^superstate <ss>)
+   (<ss> ^rand-move <mv>
+              ^rand-jump <jp>
+              ^rand-speed <sp>
+              ^mario <mario>
+              ^operator <so>)
+   (<so> ^name tackle-four-monsters
+              ^monster <m1>
+              ^monster {<m2> <> <m1>}
+              ^monster {<m3> <> <m2> <> <m1>}
+              ^monster {<m4> <> <m3> <> <m2> <> <m1>})
+   (<m1> ^distx <dx1>
+        ^disty <dy1>
+ ^horiz-direction <hdir1>
+        ^vert-direction <vdir1>)
+   (<m2> ^distx {<dx2> > <dx1>}
+        ^disty <dy2>
+ ^horiz-direction <hdir2>
+        ^vert-direction <vdir2>)
+   (<m3> ^distx {<dx3> > <dx2>}
+        ^disty <dy3>
+ ^horiz-direction <hdir3>
+        ^vert-direction <vdir3>)
+   (<m4> ^distx {<dx4> > <dx3>}
+        ^disty <dy4>
+ ^horiz-direction <hdir4>
+        ^vert-direction <vdir4>)
+   (<jp> ^up <j>) 
+   (<mario> ^yi <my>)
+   (<mv> ^direction <d>)
+   (<sp> ^degree <sd>)
+-->
+   (<s> ^operator <o> +)
+   (<o> ^name action
+        ^direction <d>
+        ^jump <j>
+        ^speed <sd>)
+}
+sp {four-tackle*monster
+   :template
+   (state <s> ^name tackle-four-monsters
+              ^operator <op> +
+              ^superstate <ss>)
+   (<ss> ^operator <so>
+         ^mario <mario>)
+   (<so> ^name tackle-four-monsters
+         ^monster <m1>
+         ^monster {<m2> <> <m1>}
+         ^monster {<m3> <> <m2> <> <m1>}
+         ^monster {<m4> <> <m3> <> <m2> <> <m1>})
+   (<mario> ^type <mtype>
+            ^tile-above <ta>)
+   (<op> ^name action
+         ^direction <d>
+         ^jump <j>
+         ^speed <sp>)
+   (<m1> ^type <monst1>
+        ^distx <dx1>
+        ^disty <sy1>
+ ^horiz-direction <hdir1>
+        ^vert-direction <vdir1>)
+  (<m2> ^type <monst2>
+        ^distx {<dx2> >= <dx1>}
+        ^disty <sy2>
+ ^horiz-direction <hdir2>
+        ^vert-direction <vdir2>)
+      (<m3> ^type <monst3>
+            ^distx {<dx3> >= <dx2>}
+        ^disty <sy3>
+ ^horiz-direction <hdir3>
+        ^vert-direction <vdir3>)
+         (<m4> ^type <monst4>
+               ^distx {<dx4> >= <dx3>}
+        ^disty <sy4>
+ ^horiz-direction <hdir4>
+        ^vert-direction <vdir4>)
+--> 
+   (<s> ^operator <op> = 0)
+}

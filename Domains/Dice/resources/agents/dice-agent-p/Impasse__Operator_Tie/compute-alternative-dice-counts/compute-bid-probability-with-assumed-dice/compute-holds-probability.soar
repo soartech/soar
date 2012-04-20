@@ -1,0 +1,61 @@
+## Compute probability that the holds value is possible
+##
+
+sp {compute-bid-probability-with-assumed-dice*propose*compute-holds-probabilty
+   (state <s> ^name compute-bid-probability-with-assumed-dice
+              ^superstate <ss>)
+   (<ss> ^operator <sop>
+         ^last-bid <lb>)
+   (<lb> ^face <face>
+         ^player.cup.count <count>)
+   (<sop> ^holds <hold>
+         -^holds-probability)
+-->
+   (<s> ^operator <op> + =, >)
+   (<op> ^name compute-holds-probability
+         ^holds <hold>
+         ^face <face>
+         ^undercup <count>)
+}
+
+## 1 bid
+sp {apply*compute-holds-probability*1*bid
+   (state <s> ^name compute-bid-probability-with-assumed-dice
+              ^superstate.operator <so>
+              ^operator <op>)
+   (<op> ^name compute-holds-probability
+         ^face 1
+         ^holds <hold>
+         ^undercup <undercup>)
+-->
+   (<so> ^holds-probability (compute-dice-probability <undercup> 6 <hold> ge))   
+}
+
+# Special Rules
+sp {apply*compute-holds-probability*special-rules*bid
+   (state <s> ^name compute-bid-probability-with-assumed-dice
+              ^superstate.operator <so>
+              ^operator <op>
+              ^top-state.io.input-link.state.special true)
+   (<op> ^name compute-holds-probability
+         ^face <> 1
+         ^holds <hold>
+         ^undercup <undercup>)
+-->
+    (<so> ^holds-probability (compute-dice-probability <undercup> 6 <hold> ge)) 
+}
+
+## No 1's no Special Rules
+
+sp {apply*compute-holds-probability*not-special-rules*bid
+   (state <s> ^name compute-bid-probability-with-assumed-dice
+              ^superstate.operator <so>
+              ^operator <op>
+              ^top-state.io.input-link.state.special false)
+   (<op> ^name compute-holds-probability
+         ^face <> 1
+         ^holds <hold>
+         ^undercup <undercup>)
+-->
+     (<so> ^holds-probability (compute-dice-probability <undercup> 3 <hold> ge)) 
+}

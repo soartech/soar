@@ -1,0 +1,87 @@
+sp {mario*elaborate*platform
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<v> ^tile-row <row>)
+   (<row> ^y <yloc>
+          ^tile <t>)
+   (<t> ^x <xloc>
+        ^type |1|)
+--> 
+   (<m> ^platform-tile <p>)
+   (<p> ^xleft (- <xloc> 1)
+        ^xright (+ <xloc> 1)
+        ^x <xloc>
+        ^y <yloc>)
+}
+sp {mario*elaborate*platform1
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<m> ^platform-tile <pt>)
+   (<pt> ^xleft <xleft>
+         ^y <yloc>
+         ^x <xloc>)
+   (<v> ^tile-row <row1>)
+   (<row1> ^tile <tile>
+           ^y <yloc>)
+   (<tile> ^x <xleft>
+           ^type | |)
+-->
+   (<m> ^platform <p>)
+   (<p> ^start <xloc>
+        ^y <yloc>)
+}
+sp {mario*elaborate*platform2
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<m> ^platform-tile <pt>
+        ^platform <p>)
+   (<pt> ^xright <xright>
+         ^y <yloc>
+         ^x <xloc>)
+   (<v> ^tile-row <row1>)
+   (<row1> ^tile <tile>
+           ^y <yloc>)
+   (<tile> ^x <xright>
+           ^type | |)
+   (<p> ^y <yloc>
+        ^start <sp> < <xright>)
+-->
+   (<s> ^platform <pp>)
+   (<pp> ^end <xloc>
+        ^y <yloc>
+        ^start <sp>)
+}
+sp {mario*elaborate*platform*3
+   (state <s> ^name mario-soar-combined
+              ^platform <p>
+              ^mario <mario>)
+   (<mario> ^xi <mariox>
+            ^yi <marioy>)
+   (<p> ^start <start>
+        ^end <end>
+        ^y <yloc>)
+-->
+   (<p> ^disty (- <yloc> <marioy>)
+        ^dist-start (- <start> <mariox>)
+        ^dist-end (- <end> <mariox>))
+}
+sp {mario*elaborate*platform4
+   (state <s> ^name mario-soar-combined
+              ^platform <p>)
+   (<p> ^disty < 3
+        ^dist-start < 4
+        ^dist-end > -3)
+
+-->
+   (<p> ^isreachable yes)
+}
+sp {mario*elaborate*platform5
+   (state <s> ^name mario-soar-combined
+              ^platform <p>)
+   (<p> ^y <yloc>)
+-->
+   (<p> ^distyup (+ <yloc> 1))
+}

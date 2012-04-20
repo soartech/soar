@@ -1,0 +1,22 @@
+LDFLAGS := $(LDFLAGS)  -lm -lrlutils -lrlagent -lrlgluenetdev
+CFLAGS := $(CFLAGS) -Wall -pedantic
+
+all: SampleSarsaAgent
+
+SampleSarsaAgent: SampleSarsaAgent.o 
+	$(CC)   SampleSarsaAgent.o $(LDFLAGS) -o SampleSarsaAgent      
+
+SampleSarsaAgent.o: SampleSarsaAgent.c
+	$(CC)  $(CFLAGS) -c SampleSarsaAgent.c -o SampleSarsaAgent.o 
+
+clean:
+	rm -rf SampleSarsaAgent SampleSarsaAgent.exe *.o
+
+
+
+
+
+
+
+
+

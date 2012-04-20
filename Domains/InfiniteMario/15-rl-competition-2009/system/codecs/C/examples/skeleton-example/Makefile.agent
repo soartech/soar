@@ -1,0 +1,22 @@
+LDFLAGS := $(EXTRA_LDFLAGS) -lrlutils -lrlagent -lrlgluenetdev
+CFLAGS := $(EXTRA_CFLAGS) -Wall -pedantic 
+
+all: SkeletonAgent
+
+SkeletonAgent: SkeletonAgent.o 
+	$(CC) SkeletonAgent.o $(LDFLAGS) -o SkeletonAgent      
+
+SkeletonAgent.o: SkeletonAgent.c
+	$(CC)  $(CFLAGS) -c SkeletonAgent.c -o SkeletonAgent.o 
+
+clean:
+	rm -rf SkeletonAgent SkeletonAgent.exe *.o
+
+
+
+
+
+
+
+
+

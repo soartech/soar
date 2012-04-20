@@ -1,0 +1,13 @@
+
+Change log of the Lisp codec
+
+$Revision: 573 $
+$Date: 2009-02-03 04:15:53 -0500 (Tue, 03 Feb 2009) $
+
+
+----- Lisp codec 1.0 (2009-02-02) ---------------------------------------------
+
+    - Core codec implementation using usocket.
+    - Supporting RL-Glue-3.0 task specification parser.
+    - Supporting SBCL, CMUCL, Lispworks, Allegro, CLISP, Scieneer, CCL Lisps.
+

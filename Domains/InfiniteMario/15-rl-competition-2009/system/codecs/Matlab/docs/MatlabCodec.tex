@@ -1,0 +1,461 @@
+\documentclass[11pt]{article}
+
+\usepackage{graphics}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{fullpage}
+\usepackage{html}
+%I don't like my paragraphs indented because we have lots of 1-line paragraphs with URLs or code after them
+\setlength{\parindent}{0in} 
+%I like space between my paragraphs
+\setlength{\parskip}{10pt} 
+
+\title{RL-Glue Matlab Codec 1.03 Manual }
+\author{Brian Tanner :: brian@tannerpages.com}
+\date{}                                        
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+This document describes how to use the Matlab RL-Glue Codec, a software library that provides socket-compatibility with the RL-Glue Reinforcement Learning software library.  Matlab is a brand new codec, created specifically for the RL-Glue 3.0 release.  Special thanks (or pokes) should go to Dale, Doina, and Yaki who gave voices to the countless others who probably
+have scorned us for not supporting Matlab earlier.  It turned out to not even be that difficult :)
+
+For general information and motivation about the RL-Glue\footnote{\url{http://glue.rl-community.org/}} project, please refer to the documentation provided with that project.
+
+This codec will allow you to create agents, environments, and experiment programs in Matlab.
+
+This software project is licensed under the Apache-2.0\footnote{\url{http://www.apache.org/licenses/LICENSE-2.0.html}} license. We're not lawyers, but our intention is that this code 
+should be used however it is useful.  We'd appreciate to hear what you're using it for, and to get credit if appropriate.
+
+This project has a home here:\\
+\url{http://glue.rl-community.org/Home/Extensions/matlab-codec}
+
+
+\subsection{Software Requirements}
+To run agents, environments, and experiments created with this codec, you will need to have RL-Glue executable socket server (\texttt{rl\_glue(.exe)}) installed on your computer.  It is available in several packages at:\newline
+\url{http://code.google.com/p/rl-glue-ext/wiki/RLGlueCore}
+
+Compiling and running components with this codec requires Matlab.  The codec was developed on Matlab 7.6.0.x, it has not been tested extensively on other versions.  Reports from the community suggest that Matlab 7.5 or higher is required to run this codec.
+
+This Matlab codec uses the RL-Glue Java Extension, which means that Matlab needs to be running with the Java Virtual Machine enabled (it is by default).  The Java extension does not need to be installed independently.
+
+\textbf{Possible Contribution: }Someone with Matlab experience could help us find out what exact version of Matlab is required to use this codec, and could help us update the codec to be as robust as possible to older versions.
+
+
+\subsection{Getting the Codec}
+The codec can be downloaded either as a .tar.gz or can be checked out of the subversion repository where it is hosted.
+
+The .tar.gz distribution can be found here:\newline
+\url{http://code.google.com/p/rl-glue-ext/wiki/Matlab}
+
+
+To check the code out of subversion:\newline
+\small \texttt{svn checkout http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Matlab Matlab-Codec} \normalsize
+
+\subsection{Installing the Codec}
+This codec is package with a Matlab ``installer'' which copies the codec source files and the RL-Glue Java Extension JAR file to a user-configurable location and adds them to your Matlab path and Matlab Java classpaths.  This is the recommended way of using the codec.  Alternatively, you can skip the installer and setup these paths on your own.   This manual will assume that you are using the installer.
+
+To run the installer, use the \texttt{installRLGlue()} function from within Matlab in the main directory of the package you downloaded.  This will suggest installing Matlab to your home directory at \texttt{\~{}/rl-glue/codecs/matlab}.  If you would prefer an alternate location, you can call the function with a path, like:
+\begin{verbatim}
+	>>installRLGlue('~/desired/path/to/codec')
+\end{verbatim}
+
+\subsection{Removing the Codec}
+The Matlab codec can be uninstalled by deleting the directory that you installed it \newline(eg. \texttt{\~{}/rl-glue/codecs/matlab}), and using the Matlab path editor to remove the associated directories from your path.
+
+
+
+\section{Sample Project}
+We have included two example projects with this codec, located in the \texttt{examples} directory.  Each project contains an agent, environment, and experiment written for this Matlab codec.  The two projects are \texttt{skeleton} and \texttt{mines-sarsa-sample}.
+
+The \texttt{skeleton} contains all of the bare-bones plumbing that is required to create an agent / environment / experiment with this codec and might be a good starting point for creating your own components.
+
+The \texttt{mines-sarsa-sample} contains a fully functional tabular Sarsa learning algorithm, a discrete-observation grid world problem, and an experiment program that can run these together and gather results.  More details below in Section \ref{mines-sarsa-sample}.
+
+In the following sections, we will describe the skeleton project.  Running and using the \texttt{mines-sarsa-sample} is analogous.
+
+\subsection{Skeleton Agent}
+\label{sec:agent}
+We have provided a skeleton agent with the codec that is a good starting point for agents that you may write in the future.
+It implements all the required functions and provides a good example of how create and run a simple agent.
+
+There are several functions that need to be written. They are all contained in a single Matlab source file:
+\begin{verbatim}
+	examples/skeleton/skeleton_agent.m
+\end{verbatim}
+
+The \texttt{skeleton\_agent.m} file has a public function that returns a structure with function pointers to all of the required RL-Glue functions.  The structure looks like this:
+
+\begin{verbatim}
+>> theAgent=skeleton_agent()
+
+theAgent = 
+
+       agent_init: @skeleton_agent_init
+      agent_start: @skeleton_agent_start
+       agent_step: @skeleton_agent_step
+        agent_end: @skeleton_agent_end
+    agent_cleanup: @skeleton_agent_cleanup
+    agent_message: @skeleton_agent_message
+\end{verbatim}
+
+Alternatively, these different functions could each be in their own \texttt{skeleton\_agent\_}\{init, start, step, end, cleanup, message\}\texttt{.m} files.  This is a personal choice.
+
+This agent does not learn anything and randomly chooses integer action $0$ or $1$.  
+
+You can compile and run the agent like:
+\begin{verbatim}
+	>$ cd examples/skeleton
+	>$ theAgent=skeleton_agent();
+	>$ runAgent(theAgent);
+\end{verbatim}
+
+\htmladdnormallink{\texttt{skeleton\_agent()}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/examples/skeleton/skeleton\_agent.m} creates a struct with function pointers to the other \texttt{skeleton\_agent} methods.  \htmladdnormallink{\texttt{runAgent(theAgent)}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/src/agent/runAgent.m} then
+connects to RL-Glue and runs one step at a time until RL-Glue disconnects.
+
+Alternatively, for a more interactive experience, you can run the agent manually one step at a time:
+\begin{verbatim}
+	>$ cd examples/skeleton/
+	>$ theAgent=skeleton_agent()
+	>$ connectAgent(theAgent);
+	>$ runAgentLoop(theAgent);    %run one step
+	>$ runAgentLoop(theAgent);    %run one step
+	>$ runAgentLoop(theAgent);    %run one step
+	   ...
+\end{verbatim}
+
+Using this method, you can stop and examine what your agent is learning, and potentially modify, visualize, or analyze it however you like.
+
+You will see something like:
+\begin{verbatim}
+	>> runAgent(theAgent)
+	RL-Glue Matlab Agent Codec Version: 1.0 ($Revision: 688 $)
+	    Connecting to rl_glue at host: localhost on port 4096
+\end{verbatim}
+
+This means that the skeleton\_agent is running, and trying to connect to the \texttt{rl\_glue} executable server on the local machine through port $4096$! 
+
+You can kill the process by pressing \texttt{CTRL-c} on your keyboard.
+
+
+The Skeleton agent is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+\subsection{Skeleton Environment}
+\label{sec:env}
+
+We have provided a skeleton environment with the codec that is a good starting point for environments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple environment.  This section will follow the same 
+pattern as the agent version (Section \ref{sec:agent}).  This section will be less detailed because many ideas are similar or identical.
+
+
+The pertinent file is:
+\begin{verbatim}
+	examples/skeleton/skeleton_environment.m
+\end{verbatim}
+
+This environment is episodic, with 21 states, labeled $\{0, 1,\ldots,19,20\}$. States $\{0, 20\}$ are terminal and return rewards of $\{-1, +1\}$ respectively.  The other states return reward of $0$.
+There are two actions, $\{0, 1\}$.  Action $0$ decrements the state number, and action $1$ increments it. The environment starts in state 10.
+
+You can compile and run the environment like:
+\begin{verbatim}
+	>$ cd examples/skeleton
+	>$ theEnv=skeleton_environment();
+	>$ runEnvironment(theEnv);
+\end{verbatim}
+
+You will see something like:
+\begin{verbatim}
+	RL-Glue Matlab Environment Codec Version: 1.0 ($Revision: 688 $)
+	    Connecting to rl_glue at host: localhost on port 4096
+	\end{verbatim}
+
+This means that the skeleton\_environment is running, and trying to connect to the \texttt{rl\_glue} executable server on the local machine through port $4096$! 
+
+You can kill the process by pressing \texttt{CTRL-c} on your keyboard.
+
+The Skeleton environment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+
+\subsection{Skeleton Experiment}
+We have provided a skeleton experiment with the codec that is a good starting point for experiments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple experiment.  This section will follow the same 
+pattern as the agent version (Section \ref{sec:agent}).  This section will be less detailed because many ideas are similar or identical.
+
+The pertinent files are:
+\begin{verbatim}
+	examples/skeleton/skeleton_experiment.m
+\end{verbatim}
+
+This experiment runs \texttt{RL\_Episode} a few times, sends some messages to the agent and environment, and then steps through one episode using \texttt{RL\_step}.
+
+\begin{verbatim}
+	>$ cd examples/skeleton
+	>$ skeleton_experiment();
+\end{verbatim}
+
+You will see something like:
+\begin{verbatim}
+	Experiment starting up!
+	RL-Glue Matlab Experiment Codec Version: 1.0 ($Revision: 688 $)
+	    Connecting to rl_glue at host: 127.0.0.1 on port 4096
+\end{verbatim}
+
+This means that the skeleton\_experiment is running, and trying to connect to the \texttt{rl\_glue} executable server on the local machine through port $4096$!  
+
+You can kill the process by pressing \texttt{CTRL-c} on your keyboard.
+
+The Skeleton experiment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+\subsection{Running All Three Components Together}
+At this point, we've run each of the three components, now it's time to run them with the \texttt{rl\_glue} executable server.  As of version 1.03, the Matlab codec supports running any combination of agent, environment, and experiment, all from a single Matlab instance.  Note that although they are all in Matlab, they are still running over a local network connection to talk to the \texttt{rl\_glue} executable socket server.  In a future version, we may provide a local RL-Glue implementation so that they can work together without needing sockets. This capability already exists in both the RLGlueCore project for C/C++ and the RL-Glue Java Extension codec.
+
+The following will work if you have the \texttt{rl\_glue} socket server is installed at \texttt{/usr/local/bin/rl\_glue}.
+
+We will run all of the components in the Matlab interpreter.  Alternatively, it may be convenient to run \texttt{rl\_glue} in a terminal window of its own.
+In the Matlab interpreter:
+\begin{verbatim}
+	>> cd examples/skeleton
+	%Start the rl_glue socket server as a background process
+	>> !/usr/local/bin/rl_glue &
+	>> runAllTogether();
+\end{verbatim}
+
+If RL-Glue is not installed in the default location, you'll have to start the \texttt{rl\_glue} executable server using its full path (unless it's in your \texttt{PATH} environment variable):
+\begin{verbatim}
+	>> /path/to/rl-glue/bin/rl_glue &
+\end{verbatim}
+
+In the Matlab window, you should see the following if it worked:
+\begin{verbatim}
+	>> runAllTogether
+	RL-Glue Matlab Agent Codec Version: 1.0 ($Revision: 688 $)
+		Connecting to rl_glue at host: 127.0.0.1 on port 4096
+		Agent Codec Connected
+	RL-Glue Matlab Environment Codec Version: 1.0 ($Revision: 688 $)
+		Connecting to rl_glue at host: 127.0.0.1 on port 4096
+		Environment Codec Connected
+	RL-Glue Matlab Experiment Codec Version: 1.0 ($Revision: 688 $)
+		Connecting to rl_glue at host: 127.0.0.1 on port 4096
+		Experiment Codec Connected
+	Experiment starting up!
+	RL_init called, the environment sent task spec: VERSION RL-Glue-3.0 
+	PROBLEMTYPE episodic DISCOUNTFACTOR 1.0 OBSERVATIONS INTS (0 20)  
+	ACTIONS INTS (0 1)  REWARDS (-1.0 1.0)  
+	EXTRA skeleton_environment(Matlab) by Brian Tanner.
+
+
+	----------Sending some sample messages----------
+	Agent responded to 'what is your name?' with: 
+	my name is skeleton_agent, Matlab edition!
+	Agent responded to 'If at first you don't succeed; call it version 1.0  ' 
+	with: I don\'t know how to respond to your message
+	Environment responded to 'what is your name?' with: 
+	my name is skeleton_environment, Matlab edition!
+	Environment responded to 'If at first you don't succeed; 
+	call it version 1.0  ' with: 
+	I don\'t know how to respond to your message
+
+
+	----------Running a few episodes----------
+	Episode 0	 48 steps 	 -1.000000 total reward	 natural end 1
+	Episode 1	 100 steps 	 0.000000 total reward	 natural end 0
+	Episode 2	 74 steps 	 -1.000000 total reward	 natural end 1
+	Episode 3	 34 steps 	 -1.000000 total reward	 natural end 1
+	Episode 4	 100 steps 	 0.000000 total reward	 natural end 0
+	Episode 5	 1 steps 	 0.000000 total reward	 natural end 0
+	Episode 6	 70 steps 	 1.000000 total reward	 natural end 1
+
+
+	----------Stepping through an episode----------
+	First observation and action were: 10 and: 1
+
+
+	----------Summary----------
+	It ran for 86, total reward was: -1.000000
+\end{verbatim}
+
+Congratulations, you have run an RL-Glue agent / environment / experiment together, all using the Matlab codec!
+
+\subsection{Notes on Running Agents, Environments, and Experiments Together}
+There is a function called \htmladdnormallink{\texttt{runRLGlueMultiExperiment}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/src/runRLGlueMultiExperiment.m} that facilities running any combination of agent, environment, and experiment together within Matlab.
+
+This function takes a struct as a parameter, and the struct can have any combination of the following three fields set (at least one should be set):
+\begin{description}
+	\item[agent] An agent struct, like the one that is created by \texttt{skeleton\_agent}.
+	\item[environment] An environment struct, like the one that is created by \texttt{skeleton\_environment}.
+	\item[experiment] An experiment function pointer, like \texttt{@skeleton\_experiment}.
+\end{description}
+
+As long as you set one more of these fields, then you can call \texttt{runRLGlueMultiExperiment} and the Matlab codec will make sure that everything gets called when it needs to. Don't forget to make sure you run any components that you \textbf{don't} specify with another codec or another Matlab instance!
+
+\subsection{Going Further -- Mines Sarsa Example Project}
+\label{mines-sarsa-sample}
+The \texttt{skeleton} sample project is extremely limited and only shows the mechanics of how RL-Glue components are structured using the Matlab codec.  The \texttt{mines-sarsa} sample project is much richer.
+
+More details about the \texttt{mines-sarsa} sample project can be found at their RL-Library home:\newline
+\url{http://library.rl-community.org/packages/mines-sarsa-sample}
+
+\subsubsection{Sample-Mines-Environment}
+\label{mines-sample}
+The 
+\htmladdnormallink{mines environment}{http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-matlab/sample_mines_environment.m} 
+is internally a two-dimensional, discrete grid world where the agent receives a penalty per step until reaching a goal state, hopefully without stepping on any exploding land-mines along the way.  The (x,y) state is flattened into a discrete, scalar observation for the agent.  This environment can receive special messages from the experiment program to print the current state to the screen, and also to toggle between random starting states and a fixed starting-state specified by the experiment.
+
+The task specification string\footnote{\url{http://glue.rl-community.org/Home/rl-glue/task-spec-language}} is created in a semi-automated way using the Java RL-Glue Extension task spec parser/builder. 
+
+\subsubsection{Samples-Sarsa-Agent}
+\label{sarsa-sample}
+The 
+\htmladdnormallink{SARSA agent}{http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-matlab/sample_sarsa_agent.m}
+is a tabular learning agent that uses $\epsilon-greedy$ exploration as described in \htmladdnormallink{Reinforcement Learning: An Introduction}{http://www.cs.ualberta.ca/~sutton/book/ebook/node64.html} by Sutton and Barto.
+
+The SARSA agent parses the task specification string using the Java RL-Glue Extension task spec parser.  This agent can receive special messages from the experiment program to pause/unpause learning, pause/unpause exploring, save the current value function to a file, and load the the value function from a file.
+
+\subsubsection{Sample-Experiment}
+The sample experiment program runs the show.  First, it alternates running the agent in the environment for a number of episodes, and telling the agent to pause learning so that the current performance can be evaluated.  These results are plotted with error-bars in a Matlab figure.
+
+The sample experiment then tells the agent to save the value function to a file, and then resets the experiment (and agent) to initial conditions.  After verifying that the agent's initial policy is bad, the experiment tells the agent to load the value function from the file.  The agent is evaluated again using this previously-learned value function, and performance is dramatically better.
+
+Finally, the experiment sends a message to specify that the environment should use a fixed (instead of random) starting state, and runs the agent from that fixed start state for a while.
+
+\section{Who creates and frees memory?}
+The RL-Glue technical manual has a section called \textit{Who creates and frees memory?}.  The general approach recommended there is to make a copy of data you want to keep beyond the method it was given to you.  The same rules of thumb from that manual should be followed when using the Matlab codec.  The observations and actions can be copied using the same techniques as \htmladdnormallink{the RL-Glue Java Extension}{http://glue.rl-community.org/Home/Extensions/java-codec}.
+
+
+\section{Advanced Features}
+\subsection{Task Specification Parser}
+As of fall 2008, we've updated the task specification language:\\
+\url{http://glue.rl-community.org/Home/rl-glue/task-spec-language}
+
+The Matlab codec uses the task spec parser implementation from the RL-Glue Java Extension.  This task spec parser/builder can be used in environments to create task specification strings for \texttt{env\_init}.  The sample mines environment in Section \ref{mines-sample} provides an example of creating a task spec in this way.  There are also several advanced examples of this in the RL-Library\footnote{\url{http://library.rl-community.org}}.  The task spec parser/builder can also be used by agents to decode the task spec string for \texttt{agent\_init}.  The sample sarsa agent in Section \ref{sarsa-sample} demonstrates how to do this.
+
+
+\subsection{Connecting on custom ports to custom hosts}
+This section will explain how to set custom target IP addresses (to connect over the network) and custom ports (to run multiple experiments on one machine or to avoid firewall issues).
+Sometimes you will want run the \texttt{rl\_glue} server on a port other than the default
+($4096$) either because of firewall issues, or because you want to run multiple instances on the same machine.
+
+In these cases, you can tell your Matlab agent, environment, or experiment program to connect on a custom port and/or to a custom host using the  \texttt{RL\_set\_port()} and \texttt{RL\_set\_host()} Matlab functions.
+
+For example, the following code:
+\begin{verbatim}
+>> RL_set_port(4097);
+>> RL_set_host('yahoo.ca')
+>> cd examples/skeleton
+>> skeleton_experiment();
+\end{verbatim}
+
+That command could give output like:
+\begin{verbatim}
+	RL-Glue Matlab Experiment Codec Version: 1.0 ($Revision: 688 $)
+	     Connecting to rl_glue at host: yahoo.ca on port 4097
+\end{verbatim}
+
+This works for agents, environments, and experiments.  In practice though, remember that yahoo.ca probably isn't running an RL-Glue server.
+
+You can specify the port, the host, neither, or both.  Ports must be numbers, hosts can be hostnames or ip addresses. Default port value is $4096$ and host is $127.0.0.1$.
+
+Remember, on most *nix systems, you need \texttt{superuser} privileges to listen on ports lower than $1024$, so you probably want to pick one higher than that.
+
+\section{Codec Specification Reference}
+This section will explain how the RL-Glue types and functions are defined for the Matlab codec.  This isn't meant to be the most exciting section of this document, but it will
+be handy.
+
+Since the Matlab is built on top of the Java codec, many of the underlying data structures are from the Java codec.  We recommend checking out the Java documentation (\htmladdnormallink{PDF}{http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Java/docs/JavaCodec.pdf}) (\htmladdnormallink{HTML}{http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Java/docs/html/index.html}) (\htmladdnormallink{JAVADOC}{http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Java/javadocs/index.html}) for more information.
+
+
+\subsection{Types}
+
+
+\subsubsection{Simple Types}
+Unlike the C/C++ codec, we will not be using \texttt{typedef} statements to create special labels for the types. Since Matlab is loosely typed, these things aren't so hard and 
+fast:
+\begin{itemize}
+	\item \textit{reward} is \texttt{double}
+	\item \textit{terminal} is \texttt{int} (1 for terminal, 0 for non-terminal) We hope to replace these with boolean eventually.
+	\item \textit{messages} come as Java \texttt{strings} and can be returned as Matlab strings
+	\item \textit{task specifications} come as Java \texttt{strings} and can be returned as Matlab strings
+\end{itemize}
+
+\def\rat{RL\_Abstract\_Type}
+
+\subsubsection{Structure Types}
+\label{sec:structure-types}
+All of the major structure types (observations, actions) come off the network as the appropriate object from the Java codec.
+The \htmladdnormallink{Java codec manual}{http://glue.rl-community.org/Home/Extensions/java-codec} should have all the information required to understand those objects.
+
+So in a given Matlab method, like \newline
+\texttt{function theAction=skeleton\_agent\_step(theReward, theObservation)}, 
+\texttt{theObservation} is actually of type: \texttt{org.rlcommunity.rlglue.codec.types.Observation}.
+
+Java and Matlab play very well together, so you can do things like:
+\begin{verbatim}
+	>> testObs=org.rlcommunity.rlglue.codec.types.Observation();
+	>> testObs.intArray=[1 2 3 4];
+	>> testObs.doubleArray=[0.1 0.5];
+	>> testObs.charArray='fun things!';
+	>> testObs.toString()
+
+	ans =
+
+	numInts: 4
+	numDoubles: 2
+	numChars: 11
+	 1 2 3 4 0.1 0.5 f u n   t h i n g s !
+\end{verbatim}
+
+\subsection{Functions}
+\subsubsection{Agent Functions}
+All agent constructor functions \textbf{should set} the same functions as our \htmladdnormallink{Skeleton agent}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/examples/skeleton/skeleton_agent.m}.
+
+Useful utility methods for connecting, disconnecting, and running with the \texttt{rl\_glue} executable server are in the \htmladdnormallink{\texttt{agent}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/src/agent} directory of the Matlab codec source.
+
+\subsubsection{Environment Functions}
+All environment constructor functions \textbf{should set} the same functions as our \htmladdnormallink{Skeleton environment}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/examples/skeleton/skeleton_environment.m}.
+
+Useful utility methods for connecting, disconnecting, and running with the \texttt{rl\_glue} executable server are in the \htmladdnormallink{\texttt{environment}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/src/environment} directory of the Matlab codec source.
+
+\subsubsection{Experiments Functions}
+All experiments \textbf{can call} the methods in the  \htmladdnormallink{\texttt{glue}}{http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Matlab/src/glue} directory.
+In this case we'll include their prototypes, because the source file is full of implementation details.
+
+
+\section{Frequently Asked Questions}
+We're waiting to hear your questions!
+
+\subsection{Where can I get more help?}
+\subsubsection{Online FAQ}
+We suggest checking out the online RL-Glue Matlab Codec FAQ:\newline
+\url{http://glue.rl-community.org/Home/Extensions/matlab-codec#TOC-Frequently-Asked-Questions}
+
+The online FAQ may be more current than this document, which may have been distributed some time ago.
+
+\subsubsection{Google Group / Mailing List}
+First, you should join the RL-Glue Google Group Mailing List:\newline
+\url{http://groups.google.com/group/rl-glue}
+
+We're happy to answer any questions about RL-Glue.  Of course, try to search through previous messages first in case your question has been answered before.
+
+
+\section{Credits and Acknowledgements}
+Brian Tanner wrote the Matlab codec. He is also responsible for creating the installer, which is pretty nifty.  Yay Brian.
+
+\subsection{Contributing}
+If you would like to become a member of this project and contribute updates/changes to the code, please send a message to rl-glue@googlegroups.com.
+
+
+\section*{Document Information}
+\begin{verbatim}
+Revision Number: $Rev: 688 $
+Last Updated By: $Author: brian@tannerpages.com $
+Last Updated   : $Date: 2009-02-09 14:13:44 -0500 (Mon, 09 Feb 2009) $
+$URL: http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Matlab/docs/MatlabCodec.tex $
+\end{verbatim}
+
+\end{document} 

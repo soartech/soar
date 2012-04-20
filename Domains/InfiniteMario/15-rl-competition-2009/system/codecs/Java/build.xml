@@ -1,0 +1,87 @@
+<project name="JavaRLGlueCodec" basedir="." >
+    <!-- This file holds the RLGlueCodec.spec.version -->
+	<property file="version.xml"/>
+
+	<!-- Things required for build-common.xml -->
+	<property name="main.project.name" value="${ant.project.name}"/>
+	<property name="main.package.name" value="rlVizLib/"/>
+	<property name="main.package.spec.version" value="${RLGlueCodec.spec.version}"/>
+	<property name="main.vendor.name" value="Brian Tanner"/>
+	<import file="build-common.xml"/>
+
+
+	<target name="set-debug">
+		<property name="build.debug" value="on"/>
+		<property name="build.deprecation" value="on" />
+	</target>
+
+
+    <target name="clean" depends="rl-clean" />
+    
+    <target name="compile"  depends="set-debug, rl-compile">
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${build.debug}" deprecation="${build.deprecation}" target="1.5"/> 
+    </target>
+
+    <target name="jar" depends="compile,get.svn.version" >
+        <mkdir dir="${dist.dir}" />
+        <jar destfile="${result.jar}" basedir="${classes.dir}" >
+            <manifest>
+                <attribute name="Main-Class" value="org.rlcommunity.rlglue.codec.RLGlueCore"/>
+                <attribute name="Built-By" value="${user.name}"/>
+                <section name="org/rlcommunity/rlglue/codec/">
+                    <attribute name="Specification-Title" value="RLGlueCodec"/>
+                    <attribute name="Specification-Version" value="${RLGlueCodec.spec.version}"/>
+                    <attribute name="Specification-Vendor" value="RLAI"/>
+                    <attribute name="Implementation-Title" value="RLGlueCodec"/>
+                    <attribute name="Implementation-Version" value="Build:${svn.revision.version}"/> 
+                    <attribute name="Implementation-Vendor" value="Brian Tanner"/>
+                </section>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean-build" depends="clean,jar"/>
+    
+    
+    <target name="compile-tests" depends="jar">
+	    <mkdir dir="${test.classes.dir}"/>
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" target="1.5">
+            <classpath>
+                <path refid="junit.classpath" />
+ 				<path refid="result.jar.classpath" />
+            </classpath>
+        </javac>
+    </target>
+    
+    <target name="run-test" depends="compile-tests,jar">
+		<mkdir dir="${test.raw}" />
+       <junit printsummary="withOutAndErr" showoutput="yes" >
+            <classpath>
+                <path refid="junit.classpath" /> 
+				<path refid="result.jar.classpath" />
+				<path refid="test.build.classpath" />
+
+            </classpath>
+            
+            <batchtest fork="yes" todir="${test.raw}">
+                <formatter type="xml"/> 
+                <fileset dir="${test.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+    </target> 
+    
+    <target name="test" depends="run-test">
+		<mkdir dir="${test.reports}" />
+        <junitreport todir="${test.reports}">
+            <fileset dir="${test.raw}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report todir="${test.reports}" />
+        </junitreport>
+    </target>
+    
+    
+    <target name="javadoc" depends="rl-javadoc" />
+</project>
+

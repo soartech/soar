@@ -1,0 +1,9 @@
+
+AGENT='test-1-agent'
+ENVIRONMENT='test-1-environment'
+EXPERIMENT='test-rl-episode-experiment'
+
+C_AGENT='test_1_agent'
+C_ENVIRONMENT='test_1_environment'
+C_EXPERIMENT='test_rl_episode_experiment'
+

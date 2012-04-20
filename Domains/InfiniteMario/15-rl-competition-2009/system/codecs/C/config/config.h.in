@@ -1,0 +1,100 @@
+/* config/config.h.in.  Generated from configure.ac by autoheader.  */
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you have the `gethostbyname' function. */
+#undef HAVE_GETHOSTBYNAME
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the <ieeefp.h,> header file. */
+#undef HAVE_IEEEFP_H_
+
+/* Define to 1 if you have the `inet_ntoa' function. */
+#undef HAVE_INET_NTOA
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `isinf' function. */
+#undef HAVE_ISINF
+
+/* Define to 1 if you have the `isnan' function. */
+#undef HAVE_ISNAN
+
+/* Define to 1 if you have the `rlgluenetdev' library (-lrlgluenetdev). */
+#undef HAVE_LIBRLGLUENETDEV
+
+/* Define to 1 if you have the `rlutils' library (-lrlutils). */
+#undef HAVE_LIBRLUTILS
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the <rlglue/Agent_common.h> header file. */
+#undef HAVE_RLGLUE_AGENT_COMMON_H
+
+/* Define to 1 if you have the <rlglue/Environment_common.h> header file. */
+#undef HAVE_RLGLUE_ENVIRONMENT_COMMON_H
+
+/* Define to 1 if you have the <rlglue/network/RL_network.h> header file. */
+#undef HAVE_RLGLUE_NETWORK_RL_NETWORK_H
+
+/* Define to 1 if you have the <rlglue/RL_common.h> header file. */
+#undef HAVE_RLGLUE_RL_COMMON_H
+
+/* Define to 1 if you have the <rlglue/RL_glue.h> header file. */
+#undef HAVE_RLGLUE_RL_GLUE_H
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if `h_addr_list' is member of `struct hostent'. */
+#undef HAVE_STRUCT_HOSTENT_H_ADDR_LIST
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Name of package */
+#undef PACKAGE
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Version number of package */
+#undef VERSION

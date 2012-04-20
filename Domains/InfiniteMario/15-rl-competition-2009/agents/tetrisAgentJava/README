@@ -1,0 +1,27 @@
+This java agent is meant to select actions for the Tetris domain in the rl-competition. This agent does not learn.
+
+Running the agent with a trainer from a Java IDE
+------------------------------------------------
+Note: this has been tested with NetBeans. Compiling and running should also work smoothly under Eclipse and other IDEs.
+You should open the agent directory as a new project.
+You can select two main classes:
+ - tetrisexample.GuiTrainer: Starts up the environment visualizer, RL-Glue, loads the Tetris environment and the sample agent. You can select manually, which training MDP to use, and you can use the GUI to run the agent.
+ - tetrisexample.ConsoleTrainer: Starts up a console trainer RL-Glue, loads the Tetris environment and the sample agent. You can use it to run batch experiments without human interaction. To change experiment parameters, freely modify ConsoleTrainer.java
+
+Notes:
+
+ - In the example ConsoleTrainer, the number of steps per MDP is set to 50,000. This is for your convenience only (so that the example program runs relatively quickly). For Proving and Testing, the number of steps per MDP will be 5,000,000.
+ - To successfully start up RLglue, the program has to locate the rlglue executable. Non-Windows users should uncomment the corresponding line in RlGlueThread.java (and check that the executable is there)
+
+Running & compiling the agent from the command line
+---------------------------------------------------
+to run the agent, type
+>>bash run.bash
+You need to start a trainer separately.
+
+You can run both trainers from the command line by typing
+>>bash runwithGuiTrainer.bash
+or
+>>bash runwithConsoleTrainer.bash
+
+To compile the agent, run make

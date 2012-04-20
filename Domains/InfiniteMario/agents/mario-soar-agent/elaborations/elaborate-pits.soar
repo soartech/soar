@@ -1,0 +1,85 @@
+sp {mario*elaborate*pit
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<v> ^tile-row <row>)
+   (<row> ^y 0
+          ^tile <t>)
+   (<t> ^x <xloc>
+        ^type | |)
+--> 
+   (<m> ^pit-tile <p>)
+   (<p> ^xleft (- <xloc> 1)
+        ^xright (+ <xloc> 1)
+        ^x <xloc>)
+}
+sp {mario*elaborate*pit1
+   (state <s> ^io.input-link.visual-scene <v>
+              ^metadata <m>
+              ^name mario-soar-combined)
+   (<m> ^pit-tile <pt>)
+   (<pt> ^x <xloc>)
+   (<v> ^tile-row <row1>)
+   (<row1> ^tile <tile>)
+   (<tile> ^x <xloc>
+           ^type |7|)
+-->
+   (<pt> ^true no)
+}
+sp {mario*elaborate*pit3
+   (state <s> ^metadata <m>
+              ^io.input-link.visual-scene <v>
+              ^name mario-soar-combined)
+   (<m> ^pit-tile <p>)
+   (<p> ^xleft <xleft>
+        ^x <xloc>
+      - ^true no)
+   (<v> ^tile-row <row>)
+   (<row> ^y 0
+          ^tile <tile>)
+   (<tile> ^x <xleft>
+           ^type |7|)
+-->
+   (<m> ^pit <pit>)
+   (<pit> ^start (+ <xleft> 1))
+}
+sp {mario*elaborate*pit4
+   (state <s> ^metadata <m> 
+              ^io.input-link.visual-scene <v>
+              ^name mario-soar-combined)
+   (<m> ^pit-tile <p>
+        ^pit <pit>)
+   (<p> ^xright <xright>
+       - ^true no )
+   (<v> ^tile-row <row>)
+   (<row> ^y 0
+          ^tile <tile>)
+   (<tile> ^x <xright>
+           ^type |7|)
+   (<pit> ^start <sp> < <xright>)
+-->
+   (<s> ^pit <spit>)
+   (<spit> ^end <xright>
+           ^start <sp>)
+}
+sp {mario*elaborate*pit5
+   (state <s> ^name mario-soar-combined
+              ^pit <pit>
+              ^mario <mario>)
+   (<mario> ^xi <mariox>)
+   (<pit> ^start <sx>
+        ^end <ex>)
+-->
+   (<pit> ^dist-start (- <sx> <mariox>)
+        ^width (- <ex> <sx>))
+}
+sp {mario*elaborate*pit6
+   (state <s> ^pit <pit>
+              ^mario <mario>)
+   (<pit> ^dist-start <= 5
+          ^end <pe>
+          ^width <w> <= 4)
+   (<mario> ^xi <= <pe>)
+-->
+   (<pit> ^isdangerous yes)
+}

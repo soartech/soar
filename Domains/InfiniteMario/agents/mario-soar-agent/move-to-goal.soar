@@ -1,0 +1,43 @@
+sp {propose*move-to-goal
+   (state <s> ^name mario-soar-combined
+             ^mario <mario>)
+-->
+   (<s> ^operator <o> + <)
+   (<o> ^name move-to-goal)
+}
+sp {move-to-goal*propose*action1
+   (state <s> ^name move-to-goal
+              ^superstate <ss>)
+   (<ss> ^tile-type <tt>)
+   (<tt> ^right |7|)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name action
+         ^direction right
+         ^jump yes
+         ^speed low)
+}
+sp {move-to-goal*propose*action2
+   (state <s> ^name move-to-goal
+              ^superstate <ss>)
+   (<ss> ^tile-type <tt>)
+   (<tt> ^right |\||)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name action
+         ^direction right
+         ^jump yes
+         ^speed low)
+}
+sp {move-to-goal*propose*action3
+   (state <s> ^name move-to-goal
+              ^superstate <ss>)
+   (<ss> ^tile-type <tt>)
+  - (<tt> ^right <<|7| |\||>>)
+-->
+   (<s> ^operator <op> +)
+   (<op> ^name action
+         ^direction right
+         ^jump no
+         ^speed low)
+}

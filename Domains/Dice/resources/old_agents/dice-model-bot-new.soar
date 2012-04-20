@@ -1,0 +1,7 @@
+pushd dice-model-bot-new
+source dice-model-bot-new_source.soar
+popd
+
+pushd state-no-change-dice-error
+source state-no-change-dice-error.soar
+popd

@@ -1,0 +1,957 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>RL-Glue Python Codec</TITLE>
+<META NAME="description" CONTENT="RL-Glue Python Codec">
+<META NAME="keywords" CONTENT="PythonCodec">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="PythonCodec.css">
+
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<H1 ALIGN="CENTER">RL-Glue Python Codec 2.0 Manual </H1>
+<DIV>
+
+<P ALIGN="CENTER"><STRONG>Brian Tanner ::  brian@tannerpages.com</STRONG></P>
+</DIV>
+<BR>
+
+<H2><A NAME="SECTION00010000000000000000">
+Contents</A>
+</H2>
+<!--Table of Contents-->
+
+<UL>
+<LI><A NAME="tex2html65"
+  HREF="PythonCodec.html#SECTION00020000000000000000">Introduction</A>
+<UL>
+<LI><A NAME="tex2html66"
+  HREF="PythonCodec.html#SECTION00021000000000000000">Software Requirements</A>
+<LI><A NAME="tex2html67"
+  HREF="PythonCodec.html#SECTION00022000000000000000">Getting the Codec</A>
+<LI><A NAME="tex2html68"
+  HREF="PythonCodec.html#SECTION00023000000000000000">Installing the Codec</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html69"
+  HREF="PythonCodec.html#SECTION00030000000000000000">Sample Project</A>
+<UL>
+<LI><A NAME="tex2html70"
+  HREF="PythonCodec.html#SECTION00031000000000000000">Skeleton Agent</A>
+<LI><A NAME="tex2html71"
+  HREF="PythonCodec.html#SECTION00032000000000000000">Skeleton Environment</A>
+<LI><A NAME="tex2html72"
+  HREF="PythonCodec.html#SECTION00033000000000000000">Skeleton Experiment</A>
+<LI><A NAME="tex2html73"
+  HREF="PythonCodec.html#SECTION00034000000000000000">Running All Three Components Together</A>
+<LI><A NAME="tex2html74"
+  HREF="PythonCodec.html#SECTION00035000000000000000">Going Further - Mines Sarsa Example Project</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html75"
+  HREF="PythonCodec.html#SECTION00040000000000000000">Who creates and frees memory?</A>
+<LI><A NAME="tex2html76"
+  HREF="PythonCodec.html#SECTION00050000000000000000">Advanced Features</A>
+<UL>
+<LI><A NAME="tex2html77"
+  HREF="PythonCodec.html#SECTION00051000000000000000">Task Specification Parser</A>
+<LI><A NAME="tex2html78"
+  HREF="PythonCodec.html#SECTION00052000000000000000">Connecting on custom ports to custom hosts</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html79"
+  HREF="PythonCodec.html#SECTION00060000000000000000">Codec Specification Reference</A>
+<UL>
+<LI><A NAME="tex2html80"
+  HREF="PythonCodec.html#SECTION00061000000000000000">Types</A>
+<LI><A NAME="tex2html81"
+  HREF="PythonCodec.html#SECTION00062000000000000000">Functions</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html82"
+  HREF="PythonCodec.html#SECTION00070000000000000000">Changes and 2.x Backward Compatibility</A>
+<UL>
+<LI><A NAME="tex2html83"
+  HREF="PythonCodec.html#SECTION00071000000000000000">Agent/Environment Loading</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html84"
+  HREF="PythonCodec.html#SECTION00080000000000000000">Frequently Asked Questions</A>
+<UL>
+<LI><A NAME="tex2html85"
+  HREF="PythonCodec.html#SECTION00081000000000000000">Where can I get more help?</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html86"
+  HREF="PythonCodec.html#SECTION00090000000000000000">Credits and Acknowledgements</A>
+<UL>
+<LI><A NAME="tex2html87"
+  HREF="PythonCodec.html#SECTION00091000000000000000">Contributing</A>
+</UL></UL>
+<!--End of Table of Contents-->
+<P>
+
+<H1><A NAME="SECTION00020000000000000000">
+Introduction</A>
+</H1>
+
+<P>
+This document describes how to use the Python RL-Glue Codec, a software library that provides socket-compatibility with the RL-Glue Reinforcement Learning software library.  
+
+<P>
+For general information and motivation about the RL-Glue<A NAME="tex2html1"
+  HREF="#foot202"><SUP>1</SUP></A> project, please refer to the documentation provided with that project.
+
+<P>
+This codec will allow you to create agents, environments, and experiment programs in Python.
+
+<P>
+This software project is licensed under the Apache-2.0<A NAME="tex2html3"
+  HREF="#foot203"><SUP>2</SUP></A> license. We're not lawyers, but our intention is that this code 
+should be used however it is useful.  We'd appreciate to hear what you're using it for, and to get credit if appropriate.
+
+<P>
+This project has a home here:
+<BR><TT><A NAME="tex2html5"
+  HREF="http://glue.rl-community.org/Home/Extensions/python-codec">http://glue.rl-community.org/Home/Extensions/python-codec</A></TT>
+<P>
+
+<H2><A NAME="SECTION00021000000000000000">
+Software Requirements</A>
+</H2>
+To run agents, environments, and experiments created with this codec, you will need to have RL-Glue installed on your computer.
+
+<P>
+Compiling and running components with this codec requires Python.
+
+<P>
+The code has some optimizations that detect if you have NumPy<A NAME="tex2html6"
+  HREF="#foot204"><SUP>3</SUP></A> installed, and will speed up some parts of the code automatically in that case.  We're working on looking at more ways to transparently make this codec faster.
+
+<P>
+<B>Possible Contribution: </B>Someone with Python experience could help us find out what version of Python is required to use this codec, and could help us update the codec
+to be as robust as possible to older versions.  Also, if someone wants to speed up this codec, we have some ideas but we are not really Python programmers.
+
+<P>
+
+<H2><A NAME="SECTION00022000000000000000">
+Getting the Codec</A>
+</H2>
+The codec can be downloaded either as a .tar.gz or can be checked out of the subversion repository where it is hosted.
+
+<P>
+The .tar.tz distribution can be found here:
+<BR>
+<TT><A NAME="tex2html8"
+  HREF="http://code.google.com/p/rl-glue-ext/wiki/Python">http://code.google.com/p/rl-glue-ext/wiki/Python</A></TT>
+<P>
+To check the code out of subversion:
+<BR>
+<FONT SIZE="-1"><TT>svn checkout http://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Python Python-Codec</TT> </FONT>
+<P>
+
+<H2><A NAME="SECTION00023000000000000000">
+Installing the Codec</A>
+</H2>
+There are two options on how you can install the Python codec, depending on whether you'd like to use the automated method, or if you'd like to setup your Python paths yourself.
+
+<P>
+
+<H3><A NAME="SECTION00023100000000000000">
+setup.py</A>
+</H3>
+You can install the Python codec the ``usual'' way, using the <TT>setup.py</TT> script that is made possible by Python Distutils<A NAME="tex2html9"
+  HREF="#foot205"><SUP>4</SUP></A>.
+
+<P>
+There are many options for exactly how to build and where to install the codec.  If you are interested in a custom install or installing to a custom location, we recommend reading the <A NAME="tex2html11"
+  HREF="http://docs.python.org/install/index.html#the-new-standard-distutils">Python installation docs</A>.
+
+<P>
+To see a list of the available options:
+<PRE>
+	&gt;$ cd /path/to/codecs/Python
+	&gt;$ python setup.py --help
+</PRE>
+
+<P>
+To install the Python codec into your system (you may need sudo or root access to do this):
+<PRE>
+	&gt;$ cd /path/to/codecs/Python
+	&gt;$ python setup.py install
+</PRE>
+
+<P>
+If you are not able to install the codec because it requires root access on your system and you do not have these privileges, you can do a local install of the codec in your user directory.  Please see the  <A NAME="tex2html12"
+  HREF="http://docs.python.org/install/index.html#the-new-standard-distutils">Python installation docs</A>
+for more details.
+
+<P>
+After installing the Python codec, you will be able to access all of the RL-Glue Python classes and functions without needing to specify them in your 
+<TT>$PYTHONPATH</TT> environment variable.
+
+<P>
+<B>Removing the Codec</B>
+<BR>
+Distutils does not provide an automated way to remove the Python modules that it installs, because in general there may be dependencies between modules and it does not want to break your system. We recommend that you only remove the installed Python codec from your system manually if you know what you are doing.  Future versions of the codec will install over the existing one.
+
+<P>
+
+<H3><A NAME="SECTION00023200000000000000">
+The no-install install</A>
+</H3>
+You may prefer not to install the codec, to instead specify the codec source files in your <TT>$PYTHONPATH</TT> variable when necessary.  In this case, there is no real ``installation'' for the codec per-se.  The important thing is to put the source code somewhere that is easy to get at.
+
+<P>
+For the rest of this section, we'll assume you've put this project in a subdirectory of your home directory called PythonCodec, 
+so the <TT>src</TT> directory is at: <TT>~/PythonCodec/src</TT>.
+
+<P>
+Python will want to know where the codec source files are, so we'll frequently use code like:
+<PRE>
+	&gt;$ PYTHONPATH=~/PythonCodec/src python do_something_with_codec.py
+</PRE>
+
+<P>
+You can make your life easier by adding the path to the codec source to your <TT>PYTHONPATH</TT> environment variable, something like (in Bash):
+<PRE>
+	&gt;$ export PYTHONPATH=~/PythonCodec/src:$PYTHONPATH
+</PRE>
+
+<P>
+Now your commands can be less cluttered, the same as if you had installed the codec:
+<PRE>
+	&gt;$ python do_something_with_codec.py
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00030000000000000000">
+Sample Project</A>
+</H1>
+We have included two example projects with this codec, located in the <TT>examples</TT> directory.  Each project contains an agent, environment, and experiment written for this Python codec.  The two projects are <TT>skeleton</TT> and <TT>mines-sarsa-sample</TT>.
+
+<P>
+The <TT>skeleton</TT> contains all of the bare-bones plumbing that is required to create an agent/environment/experiment with this codec and might be a good starting point for creating your own components.
+
+<P>
+The <TT>mines-sarsa-sample</TT> contains a fully functional tabular Sarsa learning algorithm, a discrete-observation grid world problem, and an experiment program that can run these together and gather results.  More details below in Section <A HREF="#mines-sarsa-sample">2.5</A>.
+
+<P>
+In the following sections, we will describe the skeleton project.  Running and using the <TT>mines-sarsa-sample</TT> is analogous.
+
+<P>
+
+<H2><A NAME="SECTION00031000000000000000"></A>
+<A NAME="sec:agent"></A>
+<BR>
+Skeleton Agent
+</H2>
+We have provided a skeleton agent with the codec that is a good starting point for agents that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple agent.
+
+<P>
+The pertinent file is:
+<PRE>
+	examples/skeleton/skeleton_agent.py
+</PRE>
+
+<P>
+This agent does not learn anything and randomly chooses integer action 0 or 1.  
+
+<P>
+You can compile and run the agent like:
+<PRE>
+	&gt;$ cd examples/skeleton
+	&gt;$ python skeleton_agent.py
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+     RL-Glue Python Agent Codec Version: 2.0 (Build 250)
+          Connecting to 127.0.0.1 on port 4096...
+</PRE>
+
+<P>
+This means that the skeleton_agent is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096! 
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+The Skeleton agent is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+
+<H2><A NAME="SECTION00032000000000000000"></A>
+<A NAME="sec:env"></A>
+<BR>
+Skeleton Environment
+</H2>
+We have provided a skeleton environment with the codec that is a good starting point for environments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple environment.  This section will follow the same 
+pattern as the agent version (Section <A HREF="#sec:agent">2.1</A>).  This section will be less detailed because many ideas are similar or identical.
+
+<P>
+The pertinent file is:
+<PRE>
+	examples/skeleton/skeleton_environment.py
+</PRE>
+
+<P>
+This environment is episodic, with 21 states, labeled <!-- MATH
+ $\{0, 1,\ldots,19,20\}$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$\{0, 1,\ldots,19,20\}$">. States {0, 20} are terminal and return rewards of {-1, +1} respectively.  The other states return reward of 0.
+There are two actions, {0, 1}.  Action 0 decrements the state number, and action 1 increments it. The environment starts in state 10.
+
+<P>
+You can compile and run the environment like:
+<PRE>
+	&gt;$ cd examples/skeleton
+	&gt;$ python skeleton_environment.py
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+     RL-Glue Python Environment Codec Version: 2.0 (Build 250)
+          Connecting to 127.0.0.1 on port 4096...
+</PRE>
+
+<P>
+This means that the skeleton_environment is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096! 
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+The Skeleton environment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+
+<H2><A NAME="SECTION00033000000000000000">
+Skeleton Experiment</A>
+</H2>
+We have provided a skeleton experiment with the codec that is a good starting point for experiments that you may write in the future.
+It implements all the required functions and provides a good example of how to compile a simple experiment.  This section will follow the same 
+pattern as the agent version (Section <A HREF="#sec:agent">2.1</A>).  This section will be less detailed because many ideas are similar or identical.
+
+<P>
+The pertinent files are:
+<PRE>
+	examples/skeleton/skeleton_experiment.py
+</PRE>
+
+<P>
+This experiment runs <TT>RL_Episode</TT> a few times, sends some messages to the agent and environment, and then steps through one episode using <TT>RL_step</TT>.
+
+<P>
+<PRE>
+	&gt;$ cd examples/skeleton
+	&gt;$ python skeleton_experiment.py
+</PRE>
+
+<P>
+You will see something like:
+<PRE>
+     Experiment starting up!
+     RL-Glue Python Experiment Codec Version: 2.0 (Build 250)
+          Connecting to 127.0.0.1 on port 4096...
+</PRE>
+
+<P>
+This means that the skeleton_experiment is running, and trying to connect to the <TT>rl_glue</TT> executable server on the local machine through port 4096!  
+
+<P>
+You can kill the process by pressing <TT>CTRL-C</TT> on your keyboard.
+
+<P>
+The Skeleton experiment is very simple and well documented, so we won't spend any more time talking about it in these instructions.
+Please open it up and take a look.
+
+<P>
+
+<H2><A NAME="SECTION00034000000000000000">
+Running All Three Components Together</A>
+</H2>
+At this point, we've compiled and run each of the three components, now it's time to run them with the <TT>rl_glue</TT> executable server.  The following will work from the examples 
+directory if you have them all built, and RL-Glue installed in the default location:
+<PRE>
+	&gt;$ cd examples/skeleton
+	&gt;$ rl_glue &amp;
+	&gt;$ python skeleton_agent.py &amp;
+	&gt;$ python skeleton_environment.py &amp;
+	&gt;$ python skeleton_experiment.py &amp;
+</PRE>
+
+<P>
+If RL-Glue is not installed in the default location, you'll have to start the <TT>rl_glue</TT> executable server using its full path (unless it's in your <TT>PATH</TT> environment variable):
+<PRE>
+	&gt;$ /path/to/rl-glue/bin/rl_glue &amp;
+</PRE>
+
+<P>
+You should see output like the following if it worked:
+<PRE>
+	&gt;$ rl_glue &amp;
+RL-Glue Version 3.0-beta-1, Build 848:856
+RL-Glue is listening for connections on port=4096
+
+&gt;$ PYTHONPATH=~/PythonCodec/src python skeleton_agent.py &amp;
+RL-Glue Python Agent Codec Version: 2.0 (Build 250)
+     Connecting to 127.0.0.1 on port 4096...
+     Agent Codec Connected
+     RL-Glue :: Agent connected.
+
+&gt;$ PYTHONPATH=~/PythonCodec/src python skeleton_environment.py &amp;
+RL-Glue Python Environment Codec Version: 2.0 (Build 250)
+     Connecting to 127.0.0.1 on port 4096...
+     Environment Codec Connected
+     RL-Glue :: Environment connected.
+
+&gt;$ PYTHONPATH=~/PythonCodec/src python skeleton_experiment.py &amp;
+Experiment starting up!
+RL-Glue Python Experiment Codec Version: 2.0 (Build 250)
+     Connecting to 127.0.0.1 on port 4096...
+     RL-Glue :: Experiment connected.
+
+RL_init called, the environment sent task spec: VERSION RL-Glue-3.0 
+PROBLEMTYPE episodic DISCOUNTFACTOR 1.0 OBSERVATIONS INTS (0 20) 
+ACTIONS INTS (0 1)  REWARDS (-1.0 1.0)  
+EXTRA skeleton_environment(Python) by Brian Tanner.
+
+
+----------Sending some sample messages----------
+Agent responded to "what is your name?" 
+with: my name is skeleton_agent, Python edition!
+Agent responded to "If at first you don't succeed; call it version 1.0" 
+with: I don't know how to respond to your message
+
+Environment responded to "what is your name?" 
+with: my name is skeleton_environment, Python edition!
+Environment responded to "If at first you don't succeed; call it version 1.0" 
+with: I don't know how to respond to your message
+
+
+----------Running a few episodes----------
+Episode 0	 42 steps 	1.0 total reward	 1 natural end
+Episode 1	 28 steps 	1.0 total reward	 1 natural end
+
+Episode 2	 96 steps 	-1.0 total reward	 1 natural end
+Episode 3	 52 steps 	1.0 total reward	 1 natural end
+Episode 4	 100 steps 	0.0 total reward	 0 natural end
+Episode 5	 1 steps 	0.0 total reward	 0 natural end
+Episode 6	 82 steps 	1.0 total reward	 1 natural end
+
+
+----------Stepping through an episode----------
+First observation and action were: 10 and: 1
+
+
+----------Summary----------
+It ran for 66 steps, total reward was: -1.0
+</PRE>
+
+<P>
+
+<H2><A NAME="SECTION00035000000000000000"></A>
+<A NAME="mines-sarsa-sample"></A>
+<BR>
+Going Further - Mines Sarsa Example Project
+</H2>
+The <TT>skeleton</TT> sample project is extremely limited and only shows the mechanics of how RL-Glue components are structured using the Python codec.  The <TT>mines-sarsa</TT> sample project is much richer.
+
+<P>
+More details about the <TT>mines-sarsa</TT> sample project can be found at their RL-Library home:
+<BR>
+<TT><A NAME="tex2html13"
+  HREF="http://library.rl-community.org/packages/mines-sarsa-sample">http://library.rl-community.org/packages/mines-sarsa-sample</A></TT>
+<P>
+
+<H3><A NAME="SECTION00035100000000000000"></A>
+<A NAME="mines-sample"></A>
+<BR>
+Sample-Mines-Environment
+</H3>
+The 
+<A NAME="tex2html16"
+  HREF="http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-python/sample_mines_environment.py">mines
+ environment</A>
+is internally a two-dimensional, discrete grid world where the agent receives a penalty per step until reaching a goal state, hopefully without stepping on any exploding land-mines along the way.  The (x,y) state is flattened into a discrete, scalar observation for the agent.  This environment can receive special messages from the experiment program to print the current state to the screen, and also to toggle between random starting states and a fixed starting-state specified by the experiment.
+
+<P>
+The task specification string<A NAME="tex2html14"
+  HREF="#foot207"><SUP>5</SUP></A> is manually because there is not yet a task spec builder for Python. 
+
+<P>
+
+<H3><A NAME="SECTION00035200000000000000"></A>
+<A NAME="sarsa-sample"></A>
+<BR>
+Samples-Sarsa-Agent
+</H3>
+The 
+<A NAME="tex2html17"
+  HREF="http://code.google.com/p/rl-library/source/browse/trunk/projects/packages/examples/mines-sarsa-python/sample_sarsa_agent.py">SARSA agent</A>
+is a tabular learning agent that uses <!-- MATH
+ $\epsilon-greedy$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$\epsilon-greedy$"> exploration as described in <A NAME="tex2html18"
+  HREF="http://www.cs.ualberta.ca/~sutton/book/ebook/node64.html">Reinforcement Learning: An Introduction</A>
+by Sutton and Barto.
+
+<P>
+The SARSA agent parses the task specification string using the Python task spec parser.  This agent can receive special messages from the experiment program to pause/unpause learning, pause/unpause exploring, save the current value function to a file, and load the the value function from a file.
+
+<P>
+
+<H3><A NAME="SECTION00035300000000000000">
+Sample-Experiment</A>
+</H3>
+The sample experiment program runs the show.  First, it alternates running the agent in the environment for a number of episodes, and telling the agent to pause learning so that the current performance can be evaluated.  These results are saved to a comma-separated-value file.
+
+<P>
+The sample experiment then tells the agent to save the value function to a file, and then resets the experiment (and agent) to initial conditions.  After verifying that the agent's initial policy is bad, the experiment tells the agent to load the value function from the file.  The agent is evaluated again using this previously-learned value function, and performance is dramatically better.
+
+<P>
+Finally, the experiment sends a message to specify that the environment should use a fixed (instead of random) starting state, and runs the agent from that fixed start state for a while.
+
+<P>
+
+<H1><A NAME="SECTION00040000000000000000">
+Who creates and frees memory?</A>
+</H1>
+The RL-Glue technical manual has a section called <I>Who creates and frees memory?</I>.  The general approach recommended there is to make a copy of data
+you want to keep beyond the method it was given to you.  The same rules of thumb from that manual should be followed when using the Python codec.
+
+<P>
+
+<H1><A NAME="SECTION00050000000000000000">
+Advanced Features</A>
+</H1>
+
+<H2><A NAME="SECTION00051000000000000000">
+Task Specification Parser</A>
+</H2>
+As of fall 2008, we've updated the task specification language:
+<BR><TT><A NAME="tex2html19"
+  HREF="http://glue.rl-community.org/Home/rl-glue/task-spec-language">http://glue.rl-community.org/Home/rl-glue/task-spec-language</A></TT>
+<P>
+The new Python task spec parser can also be used by agents to decode the task spec string for <TT>agent_init</TT>.  The sample sarsa agent in Section <A HREF="#sarsa-sample">2.5.2</A> demonstrates how to do this.  The Python parser (unlike Java) is not a task spec builder, so task specs must be constructed manually (for now) when using Python to implement environments.
+
+<P>
+
+<H2><A NAME="SECTION00052000000000000000">
+Connecting on custom ports to custom hosts</A>
+</H2>
+This section will explain how to set custom target IP addresses (to connect over the network) and custom ports (to run multiple experiments on one machine or to avoid firewall issues).
+Sometimes you will want run the <TT>rl_glue</TT> server on a port other than the default
+(4096) either because of firewall issues, or because you want to run multiple instances on the same machine.
+
+<P>
+In these cases, you can tell your Python agent, environment, or experiment program to connect on a custom port and/or to a custom host using the environment variables <TT>RLGLUE_PORT</TT> and <TT>RLGLUE_HOST</TT>.
+
+<P>
+For example, try the following code:
+<PRE>
+&gt; $ RLGLUE_PORT=1025 RLGLUE_HOST=yahoo.ca python skeleton_agent.py
+</PRE>
+
+<P>
+That command could give output like:
+<PRE>
+	RL-Glue Python Agent Codec Version: 2.0-RC1 (Build 446)
+	     Connecting to yahoo.ca on port 1025...
+</PRE>
+
+<P>
+This works for agents, environments, and experiments.  In practice, yahoo.ca probably isn't running an RL-Glue server.
+
+<P>
+You can specify the port, the host, neither, or both.  Ports must be numbers, hosts can be hostnames or ip addresses. Default port value is 4096 and host is 127.0.0.1.
+
+<P>
+If you don't like typing these variables every time, you can export them so that the value will be set for future
+calls  in the same session:
+<PRE>
+	&gt; $ export RLGLUE_PORT=1025
+	&gt; $ export RLGLUE_HOST=mydomain.com
+</PRE>
+
+<P>
+Remember, on most *nix systems, you need <TT>superuser</TT> privileges to listen on ports lower than 1024, so you probably want to pick one higher than that.
+
+<P>
+
+<H1><A NAME="SECTION00060000000000000000">
+Codec Specification Reference</A>
+</H1>
+This section will explain how the RL-Glue types and functions are defined for this codec.  This isn't meant to be the most exciting section of this document, but it will
+be handy.
+
+<P>
+Instead of re-creating information that is readily available in the PythonDocs, we will give pointers were appropriate.
+
+<P>
+
+<H2><A NAME="SECTION00061000000000000000">
+Types</A>
+</H2>
+
+<P>
+
+<H3><A NAME="SECTION00061100000000000000">
+Simple Types</A>
+</H3>
+Unlike the C/C++ codec, we will not be using <TT>typedef</TT> statements to create special labels for the types. Since Python is loosely typed, these things aren't so hard and 
+fast:
+
+<UL>
+<LI><I>reward</I> is <TT>double</TT>
+</LI>
+<LI><I>terminal</I> is <TT>int</TT> (1 for terminal, 0 for non-terminal) We hope to replace these with boolean eventually.
+</LI>
+<LI><I>messages</I> are <TT>strings</TT>
+</LI>
+<LI><I>task specifications</I> are <TT>strings</TT>
+</LI>
+</UL>
+
+<P>
+
+<H3><A NAME="SECTION00061200000000000000"></A>
+<A NAME="sec:structure-types"></A>
+<BR>
+Structure Types
+</H3>
+All of the major structure types (observations, actions) extend the <TT>RL_Abstract_Type </TT> class, which has there lists: for integers, doubles, and chars.
+
+<P>
+The class is defined as:
+<PRE>
+    class RL_Abstract_Type:
+        def __init__(self,numInts=None,numDoubles=None,numChars=None):
+            self.intArray = []
+            self.doubleArray = []
+            self.charArray = []
+            if numInts != None:
+                 self.intArray = [0]*numInts
+            if numDoubles != None:
+                 self.doubleArray = [0.0]*numDoubles
+            if numChars != None:
+                 self.charArray = ['']*numChars
+
+        def sameAs(self,otherAbstractType):
+            return self.intArray==otherAbstractType.intArray and
+            self.doubleArray==otherAbstractType.doubleArray and 
+            self.charArray==otherAbstractType.charArray
+</PRE>
+
+<P>
+The other types that inherit from <TT>RL_Abstract_Type </TT> but add no specialization are:
+<PRE>
+class Action(RL_Abstract_Type)
+class Observation(RL_Abstract_Type)
+</PRE>
+
+<P>
+The structure of the composite types are listed below.  Note that this code is not accurate in terms of the available constructors, 
+it is just meant to illustrate the member names.
+<PRE>
+class Observation_action:
+    def __init__(self,theObservation,theAction):
+        self.o = theObservation
+        self.a = theAction
+
+class Reward_observation_terminal:
+    def __init__(self,reward, theObservation, terminal):
+        self.r = reward
+        self.o = theObservation
+        self.terminal = terminal
+
+class Reward_observation_action_terminal:
+    def __init__(self,reward, theObservation, theAction, terminal):
+        self.r = reward
+        self.o = theObservation
+        self.a = theAction
+        self.terminal = terminal
+</PRE>
+
+<P>
+The full definition are available in <A NAME="tex2html20"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Python/src/rlglue/types.py"><TT>types.py</TT></A>.
+
+<H2><A NAME="SECTION00062000000000000000">
+Functions</A>
+</H2>
+
+<H3><A NAME="SECTION00062100000000000000">
+Agent Functions</A>
+</H3>
+All agents <B>should implement</B> <A NAME="tex2html21"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Python/src/rlglue/agent/Agent.py"><TT>rlglue.agent.Agent</TT></A>.
+
+<P>
+
+<H3><A NAME="SECTION00062200000000000000">
+Environment Functions</A>
+</H3>
+All environments <B>should implement</B> <A NAME="tex2html22"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Python/src/rlglue/environment/Environment.py"><TT>rlglue.environment.Environment</TT></A>.
+
+<P>
+
+<H3><A NAME="SECTION00062300000000000000">
+Experiments Functions</A>
+</H3>
+All experiments <B>can call</B> the methods in <A NAME="tex2html23"
+  HREF="http://code.google.com/p/rl-glue-ext/source/browse/trunk/projects/codecs/Python/src/rlglue/RLGlue.py"><TT>rlglue.RLGlue</TT></A>.
+In this case we'll include their prototypes, because the source file is full of implementation details.
+
+<P>
+<PRE>
+	# () -&gt; string
+	def RL_init():
+
+	# () -&gt; Observation_action
+	def RL_start():
+
+	# () -&gt; Reward_observation_action_terminal
+	def RL_step():
+
+	# () -&gt; void
+	def RL_cleanup():
+
+	# (string) -&gt; string
+	def RL_agent_message(message):
+
+	# (string) -&gt; string
+	def RL_env_message(message):
+
+	# () -&gt; double
+	def RL_return():
+
+	# () -&gt; int
+	def RL_num_steps():
+
+	# () -&gt; int
+	def RL_num_episodes():
+
+	# (int) -&gt; int
+	def RL_episode(num_steps):
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION00070000000000000000">
+Changes and 2.x Backward Compatibility</A>
+</H1>
+There were many API/Interface changes from RL-Glue 2.x to RL-Glue 3.x.  For those that are at the level of the API and project organization, please refer to the the <A NAME="tex2html24"
+  HREF="http://rl-glue.googlecode.com/svn/trunk/docs/html/index.html">RL-Glue overview documentation</A>.
+
+<P>
+
+<H2><A NAME="SECTION00071000000000000000">
+Agent/Environment Loading</A>
+</H2>
+Historically, there was a different approach for loading agents and environments.
+
+<P>
+The old strategy was:
+<PRE>
+&gt;$ python -c \"import rlglue.agent.AgentLoader\" agentName
+</PRE>
+
+<P>
+That didn't seem as easy as it should be, so we changed things for this release, much like we did in the Java codec. Now, Python agents and environments can become 
+self loading by adding a bit of code at the bottom of their source files, like:
+<PRE>
+#skeleton_agent.py
+#top of file
+from rlglue.agent import AgentLoader as AgentLoader
+
+...
+
+#bottom of file
+if __name__=="__main__":
+     AgentLoader.loadAgent(skeleton_agent())
+</PRE>
+
+<P>
+Now, (as you recall) we can load the agent like:
+<PRE>
+&gt;$  python agentfile.py
+</PRE>
+
+<P>
+See <TT>skeleton_environment</TT> for instructions about how to do a similar thing for environments.
+
+<P>
+We feel that this is a useful step forward, and will be encouraging this approach.
+
+<P>
+
+<H1><A NAME="SECTION00080000000000000000">
+Frequently Asked Questions</A>
+</H1>
+We're waiting to hear your questions!
+
+<P>
+
+<H2><A NAME="SECTION00081000000000000000">
+Where can I get more help?</A>
+</H2>
+
+<H3><A NAME="SECTION00081100000000000000">
+Online FAQ</A>
+</H3>
+We suggest checking out the online RL-Glue Python Codec FAQ:
+<BR>
+<TT><A NAME="tex2html25"
+  HREF="http://glue.rl-community.org/Home/Extensions/python-codec#TOC-Frequently-Asked-Questions">http://glue.rl-community.org/Home/Extensions/python-codec#TOC-Frequently-Asked-Questions</A></TT>
+<P>
+The online FAQ may be more current than this document, which may have been distributed some time ago.
+
+<P>
+
+<H3><A NAME="SECTION00081200000000000000">
+Google Group / Mailing List</A>
+</H3>
+First, you should join the RL-Glue Google Group Mailing List:
+<BR>
+<TT><A NAME="tex2html26"
+  HREF="http://groups.google.com/group/rl-glue">http://groups.google.com/group/rl-glue</A></TT>
+<P>
+We're happy to answer any questions about RL-Glue.  Of course, try to search through previous messages first in case your question has been answered before.
+
+<P>
+
+<H1><A NAME="SECTION00090000000000000000">
+Credits and Acknowledgements</A>
+</H1>
+Mark Lee originally wrote the Python codec.  Thanks Mark.
+
+<P>
+Brian Tanner has since grabbed the torch and has continued to develop the codec.
+
+<P>
+Jose Antonio Martin H. was kind enough to create the current task spec parser. Thanks!
+
+<P>
+James Bergstra  added a bit of NumPy magic to get the Python codec speed comparable to the other languages.  Thanks James.
+
+<P>
+
+<H2><A NAME="SECTION00091000000000000000">
+Contributing</A>
+</H2>
+If you would like to become a member of this project and contribute updates/changes to the code, please send a message to rl-glue@googlegroups.com.
+
+<P>
+
+<H1><A NAME="SECTION000100000000000000000">
+Document Information</A>
+</H1>
+<PRE>
+Revision Number: $Rev: 613 $
+Last Updated By: $Author: brian@tannerpages.com $
+Last Updated   : $Date: 2009-02-05 00:28:23 -0700 (Thu, 05 Feb 2009) $
+$URL: https://rl-glue-ext.googlecode.com/svn/trunk/projects/codecs/Python/docs/PythonCodec.tex $
+</PRE>
+
+<P>
+
+<H1><A NAME="SECTION000110000000000000000">
+About this document ...</A>
+</H1>
+ <STRONG>RL-Glue Python Codec 2.0 Manual </STRONG><P>
+This document was generated using the
+<A HREF="http://www.latex2html.org/"><STRONG>LaTeX</STRONG>2<tt>HTML</tt></A> translator Version 2002-2-1 (1.71)
+<P>
+Copyright &#169; 1993, 1994, 1995, 1996,
+<A HREF="http://cbl.leeds.ac.uk/nikos/personal.html">Nikos Drakos</A>, 
+Computer Based Learning Unit, University of Leeds.
+<BR>
+Copyright &#169; 1997, 1998, 1999,
+<A HREF="http://www.maths.mq.edu.au/~ross/">Ross Moore</A>, 
+Mathematics Department, Macquarie University, Sydney.
+<P>
+The command line arguments were: <BR>
+ <STRONG>latex2html</STRONG> <TT>PythonCodec.tex -split 0 -dir html -mkdir -title 'RL-Glue Python Codec' -local_icons -math</TT>
+<P>
+The translation was initiated by Brian Tanner on 2009-02-09
+<BR><HR><H4>Footnotes</H4>
+<DL>
+<DT><A NAME="foot202">... RL-Glue</A><A
+ HREF="PythonCodec.html#tex2html1"><SUP>1</SUP></A></DT>
+<DD><TT><A NAME="tex2html2"
+  HREF="http://glue.rl-community.org/">http://glue.rl-community.org/</A></TT>
+
+</DD>
+<DT><A NAME="foot203">... Apache-2.0</A><A
+ HREF="PythonCodec.html#tex2html3"><SUP>2</SUP></A></DT>
+<DD><TT><A NAME="tex2html4"
+  HREF="http://www.apache.org/licenses/LICENSE-2.0.html">http://www.apache.org/licenses/LICENSE-2.0.html</A></TT>
+
+</DD>
+<DT><A NAME="foot204">... NumPy</A><A
+ HREF="PythonCodec.html#tex2html6"><SUP>3</SUP></A></DT>
+<DD><TT><A NAME="tex2html7"
+  HREF="http://numpy.scipy.org/">http://numpy.scipy.org/</A></TT>
+
+</DD>
+<DT><A NAME="foot205">... Distutils</A><A
+ HREF="PythonCodec.html#tex2html9"><SUP>4</SUP></A></DT>
+<DD><TT><A NAME="tex2html10"
+  HREF="http://docs.python.org/distutils/index.html">http://docs.python.org/distutils/index.html</A></TT>
+
+</DD>
+<DT><A NAME="foot207">... string</A><A
+ HREF="PythonCodec.html#tex2html14"><SUP>5</SUP></A></DT>
+<DD><TT><A NAME="tex2html15"
+  HREF="http://glue.rl-community.org/Home/rl-glue/task-spec-language">http://glue.rl-community.org/Home/rl-glue/task-spec-language</A></TT>
+
+</DD>
+</DL><HR>
+<!--Navigation Panel-->
+<IMG WIDTH="81" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next_inactive" SRC="nx_grp_g.png"> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev_g.png">   
+<BR>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Brian Tanner
+2009-02-09
+</ADDRESS>
+</BODY>
+</HTML>
