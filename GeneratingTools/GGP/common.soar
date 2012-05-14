@@ -1,0 +1,58 @@
+sp {propose*update-state
+   (state <s> ^io <i>)
+   (<i> ^output-link <o>)
+   (<o> ^<cmd-name> <cmd>)
+-->
+   (<s> ^operator <o1> + <)
+   (<o1> ^name update-state)
+}
+sp {apply*update-state
+   (state <s> ^name game ^operator <o> ^io <i> ^gs <gs>)
+   (<gs> ^action-counter <ac>)
+   (<o> ^name update-state)
+   (<i> ^output-link <o1>)
+   (<o1> ^<cmd-name> <c>)
+-->
+   (<o1> ^<cmd-name> <c> -)
+}
+sp {game*elaborate*fake-response
+   (state <s> ^io <i>
+              ^gs.role <role>)
+   (<i> ^output-link <o> ^input-link <i1>)
+   (<o> ^<action-name> <a>)
+-->
+   (<i1> ^last-moves <last-moves>)
+   (<last-moves> ^<role> <explorer>)
+   (<explorer> ^<action-name> <a>)
+}
+sp {elaborate*math-link
+   (state <s> ^type state)
+-->
+   (<s> ^math <m>)}
+sp {elaborate*collapse*unique*math-operands
+	(state <s> ^math <m>)
+	(<m> ^<expression-id> <expression>)
+	(<expression> ^query-link <q>)
+	(<q> ^op0 <op0> ^op1 <op1>)
+-->
+	(<expression> ^unique-op0 <op0>)
+	(<expression> ^unique-op1 <op1>)
+}
+sp {elaborate*generate*unique*queries
+	(state <s> ^math <m>)
+	(<m> ^<expression-id> <expression>)
+	(<expression> ^unique-op0 <op0> ^unique-op1 <op1>)
+-->
+	(<expression> ^result-link <uq>)
+	(<uq> ^op0 <op0> ^op1 <op1>)
+}
+
+sp {elaborate*generate*unique*queries-results
+	(state <s> ^math <m>)
+	(<m> ^<expression-id> <expression>)
+	(<expression> ^result-link <uq> ^query-link <q>)
+	(<uq> ^op0 <op0> ^op1 <op1>)
+	(<q> ^op0 <op0> ^op1 <op1> ^res <res>)
+-->
+	(<uq> ^res <res>)
+}

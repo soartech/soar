@@ -1,0 +1,287 @@
+source common.soar
+sp {apply*_next__on__x__y__
+{
+  (<i> ^input-link <i1>)
+  (<s1> ^p1 <x> ^p2 <y>)
+  (<l> ^robot <r>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^io <i> ^operator <o> ^gs <g>)
+  (<r> ^s <s1>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+}
+-->
+   (<o1> ^p1 <x>  ^p2 <y> )
+   (<g> ^on <o1> )
+}
+sp {apply*_next__table__x__
+{
+  (<i> ^input-link <i1>)
+  (<l> ^robot <r>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^io <i> ^operator <o> ^gs <g>)
+  (<r> ^u <u>)
+  (<u> ^p1 <x> ^p2 <y>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+}
+-->
+   (<t> ^p1 <x> )
+   (<g> ^table <t> )
+}
+sp {apply*_next__clear__y__
+{
+  (<i> ^input-link <i1>)
+  (<l> ^robot <r>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^io <i> ^operator <o> ^gs <g>)
+  (<r> ^u <u>)
+  (<u> ^p1 <x> ^p2 <y>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+}
+-->
+   (<c> ^p1 <y> )
+   (<g> ^clear <c> )
+}
+sp {apply*_next__step__y__
+{
+  (<s2> ^p1 <x> ^p2 <y>)
+  (state <s> ^gs <g> ^facts <f> ^operator <o>)
+  (<s1> ^p1 <x>)
+  (<g> ^step <s1>)
+  (<f> ^succ <s2>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+}
+-->
+   (<s3> ^p1 <y> )
+   (<g> ^step <s3> )
+}
+sp {apply*remove*_next__step__y__
+{
+  (state <s> ^operator <o> ^gs <g>)
+  (<s1> ^p1 <y>)
+  (<g> ^step <s1>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+}
+-->
+   (<g> ^step <s1> -)
+}
+sp {propose*_legal_robot__s__x__y__
+{
+  (<c> ^p1 { <x> <> <y>})
+  (<g> ^clear <c> ^table <t> ^clear <c1>)
+  (<i> ^output-link <o>)
+  (state <s> ^gs <g> ^io <i>)
+  (<t> ^p1 <x>)
+  (<c1> ^p1 <y>)
+  (<s> ^name game)
+  -{
+    (<o> ^<cmd-name> <c2>)
+  }
+}
+-->
+   (<o1> ^name s )
+   (<s> ^operator <o1> +)
+   (<o1> ^p1 <x>  ^p2 <y> )
+}
+sp {apply*_legal_robot__s__x__y__
+{
+  (<i> ^output-link <o1>)
+  (state <s> ^operator <o> ^io <i>)
+  (<o> ^p1 <x> ^p2 <y>)
+  (<s> ^name game)
+  (<o> ^name s)
+}
+-->
+   (<s1> ^p1 <x>  ^p2 <y> )
+   (<o1> ^s <s1> )
+}
+sp {propose*_legal_robot__u__x__y__
+{
+  (<i> ^output-link <o1>)
+  (<o> ^p1 <x> ^p2 <y>)
+  (state <s> ^gs <g> ^io <i>)
+  (<c> ^p1 <x>)
+  (<g> ^clear <c> ^on <o>)
+  (<s> ^name game)
+  -{
+    (<o1> ^<cmd-name> <c1>)
+  }
+}
+-->
+   (<o2> ^name u )
+   (<s> ^operator <o2> +)
+   (<o2> ^p1 <x>  ^p2 <y> )
+}
+sp {apply*_legal_robot__u__x__y__
+{
+  (<i> ^output-link <o1>)
+  (state <s> ^operator <o> ^io <i>)
+  (<o> ^p1 <x> ^p2 <y>)
+  (<s> ^name game)
+  (<o> ^name u)
+}
+-->
+   (<u> ^p1 <x>  ^p2 <y> )
+   (<o1> ^u <u> )
+}
+sp {elaborate*_goal_robot_100_
+{
+  (state <s> ^terminal <t> ^desired <d> ^gs <g>)
+  (<g> ^on <o> ^on <o1>)
+  (<s> ^name game)
+  (<o1> ^p1 b ^p2 c)
+  (<o> ^p1 a ^p2 b)
+}
+-->
+   (<s> ^success-detected <d> )
+}
+sp {elaborate*_goal_robot_0_
+{
+  (state <s> ^terminal <t> ^desired <d> ^gs <g>)
+  (<s> ^name game)
+  -{
+    (<g> ^on <o>)
+    (<o> ^p1 a ^p2 b)
+  }
+}
+-->
+   (<s> ^failure-detected <d> )
+}
+sp {elaborate*_goal_robot_0_1
+{
+  (state <s> ^terminal <t> ^desired <d> ^gs <g>)
+  (<s> ^name game)
+  -{
+    (<g> ^on <o>)
+    (<o> ^p1 b ^p2 c)
+  }
+}
+-->
+   (<s> ^failure-detected <d> )
+}
+sp {elaborate*_terminal_
+{
+  (state <s> ^gs <g>)
+  (<g> ^step <s1>)
+  (<s> ^name game)
+  (<s1> ^p1 4)
+}
+-->
+   (<s> ^terminal <t> )
+}
+sp {elaborate*_terminal_1
+{
+  (state <s> ^gs <g>)
+  (<g> ^on <o> ^on <o1>)
+  (<s> ^name game)
+  (<o1> ^p1 b ^p2 c)
+  (<o> ^p1 a ^p2 b)
+}
+-->
+   (<s> ^terminal <t> )
+}
+sp {propose*init-game
+{
+  (state <s> ^superstate nil)
+  -{
+    (<s> ^name )
+  }
+}
+-->
+   (<o> ^name init-game )
+   (<s> ^operator <o> + >)
+}
+sp {apply*init-game
+{
+  (state <s> ^operator <o>)
+  (<o> ^name init-game)
+}
+-->
+   (<c> ^p1 b )
+   (<g> ^action-counter 0  ^role robot )
+   (<s3> ^p1 2  ^p2 3 )
+   (<s2> ^p1 1  ^p2 2 )
+   (<s1> ^p1 1 )
+   (<t1> ^p1 b )
+   (<s> ^name game  ^next-action 0 )
+   (<t> ^p1 a )
+   (<c1> ^p1 c )
+   (<s4> ^p1 3  ^p2 4 )
+   (<o1> ^p1 c  ^p2 a )
+   (<s> ^desired <d>  ^gs <g>  ^facts <f> )
+   (<g> ^clear <c>  ^clear <c1>  ^on <o1>  ^table <t>  ^table <t1>  ^step <s1> )
+   (<f> ^succ <s2>  ^succ <s3>  ^succ <s4> )
+}
+sp {apply*remove-frame-_next__on__std_soar_var0__std_soar_var1__
+{
+  (<i> ^input-link <i1>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^gs <g> ^io <i> ^operator <o1>)
+  (<o> ^p1 <std_soar_var0> ^p2 <std_soar_var1>)
+  (<g> ^on <o>)
+  (<s> ^name game)
+  (<o1> ^name update-state)
+  -{
+    (<s1> ^p1 <__r0__u> ^p2 <__r0__v>)
+    (<r> ^s <s1>)
+    (<l> ^robot <r>)
+  }
+  -{
+    (<u> ^p1 { <__r3__u> <> <std_soar_var0>} ^p2 <__r3__v>)
+    (<l> ^robot <r1>)
+    (<r1> ^u <u>)
+  }
+}
+-->
+   (<g> ^on <o> -)
+}
+sp {apply*remove-frame-_next__clear__std_soar_var0__
+{
+  (<i> ^input-link <i1>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^gs <g> ^io <i> ^operator <o>)
+  (<c> ^p1 <std_soar_var0>)
+  (<g> ^clear <c>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+  -{
+    (<s1> ^p1 <__r2__u> ^p2 { <__r2__v> <> <std_soar_var0>})
+    (<r> ^s <s1>)
+    (<l> ^robot <r>)
+  }
+  -{
+    (<u> ^p1 <__r5__u> ^p2 <__r5__v>)
+    (<l> ^robot <r1>)
+    (<r1> ^u <u>)
+  }
+}
+-->
+   (<g> ^clear <c> -)
+}
+sp {apply*remove-frame-_next__table__std_soar_var0__
+{
+  (<i> ^input-link <i1>)
+  (<i1> ^last-moves <l>)
+  (state <s> ^gs <g> ^io <i> ^operator <o>)
+  (<t> ^p1 <std_soar_var0>)
+  (<g> ^table <t>)
+  (<s> ^name game)
+  (<o> ^name update-state)
+  -{
+    (<s1> ^p1 { <__r1__u> <> <std_soar_var0>} ^p2 <__r1__v>)
+    (<r> ^s <s1>)
+    (<l> ^robot <r>)
+  }
+  -{
+    (<u> ^p1 <__r4__u> ^p2 <__r4__v>)
+    (<l> ^robot <r1>)
+    (<r1> ^u <u>)
+  }
+}
+-->
+   (<g> ^table <t> -)
+}
