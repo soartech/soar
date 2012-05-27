@@ -256,6 +256,14 @@ The \emph{prohibit} command requires that the retrieved long-term identifier is 
 \end{verbatim}
 Multiple prohibit command WMEs may be issued as modifiers to a single cue-based retrieval.  
 This method can be used to iterate over all matching long-term identifiers.
+
+\item 
+The \emph{neg-query} command requires that the retrieved long-term identifier does NOT contain a set of attributes/attribute-value pairs:
+\begin{verbatim}
+<s> ^smem.command.neg-query <cue>
+\end{verbatim}
+The syntax of this command is identical to that of regular/positive \emph{query} command.
+
 \end{itemize}
 
 \section{Performance}
