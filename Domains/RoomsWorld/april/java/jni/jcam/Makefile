@@ -28,7 +28,7 @@ clean:
 # jni_md.h, locate those files and add the directories using the -I
 # flag. See example below
 
-JNI_INCLUDES = -I/usr/lib/jvm/java-6-sun/include/ -I/usr/lib/jvm/java-6-sun/include/linux -I/usr/lib/jvm/java-6-openjdk/include/
+JNI_INCLUDES = -I/usr/lib/jvm/java-6-sun/include/ -I/usr/lib/jvm/java-6-sun/include/linux -I/usr/lib/jvm/java-6-openjdk/include/ -I${JAVA_HOME}/include -I${JAVA_HOME}/include/linux
 DC1394_INCLUDES = -I/usr/local/include/
 
 %.o: %.c
