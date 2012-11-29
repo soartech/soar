@@ -1,0 +1,1 @@
+- Changed enable-through-local-negations and disable-through-local-negations to be local-negations and no-local-negations (Mazin 11-20-2012)
