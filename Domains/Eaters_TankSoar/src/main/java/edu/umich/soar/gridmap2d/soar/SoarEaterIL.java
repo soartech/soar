@@ -201,7 +201,15 @@ class SoarEaterIL {
 			assert element != null;
 			
 			// store the element
-			map.put(name, element);
+			element = map.put(name, element);
+			if (element != null)
+			{
+				if (logger.isTraceEnabled())
+				{
+					logger.trace("createContent replaced something with same key: " + name);
+				}
+				agent.DestroyWME(element);
+			}
 		}
 		
 		private void updatePlayerContent(int[] view, EatersMap map, Cell cell) {
